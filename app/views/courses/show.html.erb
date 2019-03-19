@@ -5,5 +5,12 @@
   <%= @course.name %>
 </p>
 
+<p>
+  <strong>Teaching assistants:</strong>
+  <% @course.teaching_assistants.each do |teaching_assistant| %>
+    <%= link_to teaching_assistant.name, teaching_assistant_path(teaching_assistant) %>
+  <% end %>
+</p>
+
 <%= link_to 'Edit', edit_course_path(@course) %> |
 <%= link_to 'Back', courses_path %>

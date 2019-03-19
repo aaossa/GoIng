@@ -16,7 +16,13 @@
     <%= form.text_field :name %>
   </div>
 
+  <div class="field">
+    <%= form.collection_check_boxes :teaching_assistant_ids, TeachingAssistant.all, :id, :name %>
+  </div>
+
+
   <div class="actions">
     <%= form.submit %>
   </div>
+
 <% end %>

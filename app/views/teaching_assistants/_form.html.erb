@@ -26,6 +26,10 @@
     <%= form.telephone_field :phone_number %>
   </div>
 
+  <div class="field">
+    <%= form.collection_check_boxes :course_ids, Course.all, :id, :name %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

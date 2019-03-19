@@ -15,5 +15,12 @@
   <%= number_to_phone(@teaching_assistant.phone_number, delimiter: " ") %>
 </p>
 
+<p>
+  <strong>Courses:</strong>
+  <% @teaching_assistant.courses.each do |course| %>
+    <%= link_to course.name, course_path(course) %>
+  <% end %>
+</p>
+
 <%= link_to 'Edit', edit_teaching_assistant_path(@teaching_assistant) %> |
 <%= link_to 'Back', teaching_assistants_path %>
