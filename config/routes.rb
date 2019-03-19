@@ -4,5 +4,8 @@ Rails.application.routes.draw do
   
   resources :requests
 
+  match '/auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
+  match '/signout', to: 'sessions#destroy', via: [:get, :post]
+
   root 'welcome#index'
 end
