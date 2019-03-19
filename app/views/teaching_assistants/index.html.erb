@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Teaching Assistants</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone number</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @teaching_assistants.each do |teaching_assistant| %>
+      <tr>
+        <td><%= teaching_assistant.name %></td>
+        <td><%= teaching_assistant.email %></td>
+        <td><%= number_to_phone(teaching_assistant.phone_number, delimiter: " ") %></td>
+        <td><%= link_to 'Show', teaching_assistant %></td>
+        <td><%= link_to 'Edit', edit_teaching_assistant_path(teaching_assistant) %></td>
+        <td><%= link_to 'Destroy', teaching_assistant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Teaching Assistant', new_teaching_assistant_path %>

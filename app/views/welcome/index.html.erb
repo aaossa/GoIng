@@ -1,7 +1,20 @@
 <h1>Go<b>Ing</b></h1>
 
+
 <%= link_to 'Create request', new_request_path %>
 <%= link_to 'List requests', controller: 'requests' %>
+
+<br>
+
+<%= link_to 'Create course', new_course_path %>
+<%= link_to 'List courses', controller: 'courses' %>
+
+<br>
+
+<%= link_to 'Create teaching assistant', new_teaching_assistant_path %>
+<%= link_to 'List teaching assistants', controller: 'teaching_assistants' %>
+
+<br>
 
 <% if current_user && current_user.google_email %>
     <%= link_to "javascript:void(0);", { :class => "btn btn-block btn-social btn-google", :disabled => true} do %>
@@ -12,6 +25,3 @@
     	<span class="fa fa-google"></span>Sign in with Google
 	<% end %>
 <% end %>
-
-<%= link_to 'Create course', new_course_path %>
-<%= link_to 'List courses', controller: 'courses' %>

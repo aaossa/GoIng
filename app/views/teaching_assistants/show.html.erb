@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @teaching_assistant.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @teaching_assistant.email %>
+</p>
+
+<p>
+  <strong>Phone number:</strong>
+  <%= number_to_phone(@teaching_assistant.phone_number, delimiter: " ") %>
+</p>
+
+<%= link_to 'Edit', edit_teaching_assistant_path(@teaching_assistant) %> |
+<%= link_to 'Back', teaching_assistants_path %>
