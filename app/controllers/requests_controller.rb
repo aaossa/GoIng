@@ -8,6 +8,7 @@ class RequestsController < ApplicationController
 	end
 
 	def new
+		redirect_to root_url unless current_user
 		@request = Request.new
 	end
 
@@ -30,6 +31,6 @@ class RequestsController < ApplicationController
 
 	private
 		def request_params
-			params.require(:request).permit(:participants, :contents, :user_id)
+			params.require(:request).permit(:participants, :contents, :user_id, :course_id)
 		end
 end

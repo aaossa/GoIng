@@ -5,6 +5,7 @@
     <th>Participants</th>
     <th>Contents</th>
     <th>User</th>
+    <th>Course</th>
     <th></th>
   </tr>
  
@@ -13,6 +14,7 @@
       <td><%= request.participants %></td>
       <td><%= request.contents%></td>
       <td><%= request.user.google_email%></td>
+      <td><%= request.course.name%></td>
       <td><%= link_to 'Show', request_path(request) %></td>
       <td><%= link_to 'Destroy', request_path(request),
               method: :delete,
