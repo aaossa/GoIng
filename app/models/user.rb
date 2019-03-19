@@ -1,5 +1,6 @@
 class User < ApplicationRecord
 	has_one :identity
+	has_many :requests
 
 	def self.create_from_hash!(hash)
 		create(User.google_attributes(hash))

@@ -8,4 +8,9 @@
   <%= @request.contents %>
 </p>
 
+<p>
+  <strong>User:</strong>
+  <%= @request.user.google_email %>
+</p>
+
 <%= link_to 'Back', requests_path %>

@@ -13,6 +13,8 @@ class RequestsController < ApplicationController
 
 	def create
 		@request = Request.new(request_params)
+		@request.user_id = current_user.id if current_user
+		puts @request.errors.inspect
 		if @request.save
 			redirect_to @request
 		else
@@ -28,6 +30,6 @@ class RequestsController < ApplicationController
 
 	private
 		def request_params
-			params.require(:request).permit(:participants, :contents)
+			params.require(:request).permit(:participants, :contents, :user_id)
 		end
 end

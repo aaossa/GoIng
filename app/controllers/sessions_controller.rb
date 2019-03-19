@@ -16,4 +16,10 @@ class SessionsController < ApplicationController
 		self.current_user = nil
 		redirect_to root_url, notice: "Signed out!"
 	end
+
+	def failure
+	    strategy = params['strategy']
+	    message = params['message']
+	    redirect_to root_url, notice: "#{strategy}: #{message}"
+	end
 end

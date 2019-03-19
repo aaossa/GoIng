@@ -1,5 +1,8 @@
 <h1>New Request</h1>
 
+<h1><%= current_user %></h1>
+<h1><%= current_user.id %></h1>
+
 <%= form_with scope: :request, url: requests_path, local: true do |form| %>
 
   <% if @request.errors.any? %>
