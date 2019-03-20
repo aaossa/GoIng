@@ -20,6 +20,9 @@
     <%= link_to "javascript:void(0);", { :class => "btn btn-block btn-social btn-google", :disabled => true} do %>
     	<span class="fa fa-google"></span><%= current_user.google_email %>
     <% end %>
+    <%= link_to signout_path do %>
+    	<span class="fa fa-google">Logout
+    <% end %>
 <% else %>
 	<%= link_to "/auth/google", { :class=> "btn btn-block btn-social btn-google" } do %>
     	<span class="fa fa-google"></span>Sign in with Google
