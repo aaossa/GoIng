@@ -16,6 +16,11 @@
 
 <br>
 
+<%= link_to 'Create time block', new_time_block_path %>
+<%= link_to 'List time blocks', controller: 'time_blocks' %>
+
+<br>
+
 <% if current_user && current_user.google_email %>
     <%= link_to "javascript:void(0);", { :class => "btn btn-block btn-social btn-google", :disabled => true} do %>
     	<span class="fa fa-google"></span><%= current_user.google_email %>

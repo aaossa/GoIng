@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Time Blocks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th>Start</th>
+      <th>Finish</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @time_blocks.each do |time_block| %>
+      <tr>
+        <td><%= Date::DAYNAMES[time_block.day] %></td>
+        <td><%= time_block.start.strftime("%R") %></td>
+        <td><%= time_block.finish.strftime("%R") %></td>
+        <td><%= link_to 'Show', time_block %></td>
+        <td><%= link_to 'Edit', edit_time_block_path(time_block) %></td>
+        <td><%= link_to 'Destroy', time_block, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Time Block', new_time_block_path %>
+<%= link_to 'Back', root_path %>

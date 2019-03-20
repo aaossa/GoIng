@@ -1,0 +1,32 @@
+<%= form_with(model: time_block, local: true) do |form| %>
+  <% if time_block.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(time_block.errors.count, "error") %> prohibited this time_block from being saved:</h2>
+
+      <ul>
+      <% time_block.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :day %>
+    <%= form.select :day, Date::DAYNAMES[1..5].each_with_index.map {|name, index| [name,index]} %>
+  </div>
+
+  <div class="field">
+    <%= form.label :start %>
+    <%= form.time_select :start %>
+  </div>
+
+  <div class="field">
+    <%= form.label :finish %>
+    <%= form.time_select :finish %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

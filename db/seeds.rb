@@ -39,3 +39,19 @@ Course.all.each do |course|
 	course.save
 end
 puts "Randomly associated course with teaching assistants"
+
+# Time blocks
+now = DateTime.now.change({sec: 0})
+Date::DAYNAMES[1..5].each_with_index.each do |name, index|
+	TimeBlock.create([
+		{ day: index, start: now.change({hour: 8, min: 30}), finish: now.change({hour: 9, min: 50}) },
+		{ day: index, start: now.change({hour: 10, min: 00}), finish: now.change({hour: 11, min: 20}) },
+		{ day: index, start: now.change({hour: 11, min: 30}), finish: now.change({hour: 12, min: 50}) },
+		{ day: index, start: now.change({hour: 13, min: 00}), finish: now.change({hour: 14, min: 00}) },
+		{ day: index, start: now.change({hour: 14, min: 00}), finish: now.change({hour: 15, min: 20}) },
+		{ day: index, start: now.change({hour: 15, min: 30}), finish: now.change({hour: 16, min: 50}) },
+		{ day: index, start: now.change({hour: 17, min: 00}), finish: now.change({hour: 18, min: 20}) },
+	])
+end
+
+puts "Created time blocks"

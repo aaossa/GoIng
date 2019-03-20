@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :time_blocks
   resources :teaching_assistants
   resources :courses
   get 'welcome/index'

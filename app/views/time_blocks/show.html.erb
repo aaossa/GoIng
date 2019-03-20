@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Day:</strong>
+  <%= Date::DAYNAMES[@time_block.day] %>
+</p>
+
+<p>
+  <strong>Start:</strong>
+  <%= @time_block.start.strftime("%R") %>
+</p>
+
+<p>
+  <strong>Finish:</strong>
+  <%= @time_block.finish.strftime("%R") %>
+</p>
+
+<%= link_to 'Edit', edit_time_block_path(@time_block) %> |
+<%= link_to 'Back', time_blocks_path %>
