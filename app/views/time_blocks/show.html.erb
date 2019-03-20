@@ -1,26 +1,18 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Day:</strong>
-  <%= @time_block.display_day %>
-</p>
+<p><strong>Day:</strong> <%= @time_block.display_day %></p>
 
-<p>
-  <strong>Start:</strong>
-  <%= @time_block.display_start %>
-</p>
+<p><strong>Start:</strong> <%= @time_block.display_start %></p>
 
-<p>
-  <strong>Finish:</strong>
-  <%= @time_block.display_finish %>
-</p>
+<p><strong>Finish:</strong> <%= @time_block.display_finish %></p>
 
-<p>
-  <strong>Teaching assistants:</strong>
+<p><strong>Teaching assistants:</strong></p>
+<ul>  
   <% @time_block.teaching_assistants.each do |teaching_assistant| %>
-    <%= link_to teaching_assistant.name, teaching_assistant_path(teaching_assistant) %>
+    <li><%= link_to teaching_assistant.name, teaching_assistant_path(teaching_assistant) %></li>
   <% end %>
-</p>
+</ul>
+
 
 <%= link_to 'Edit', edit_time_block_path(@time_block) %> |
 <%= link_to 'Back', time_blocks_path %>

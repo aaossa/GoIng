@@ -18,9 +18,12 @@
 
   <div class="field">
     <%= form.label :teaching_assistants %>
-    <%= form.collection_check_boxes :teaching_assistant_ids, TeachingAssistant.all, :id, :name %>
+    <%= form.collection_check_boxes(:teaching_assistant_ids, TeachingAssistant.all, :id, :name) do |ta| %>
+      <%= ta.label class: "label-checkbox" do %>
+        <%= ta.check_box + ta.text %>
+      <% end %>
+    <% end %>
   </div>
-
 
   <div class="actions">
     <%= form.submit %>

@@ -1,33 +1,25 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @teaching_assistant.name %>
-</p>
+<p><strong>Name:</strong> <%= @teaching_assistant.name %></p>
 
-<p>
-  <strong>Email:</strong>
-  <%= @teaching_assistant.email %>
-</p>
+<p><strong>Email:</strong> <%= @teaching_assistant.email %></p>
 
-<p>
-  <strong>Phone number:</strong>
-  <%= number_to_phone(@teaching_assistant.phone_number, delimiter: " ") %>
-</p>
+<p><strong>Phone number:</strong><%= number_to_phone(@teaching_assistant.phone_number, delimiter: " ") %></p>
 
-<p>
-  <strong>Courses:</strong>
+<p><strong>Courses:</strong></p>
+<ul>
   <% @teaching_assistant.courses.each do |course| %>
-    <%= link_to course.name, course_path(course) %>
+    <li><%= link_to course.name, course_path(course) %></li>
   <% end %>
-</p>
+</ul>
 
-<p>
-  <strong>Time blocks:</strong>
+<p><strong>Time blocks:</strong></p>
+<ul>
   <% @teaching_assistant.time_blocks.each do |time_block| %>
-    <%= link_to time_block.display_block, time_block_path(time_block) %>
+    <li><%= link_to time_block.display_block, time_block_path(time_block) %></li>
   <% end %>
-</p>
+</ul>
+
 
 <%= link_to 'Edit', edit_teaching_assistant_path(@teaching_assistant) %> |
 <%= link_to 'Back', teaching_assistants_path %>

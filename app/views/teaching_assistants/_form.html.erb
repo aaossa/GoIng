@@ -28,15 +28,24 @@
 
   <div class="field">
     <%= form.label :courses %>
-    <%= form.collection_check_boxes :course_ids, Course.all, :id, :name %>
+    <%= form.collection_check_boxes(:course_ids, Course.all, :id, :name) do |course| %>
+      <%= course.label class: "label-checkbox" do %>
+        <%= course.check_box + course.text %>
+      <% end %>
+    <% end %>
   </div>
 
   <div class="field">
     <%= form.label :time_blocks %>
-    <%= form.collection_check_boxes :time_block_ids, TimeBlock.all, :id, :display_block %>
+    <%= form.collection_check_boxes(:time_block_ids, TimeBlock.all, :id, :display_block) do |tb| %>
+      <%= tb.label class: "label-checkbox" do %>
+        <%= tb.check_box + tb.text %>
+      <% end %>
+    <% end %>
   </div>
 
   <div class="actions">
     <%= form.submit %>
   </div>
+
 <% end %>

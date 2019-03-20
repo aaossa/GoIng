@@ -8,7 +8,7 @@ class RequestsController < ApplicationController
 	end
 
 	def new
-		redirect_to root_url unless current_user
+		redirect_to root_url, notice: "Please, sign in!" unless current_user
 		@request = Request.new
 	end
 
