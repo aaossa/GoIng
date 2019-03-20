@@ -15,7 +15,7 @@
 
 <p>
   <strong>Course:</strong>
-  <%= @request.course.name %>
+  <%= link_to @request.course.name, course_path(@request.course) %>
 </p>
 
 <%= link_to 'Back', requests_path %>
