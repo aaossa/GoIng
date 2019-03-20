@@ -6,7 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-N_TAs = 10
+N_TAs = 5
+N_Users = 5
+N_Requests = 5
 
 # Courses
 courses = Course.create([
@@ -64,3 +66,32 @@ TeachingAssistant.all.each do |teaching_assistant|
 end
 puts "Randomly associated time blocks with teaching assistants"
 
+# Users
+users = []
+N_Users.times do
+	users << User.new(
+		google_name: Faker::Name.name,
+		google_email: Faker::Internet.email,
+		google_image: Faker::LoremPixel.image,
+		google_token: Faker::Quote.singular_siegler,
+	)
+end
+User.transaction do
+	users.each(&:save!)
+end
+puts "Created users"
+
+# Requests
+requests = []
+N_Requests.times do
+	requests << Request.new(
+		participants: rand(1..4),
+		contents: Faker::Quote.singular_siegler,
+		user: users.sample,
+		course: courses.sample,
+	)
+end
+Request.transaction do
+	requests.each(&:save!)
+end
+puts "Created requests"
