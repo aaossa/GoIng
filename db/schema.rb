@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_20_152749) do
+ActiveRecord::Schema.define(version: 2019_03_20_192211) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
@@ -48,6 +48,11 @@ ActiveRecord::Schema.define(version: 2019_03_20_152749) do
     t.string "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "teaching_assistants_time_blocks", id: false, force: :cascade do |t|
+    t.integer "teaching_assistant_id", null: false
+    t.integer "time_block_id", null: false
   end
 
   create_table "time_blocks", force: :cascade do |t|

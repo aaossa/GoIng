@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+N_TAs = 10
 
 # Courses
 courses = Course.create([
@@ -21,7 +22,7 @@ puts "Created courses"
 
 # Teaching assistants
 teaching_assistants = []
-10.times do
+N_TAs.times do
 	teaching_assistants << TeachingAssistant.new(
 		name: Faker::Name.name,
 		email: Faker::Internet.email,
@@ -35,14 +36,14 @@ puts "Created teaching assistants"
 
 # Teaching assistants + courses
 Course.all.each do |course|
-	course.teaching_assistants << teaching_assistants.sample(rand(1..10))
+	course.teaching_assistants << TeachingAssistant.all.sample(rand(1..N_TAs))
 	course.save
 end
-puts "Randomly associated course with teaching assistants"
+puts "Randomly associated courses with teaching assistants"
 
 # Time blocks
 now = DateTime.now.change({sec: 0})
-Date::DAYNAMES[1..5].each_with_index.each do |name, index|
+Date::DAYNAMES[1..6].each_with_index.each do |name, index|
 	TimeBlock.create([
 		{ day: index, start: now.change({hour: 8, min: 30}), finish: now.change({hour: 9, min: 50}) },
 		{ day: index, start: now.change({hour: 10, min: 00}), finish: now.change({hour: 11, min: 20}) },
@@ -53,5 +54,13 @@ Date::DAYNAMES[1..5].each_with_index.each do |name, index|
 		{ day: index, start: now.change({hour: 17, min: 00}), finish: now.change({hour: 18, min: 20}) },
 	])
 end
-
 puts "Created time blocks"
+
+# Teaching assistants + time blocks
+N_TBs = TimeBlock.count
+TeachingAssistant.all.each do |teaching_assistant|
+	teaching_assistant.time_blocks << TimeBlock.all.sample(rand(0..N_TBs))
+	teaching_assistant.save
+end
+puts "Randomly associated time blocks with teaching assistants"
+

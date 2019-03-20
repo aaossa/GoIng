@@ -69,6 +69,6 @@ class TeachingAssistantsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def teaching_assistant_params
-      params.require(:teaching_assistant).permit(:name, :email, :phone_number, course_ids: [])
+      params.require(:teaching_assistant).permit(:name, :email, :phone_number, course_ids: [], time_block_ids: [])
     end
 end

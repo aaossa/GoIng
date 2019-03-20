@@ -15,9 +15,9 @@
   <tbody>
     <% @time_blocks.each do |time_block| %>
       <tr>
-        <td><%= Date::DAYNAMES[time_block.day] %></td>
-        <td><%= time_block.start.strftime("%R") %></td>
-        <td><%= time_block.finish.strftime("%R") %></td>
+        <td><%= time_block.display_day %></td>
+        <td><%= time_block.display_start %></td>
+        <td><%= time_block.display_finish %></td>
         <td><%= link_to 'Show', time_block %></td>
         <td><%= link_to 'Edit', edit_time_block_path(time_block) %></td>
         <td><%= link_to 'Destroy', time_block, method: :delete, data: { confirm: 'Are you sure?' } %></td>

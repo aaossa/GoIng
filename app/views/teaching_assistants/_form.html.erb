@@ -27,7 +27,13 @@
   </div>
 
   <div class="field">
+    <%= form.label :courses %>
     <%= form.collection_check_boxes :course_ids, Course.all, :id, :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :time_blocks %>
+    <%= form.collection_check_boxes :time_block_ids, TimeBlock.all, :id, :display_block %>
   </div>
 
   <div class="actions">

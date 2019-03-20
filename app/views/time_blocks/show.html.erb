@@ -2,17 +2,24 @@
 
 <p>
   <strong>Day:</strong>
-  <%= Date::DAYNAMES[@time_block.day] %>
+  <%= @time_block.display_day %>
 </p>
 
 <p>
   <strong>Start:</strong>
-  <%= @time_block.start.strftime("%R") %>
+  <%= @time_block.display_start %>
 </p>
 
 <p>
   <strong>Finish:</strong>
-  <%= @time_block.finish.strftime("%R") %>
+  <%= @time_block.display_finish %>
+</p>
+
+<p>
+  <strong>Teaching assistants:</strong>
+  <% @time_block.teaching_assistants.each do |teaching_assistant| %>
+    <%= link_to teaching_assistant.name, teaching_assistant_path(teaching_assistant) %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_time_block_path(@time_block) %> |

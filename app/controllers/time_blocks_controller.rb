@@ -69,6 +69,6 @@ class TimeBlocksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def time_block_params
-      params.require(:time_block).permit(:day, :start, :finish)
+      params.require(:time_block).permit(:day, :start, :finish, teaching_assistant_ids: [])
     end
 end
