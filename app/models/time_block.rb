@@ -6,6 +6,13 @@ class TimeBlock < ApplicationRecord
 	validates_uniqueness_of :start, scope: :day
 	validates_uniqueness_of :finish, scope: :day
 
+    default_scope { order(day: :asc, start: :asc) }
+
+    def available_courses
+        courses_ids = teaching_assistants.joins(:courses).pluck(:course_id)
+        Course.where(id: courses_ids)
+    end
+
     def display_day
     	Date::DAYNAMES[self[:day]]
     end

@@ -61,7 +61,7 @@ puts "Created time blocks"
 # Teaching assistants + time blocks
 N_TBs = TimeBlock.count
 TeachingAssistant.all.each do |teaching_assistant|
-	teaching_assistant.time_blocks << TimeBlock.all.sample(rand(0..N_TBs))
+	teaching_assistant.time_blocks << TimeBlock.all.sample(rand(2..4))
 	teaching_assistant.save
 end
 puts "Randomly associated time blocks with teaching assistants"
@@ -86,7 +86,7 @@ requests = []
 N_Requests.times do
 	requests << Request.new(
 		participants: rand(1..4),
-		contents: Faker::Quote.singular_siegler,
+		contents: Faker::Lorem.characters(rand(5..10)),
 		user: users.sample,
 		course: courses.sample,
 	)

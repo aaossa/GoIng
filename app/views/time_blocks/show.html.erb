@@ -13,6 +13,13 @@
   <% end %>
 </ul>
 
+<p><strong>Available courses:</strong></p>
+<ul>  
+  <% @time_block.available_courses.each do |course| %>
+    <li><%= link_to course.name, course_path(course) %></li>
+  <% end %>
+</ul>
+
 
 <%= link_to 'Edit', edit_time_block_path(@time_block) %> |
 <%= link_to 'Back', time_blocks_path %>
