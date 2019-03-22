@@ -18,4 +18,12 @@
   <%= link_to @request.course.name, course_path(@request.course) %>
 </p>
 
+<p><strong>Preferences:</strong></p>
+<ol>
+  <% @request.preferences.each do |preference| %>
+    <li>(<%= preference.priority %>) <%= link_to preference.time_block.display_block, time_block_path(preference.time_block) %>, <%= preference.date.strftime("%A") %>, <%= preference.date.strftime("%D") %></li>
+  <% end %>
+</ol>
+
+
 <%= link_to 'Back', requests_path %>

@@ -44,7 +44,7 @@ end
 puts "Randomly associated courses with teaching assistants"
 
 # Time blocks
-now = DateTime.now.change({sec: 0})
+now = DateTime.now.beginning_of_week.change({sec: 0})
 Date::DAYNAMES[1..6].each_with_index.each do |name, index|
 	TimeBlock.create([
 		{ day: index, start: now.change({hour: 8, min: 30}), finish: now.change({hour: 9, min: 50}) },
@@ -84,12 +84,25 @@ puts "Created users"
 # Requests
 requests = []
 N_Requests.times do
-	requests << Request.new(
+	begin
+		date = Faker::Date.between(now, now + 4.days)
+		time_block = TimeBlock.all.where(day: date.wday).sample
+		course = time_block.available_courses.sample
+	end while course.nil?
+	new_request = Request.new(
 		participants: rand(1..4),
 		contents: Faker::Lorem.characters(rand(5..10)),
 		user: users.sample,
-		course: courses.sample,
+		course: course,
 	)
+	rand(1..3).times do |index|
+		new_request.preferences << Preference.new(
+			date: date + index.weeks,
+			time_block: time_block,
+			priority: index + 1,
+		)
+	end
+	requests << new_request
 end
 Request.transaction do
 	requests.each(&:save!)

@@ -1,0 +1,51 @@
+<%= form_with(model: request, local: true) do |form| %>
+  <% if request.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(request.errors.count, "error") %> prohibited this request from being saved:</h2>
+
+      <ul>
+      <% request.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :participants %><br>
+    <%= form.number_field :participants, in: 1..4, value: 1 %>
+  </div>
+ 
+  <div class="field">
+    <%= form.label :contents %><br>
+    <%= form.text_area :contents %>
+  </div>
+
+  <div class="field">
+    <%= form.label :course %><br>
+    <%= form.collection_select(:course_id, Course.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :first_preference %><br>
+    <%= form.collection_select(:preference_blocks, TimeBlock.all, :id, :display_block, {}, { name: 'request[preference_blocks][]' }) %>
+    <%= form.date_select('preference_dates[]', { order: [:day, :month, :year] }, { required: true }) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :second_preference %><br>
+    <%= form.collection_select(:preference_blocks, TimeBlock.all, :id, :display_block, { prompt: true }, { name: 'request[preference_blocks][]' }) %>
+    <%= form.date_select('preference_dates[]', { order: [:day, :month, :year], :include_blank => true, :default => nil }) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :third_preference %><br>
+    <%= form.collection_select(:preference_blocks, TimeBlock.all, :id, :display_block, { prompt: true }, { name: 'request[preference_blocks][]' }) %>
+    <%= form.date_select('preference_dates[]', { order: [:day, :month, :year], :include_blank => true, :default => nil }) %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+
+<% end %>

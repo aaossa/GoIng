@@ -1,39 +1,5 @@
 <h1>New Request</h1>
 
-<%= form_with scope: :request, url: requests_path, local: true do |form| %>
-
-  <% if @request.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= pluralize(@request.errors.count, "error") %> prohibited
-        this request from being saved:
-      </h2>
-      <ul>
-        <% @request.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <p>
-    <%= form.label :participants %><br>
-    <%= form.number_field :participants, in: 1..4, value: 1 %>
-  </p>
- 
-  <p>
-    <%= form.label :contents %><br>
-    <%= form.text_area :contents %>
-  </p>
-
-  <p>
-    <%= form.label :course %><br>
-    <%= collection_select(:request, :course_id, Course.all, :id, :name) %>
-  </p>
- 
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>
+<%= render 'form', request: @request %>
 
 <%= link_to 'Back', requests_path %>

@@ -1,5 +1,6 @@
 class TimeBlock < ApplicationRecord
   	has_and_belongs_to_many :teaching_assistants
+    has_many :preferences
 	validates :day, presence: true, inclusion: {in: 1..5}
 	validate :start_before_finish
 
