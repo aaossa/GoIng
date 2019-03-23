@@ -21,7 +21,13 @@
 <p><strong>Preferences:</strong></p>
 <ol>
   <% @request.preferences.each do |preference| %>
-    <li>(<%= preference.priority %>) <%= link_to preference.time_block.display_block, time_block_path(preference.time_block) %>, <%= preference.date.strftime("%A") %>, <%= preference.date.strftime("%D") %></li>
+    <li><%= preference.display_preference %>
+      <ol>
+        <% preference.candidates(@request.course).each do |teaching_assistant| %>
+          <li><%= link_to teaching_assistant.name, teaching_assistant_path(teaching_assistant) %></li>
+        <% end %>
+      </ol>
+    </li>
   <% end %>
 </ol>
 

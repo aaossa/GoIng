@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-N_TAs = 5
+N_TAs = 10
 N_Users = 5
 N_Requests = 5
 
@@ -83,12 +83,9 @@ puts "Created users"
 
 # Requests
 requests = []
+now = now + 1.week
 N_Requests.times do
-	begin
-		date = Faker::Date.between(now, now + 4.days)
-		time_block = TimeBlock.all.where(day: date.wday).sample
-		course = time_block.available_courses.sample
-	end while course.nil?
+	course = Course.all.sample
 	new_request = Request.new(
 		participants: rand(1..4),
 		contents: Faker::Lorem.characters(rand(5..10)),
@@ -96,8 +93,9 @@ N_Requests.times do
 		course: course,
 	)
 	rand(1..3).times do |index|
+		time_block = course.available_modules.sample
 		new_request.preferences << Preference.new(
-			date: date + index.weeks,
+			date: now + (time_block.day - 1).days + index.weeks,
 			time_block: time_block,
 			priority: index + 1,
 		)

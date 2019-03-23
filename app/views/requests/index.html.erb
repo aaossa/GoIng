@@ -19,7 +19,7 @@
       <td>
         <ol>
           <% request.preferences.each do |preference| %>
-            <li>(<%= preference.priority %>) <%= preference.time_block.display_block %>, <%= preference.date.strftime("%A") %>, <%= preference.date.strftime("%D") %></li>
+            <li><%= preference.display_preference %></li>
           <% end %>
         </ol>
       </td>

@@ -15,4 +15,12 @@ class Preference < ApplicationRecord
 	    end
 	end
 
+	def display_preference
+		d = date.strftime("%D")
+		"#{d} #{time_block.display_block}"
+	end
+
+	def candidates(course)
+		course.teaching_assistants.joins(:time_blocks).where(time_blocks: {id: time_block.id})
+	end
 end
