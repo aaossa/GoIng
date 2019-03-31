@@ -97,7 +97,6 @@ N_Requests.times do
 		new_request.preferences << Preference.new(
 			date: now + (time_block.day - 1).days + index.weeks,
 			time_block: time_block,
-			priority: index + 1,
 		)
 	end
 	requests << new_request

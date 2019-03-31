@@ -33,13 +33,11 @@ ActiveRecord::Schema.define(version: 2019_03_22_225238) do
 
   create_table "preferences", force: :cascade do |t|
     t.date "date"
-    t.integer "priority"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "time_block_id"
     t.integer "request_id"
     t.index ["request_id", "date", "time_block_id"], name: "index_preferences_on_request_id_and_date_and_time_block_id", unique: true
-    t.index ["request_id", "priority"], name: "index_preferences_on_request_id_and_priority", unique: true
     t.index ["request_id"], name: "index_preferences_on_request_id"
     t.index ["time_block_id"], name: "index_preferences_on_time_block_id"
   end

@@ -2,12 +2,10 @@ class Preference < ApplicationRecord
 	belongs_to :time_block
 	belongs_to :request
 
-	validates :priority, presence: true, inclusion: 1..3
 	validates :date, presence: true
-	validates :request_id, uniqueness: { scope: :priority }
 	validates :request_id, uniqueness: { scope: [:date, :time_block_id] }
 	validate :date_block_match
-	default_scope { order(priority: :asc) }
+	default_scope { order(date: :asc) }
 
 	def date_block_match
 		if time_block.day != date.wday
@@ -16,7 +14,7 @@ class Preference < ApplicationRecord
 	end
 
 	def display_preference
-		d = date.strftime("%D")
+		d = date.strftime("%d/%m/%y")
 		"#{d} #{time_block.display_block}"
 	end
 
