@@ -22,6 +22,11 @@
 
 <br>
 
+<%= link_to 'Create confirmed class', new_confirmed_class_path %>
+<%= link_to 'List confirmed classes', controller: 'confirmed_classes' %>
+
+<br>
+
 <% if current_user && current_user.google_email %>
     <%= link_to "javascript:void(0);", { :class => "btn btn-block btn-social btn-google", :disabled => true} do %>
     	<span class="fa fa-google"></span><%= current_user.google_email %>

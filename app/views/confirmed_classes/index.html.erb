@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Confirmed Classes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Teaching assistant</th>
+      <th>Preference</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @confirmed_classes.each do |confirmed_class| %>
+      <tr>
+        <td><%= confirmed_class.teaching_assistant.name %></td>
+        <td><%= confirmed_class.preference.display_preference %></td>
+        <td><%= link_to 'Show', confirmed_class %></td>
+        <td><%= link_to 'Edit', edit_confirmed_class_path(confirmed_class) %></td>
+        <td><%= link_to 'Destroy', confirmed_class, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Confirmed Class', new_confirmed_class_path %>
+<%= link_to 'Back', root_path %>

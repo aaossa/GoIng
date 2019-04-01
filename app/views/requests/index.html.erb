@@ -13,9 +13,9 @@
   <% @requests.each do |request| %>
     <tr>
       <td><%= request.participants %></td>
-      <td><%= request.contents%></td>
-      <td><%= request.user.google_email%></td>
-      <td><%= request.course.name%></td>
+      <td><%= request.contents %></td>
+      <td><%= request.user.google_email %></td>
+      <td><%= request.course.name %></td>
       <td>
         <ol>
           <% request.preferences.each do |preference| %>

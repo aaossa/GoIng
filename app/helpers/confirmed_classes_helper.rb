@@ -1,0 +1,2 @@
+module ConfirmedClassesHelper
+end

@@ -1,0 +1,36 @@
+<%= form_with(model: confirmed_class, local: true) do |form| %>
+  <% if confirmed_class.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(confirmed_class.errors.count, "error") %> prohibited this confirmed_class from being saved:</h2>
+
+      <ul>
+      <% confirmed_class.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :teaching_assistant %><br>
+    <%= form.collection_select(:teaching_assistant_id, TeachingAssistant.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :preference %><br>
+    <%= form.collection_select(:preference_id, Preference.all, :id, :display_preference) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :requests %>
+    <%= form.collection_check_boxes(:request_ids, Request.all, :id, :display_request) do |request| %>
+      <%= request.label class: "label-checkbox" do %>
+        <%= request.check_box + request.text %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

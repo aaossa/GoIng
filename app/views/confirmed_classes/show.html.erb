@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Teaching assistant:</strong>
+  <%= link_to @confirmed_class.teaching_assistant.name, teaching_assistant_path(@confirmed_class.teaching_assistant) %>
+</p>
+
+<p>
+  <strong>Preference:</strong>
+  <%= @confirmed_class.preference.display_preference %>
+</p>
+
+<p><strong>Requests:</strong></p>
+<ul>
+  <% @confirmed_class.requests.each do |request| %>
+    <li><%= link_to request.contents, request_path(request) %></li>
+  <% end %>
+</ul>
+
+
+<%= link_to 'Edit', edit_confirmed_class_path(@confirmed_class) %> |
+<%= link_to 'Back', confirmed_classes_path %>

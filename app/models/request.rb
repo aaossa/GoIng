@@ -1,6 +1,7 @@
 class Request < ApplicationRecord
 	belongs_to :user
 	belongs_to :course
+	belongs_to :confirmed_class, optional: true
 	has_many :preferences, index_errors: true
 
 	validates :participants, presence: true, inclusion: 1..4
@@ -13,6 +14,11 @@ class Request < ApplicationRecord
 		preferences.each do |preference|
 			next if preference.time_block.available_courses.include? course
 			errors.add(:course, "not available this time block")
-		end
+		end 
+	end
+
+	def display_request
+		prefs = preferences.map(&:display_preference).as_json
+		"#{course.name}: #{contents} (#{prefs})"
 	end
 end

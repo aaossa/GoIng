@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :confirmed_classes
   resources :time_blocks
   resources :teaching_assistants
   resources :courses
