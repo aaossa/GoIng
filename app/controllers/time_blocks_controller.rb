@@ -4,7 +4,13 @@ class TimeBlocksController < ApplicationController
   # GET /time_blocks
   # GET /time_blocks.json
   def index
-    @time_blocks = TimeBlock.all
+    course_param = params.fetch(:time_block, {}).fetch(:course, "")
+    unless course_param.empty?
+      course = Course.find(course_param)
+      @time_blocks = course.available_modules
+    else
+      @time_blocks = TimeBlock.all
+    end
   end
 
   # GET /time_blocks/1

@@ -1,2 +1,2 @@
-json.extract! time_block, :id, :day, :start, :finish, :created_at, :updated_at
+json.extract! time_block, :id, :display_block
 json.url time_block_url(time_block, format: :json)
