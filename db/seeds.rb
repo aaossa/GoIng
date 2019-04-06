@@ -44,7 +44,7 @@ end
 puts "Randomly associated courses with teaching assistants"
 
 # Time blocks
-now = DateTime.now.beginning_of_week.change({sec: 0})
+now = DateTime.now.in_time_zone.beginning_of_week.change({sec: 0})
 Date::DAYNAMES[1..6].each_with_index.each do |name, index|
 	TimeBlock.create([
 		{ day: index, start: now.change({hour: 8, min: 30}), finish: now.change({hour: 9, min: 50}) },
