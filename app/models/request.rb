@@ -9,7 +9,7 @@ class Request < ApplicationRecord
 	validates_associated :preferences
 	validate :teaching_assistant_available
 	accepts_nested_attributes_for :preferences
-	
+
 	def teaching_assistant_available
 		preferences.each do |preference|
 			next if preference.time_block.available_courses.include? course

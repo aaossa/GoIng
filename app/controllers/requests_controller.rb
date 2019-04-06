@@ -1,6 +1,11 @@
 class RequestsController < ApplicationController
 	def index
-		@requests = Request.all
+		course_param = params.fetch(:course, "")
+		@requests = unless course_param.empty?
+			Request.where(course_id: course_param)
+	    else
+	    	Request.all
+	    end
 	end
 
 	def show

@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   resources :confirmed_classes
   resources :time_blocks
   resources :teaching_assistants
-  resources :courses
+  resources :courses do
+    get 'teaching_assistants', :to => 'courses#teaching_assistants', on: :member
+  end
   get 'welcome/index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   

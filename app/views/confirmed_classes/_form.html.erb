@@ -12,8 +12,8 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :teaching_assistant %><br>
-    <%= form.collection_select(:teaching_assistant_id, TeachingAssistant.all, :id, :name) %>
+    <%= form.label :course %><br>
+    <%= form.collection_select(:course_id, Course.all, :id, :name, {}, { id: "course", onchange: "updateFromCourseCreate();" }) %>
   </div>
 
   <div class="field">
@@ -22,12 +22,19 @@
   </div>
 
   <div class="field">
+    <%= form.label :teaching_assistant %><br>
+    <%= form.collection_select(:teaching_assistant_id, TeachingAssistant.all, :id, :name) %>
+  </div>
+
+  <div class="field">
     <%= form.label :requests %>
+    <ul id="request-list">
     <%= form.collection_check_boxes(:request_ids, Request.all, :id, :display_request) do |request| %>
-      <%= request.label class: "label-checkbox" do %>
+      <li><%= request.label class: "label-checkbox" do %>
         <%= request.check_box + request.text %>
-      <% end %>
+      <% end %></li>
     <% end %>
+    </ul>
   </div>
 
   <div class="actions">
