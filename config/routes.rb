@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :confirmed_classes
+  resources :confirmed_classes do
+    post 'contact_teaching_assistant', to: 'confirmed_classes#contact_teaching_assistant', as: 'contact_teaching_assistant'
+  end
   resources :time_blocks
   resources :teaching_assistants
   resources :courses do

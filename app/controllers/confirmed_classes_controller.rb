@@ -17,6 +17,13 @@ class ConfirmedClassesController < ApplicationController
     @confirmed_class = ConfirmedClass.new
   end
 
+  def contact_teaching_assistant
+    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
+    @confirmed_class.asked_tas << @confirmed_class.teaching_assistant
+    RequestMailer.with(confirmed_class: @confirmed_class).request_email.deliver_now
+    "Ok"
+  end
+
   # GET /confirmed_classes/1/edit
   def edit
   end
