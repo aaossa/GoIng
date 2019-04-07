@@ -16,4 +16,5 @@
 //= require turbolinks
 //= require popper
 //= require bootstrap
-//= require_tree .
+//= require_tree ./global
+//= require cable

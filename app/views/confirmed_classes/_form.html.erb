@@ -18,18 +18,18 @@
 
   <div class="field">
     <%= form.label :preference %><br>
-    <%= form.collection_select(:preference_id, Preference.all, :id, :display_preference) %>
+    <%= form.collection_select(:preference_id, {}, nil, nil) %>
   </div>
 
   <div class="field">
     <%= form.label :teaching_assistant %><br>
-    <%= form.collection_select(:teaching_assistant_id, TeachingAssistant.all, :id, :name) %>
+    <%= form.collection_select(:teaching_assistant_id, {}, nil, nil) %>
   </div>
 
   <div class="field">
     <%= form.label :requests %>
     <ul id="request-list">
-    <%= form.collection_check_boxes(:request_ids, Request.all, :id, :display_request) do |request| %>
+    <%= form.collection_check_boxes(:request_ids, {}, nil, nil) do |request| %>
       <li><%= request.label class: "label-checkbox" do %>
         <%= request.check_box + request.text %>
       <% end %></li>

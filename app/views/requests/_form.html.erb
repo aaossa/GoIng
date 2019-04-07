@@ -28,19 +28,19 @@
 
   <div class="field">
     <%= form.label :first_preference %><br>
-    <%= form.collection_select(:preference_blocks, TimeBlock.all, :id, :display_block, {}, { name: 'request[preference_blocks][]', id: "first_preference", onchange: "updateFromTimeBlock(1);" }) %>
+    <%= form.collection_select(:preference_blocks, {}, nil, nil, {}, { name: 'request[preference_blocks][]', id: "first_preference", onchange: "updateFromTimeBlock(1);" }) %>
     <%= form.collection_select(:preference_dates, [], nil, nil, {}, { name: 'request[preference_dates][]', id: "first_date", include_blank: true, default: nil }) %>
   </div>
 
   <div class="field">
     <%= form.label :second_preference %><br>
-    <%= form.collection_select(:preference_blocks, TimeBlock.all, :id, :display_block, {}, { name: 'request[preference_blocks][]', id: "second_preference", onchange: "updateFromTimeBlock(2);" }) %>
+    <%= form.collection_select(:preference_blocks, {}, nil, nil, {}, { name: 'request[preference_blocks][]', id: "second_preference", onchange: "updateFromTimeBlock(2);" }) %>
     <%= form.collection_select(:preference_dates, [], nil, nil, {}, { name: 'request[preference_dates][]', id: "second_date", include_blank: true, default: nil }) %>
   </div>
 
   <div class="field">
     <%= form.label :third_preference %><br>
-    <%= form.collection_select(:preference_blocks, TimeBlock.all, :id, :display_block, {}, { name: 'request[preference_blocks][]', id: "third_preference", onchange: "updateFromTimeBlock(3);" }) %>
+    <%= form.collection_select(:preference_blocks, {}, nil, nil, {}, { name: 'request[preference_blocks][]', id: "third_preference", onchange: "updateFromTimeBlock(3);" }) %>
     <%= form.collection_select(:preference_dates, [], nil, nil, {}, { name: 'request[preference_dates][]', id: "third_date", include_blank: true, default: nil }) %>
   </div>
 
