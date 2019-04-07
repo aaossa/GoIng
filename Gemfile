@@ -31,6 +31,10 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# https://medium.com/@biancapower/how-to-add-bootstrap-4-to-a-rails-5-app-650118459a1e
+gem 'bootstrap', '~> 4.3.1'
+# gem 'jquery-rails'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
