@@ -2,7 +2,7 @@ class Request < ApplicationRecord
 	belongs_to :user
 	belongs_to :course
 	belongs_to :confirmed_class, optional: true
-	has_many :preferences, index_errors: true
+	has_and_belongs_to_many :preferences, index_errors: true
 
 	validates :participants, presence: true, inclusion: 1..4
 	validates :contents, presence: true, length: { minimum: 5 }

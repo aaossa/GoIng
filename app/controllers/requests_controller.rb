@@ -24,11 +24,10 @@ class RequestsController < ApplicationController
 		@request = Request.new(new_params)
 		@request.preferences = blocks.zip(dates).map{|b, d|
 			next unless b.to_i > 0
-			next unless d["(3i)"] != ""
-			Preference.new(
+			Preference.where(
 				time_block_id: b.to_i,
-				date: Date.civil(*d.to_h.sort.map(&:last).map(&:to_i)),
-			)
+				date: Time.at(d.to_i).to_s(:db).to_date,
+			).first_or_create
 		}.compact
 		@request.user = current_user
 		respond_to do |format|
@@ -52,7 +51,7 @@ class RequestsController < ApplicationController
 		def request_params
 			params.require(:request).permit(
 				:participants, :contents, :user_id, :course_id,
-				preference_blocks: [], preference_dates: ["(3i)", "(2i)", "(1i)"],
+				preference_blocks: [], preference_dates: [],
 			)
 		end
 end

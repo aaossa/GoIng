@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= form.label :day %>
-    <%= form.select :day, Date::DAYNAMES[1..5].each_with_index.map {|name, index| [name,index]} %>
+    <%= form.select :day, (1..5).map {|i| [Date::DAYNAMES[i], i]} %>
   </div>
 
   <div class="field">

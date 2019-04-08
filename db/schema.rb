@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_01_020351) do
+ActiveRecord::Schema.define(version: 2019_04_07_231007) do
 
   create_table "confirmed_classes", force: :cascade do |t|
     t.integer "teaching_assistant_id"
@@ -45,10 +45,12 @@ ActiveRecord::Schema.define(version: 2019_04_01_020351) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "time_block_id"
-    t.integer "request_id"
-    t.index ["request_id", "date", "time_block_id"], name: "index_preferences_on_request_id_and_date_and_time_block_id", unique: true
-    t.index ["request_id"], name: "index_preferences_on_request_id"
     t.index ["time_block_id"], name: "index_preferences_on_time_block_id"
+  end
+
+  create_table "preferences_requests", id: false, force: :cascade do |t|
+    t.integer "preference_id", null: false
+    t.integer "request_id", null: false
   end
 
   create_table "requests", force: :cascade do |t|

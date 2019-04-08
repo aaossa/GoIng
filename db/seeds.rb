@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-N_TAs = 10
-N_Users = 5
-N_Requests = 5
+N_TAs = 15
+N_Users = 15
+N_Requests = 30
 
 # Courses
 courses = Course.create([
@@ -94,10 +94,10 @@ N_Requests.times do
 	)
 	rand(1..3).times do |index|
 		time_block = course.available_modules.sample
-		new_request.preferences << Preference.new(
+		new_request.preferences << Preference.where(
 			date: now + (time_block.day - 1).days + index.weeks,
 			time_block: time_block,
-		)
+		).first_or_create
 	end
 	requests << new_request
 end
