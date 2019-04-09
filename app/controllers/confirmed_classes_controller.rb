@@ -1,6 +1,18 @@
 class ConfirmedClassesController < ApplicationController
   before_action :set_confirmed_class, only: [:show, :edit, :update, :destroy]
 
+  def answer_yes
+    # Ayudante ya no está disponible este modulo
+    # TODO: Enviar correo a alumnos
+  end
+
+  def answer_no
+    # Ayudante ya no está disponible este modulo
+    # TODO: Eliminar ConfirmedClass
+    # TODO: Si hay más ayudantes, crear ConfirmedClass y enviar mail a TA
+    # TODO: Si no hay más ayudantes, subir prioridad a request
+  end
+
   # GET /confirmed_classes
   # GET /confirmed_classes.json
   def index
