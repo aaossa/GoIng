@@ -1,7 +1,11 @@
 class Preference < ApplicationRecord
 	belongs_to :time_block
 	has_and_belongs_to_many :requests
-
+	has_and_belongs_to_many :unavailable_tas,
+							class_name: "TeachingAssistant",
+							join_table: "preferences_teaching_assistants",
+							foreign_key: "teaching_assistant_id",
+							association_foreign_key: "preference_id"
 	validates :date, presence: true
 	validates :date, uniqueness: { scope: :time_block_id }
 	validate :date_block_match

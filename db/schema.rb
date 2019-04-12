@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_12_140350) do
+ActiveRecord::Schema.define(version: 2019_04_12_165325) do
 
   create_table "confirmed_classes", force: :cascade do |t|
     t.integer "teaching_assistant_id"
@@ -45,12 +45,18 @@ ActiveRecord::Schema.define(version: 2019_04_12_140350) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "time_block_id"
+    t.index ["date", "time_block_id"], name: "index_preferences_on_date_and_time_block_id", unique: true
     t.index ["time_block_id"], name: "index_preferences_on_time_block_id"
   end
 
   create_table "preferences_requests", id: false, force: :cascade do |t|
     t.integer "preference_id", null: false
     t.integer "request_id", null: false
+  end
+
+  create_table "preferences_teaching_assistants", id: false, force: :cascade do |t|
+    t.integer "preference_id", null: false
+    t.integer "teaching_assistant_id", null: false
   end
 
   create_table "requests", force: :cascade do |t|
@@ -62,6 +68,8 @@ ActiveRecord::Schema.define(version: 2019_04_12_140350) do
     t.integer "course_id"
     t.integer "confirmed_class_id"
     t.integer "priority", default: 1
+    t.boolean "active", default: false
+    t.boolean "completed", default: false
     t.index ["confirmed_class_id"], name: "index_requests_on_confirmed_class_id"
     t.index ["course_id"], name: "index_requests_on_course_id"
     t.index ["user_id"], name: "index_requests_on_user_id"
