@@ -16,8 +16,9 @@ class Preference < ApplicationRecord
 	    # CLASSMETHOD @preference = Preference.includes(:time_block).order(date: :asc, start: :asc).first
 	    @preference = self
 	    # Ordeno las requests por prioridad
-	    # TODO: Ignoro las requests ya reservadas o en proceso
 	    requests = @preference.requests.order_by(priority: :desc)
+	    # Ignoro las requests ya reservadas o en proceso
+	    requests = requests.where(active: false)
 	    # Ordeno las requests agrupadas por curso y por participantes
 	    requests = requests.group_by(&:course_id).map {|k, v| [k, v.group_by(&:participants) ]}.to_h
 	    # Formo los grupos en 'group_requests'

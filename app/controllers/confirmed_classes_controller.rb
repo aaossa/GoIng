@@ -11,7 +11,11 @@ class ConfirmedClassesController < ApplicationController
     # TODO: Eliminar ConfirmedClass
     # request = @confirmed_class.request
     # @confirmed_class.destroy (?)
+    
     # TODO: Si hay más ayudantes en esta preferencia, crear ConfirmedClass y enviar mail a TA
+    
+    # TODO: SI no hay más ayudantes en esta preferencia, marcar como no procesada
+    # request.active = false
     # TODO: Si no hay más ayudantes en esta preferencia, subir prioridad a request
     # request.priority += 1
     # request.save

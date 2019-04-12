@@ -9,10 +9,20 @@ class ConfirmedClass < ApplicationRecord
 	validates :preference_id, uniqueness: { scope: :teaching_assistant_id }
 
 	after_create :send_email_to_teaching_assistant
+	after_create :mark_requests_as_active
 
-	def send_email_to_teaching_assistant
-		# TODO: Enviar mail a ayudante preguntando yes/no
-	end
+	protected
+
+		def send_email_to_teaching_assistant
+			# TODO: Enviar mail a ayudante preguntando yes/no
+		end
+
+		def mark_requests_as_active
+			requests.each do |request|
+				request.active = true
+				request.save
+			end
+		end
 
 	private
 
