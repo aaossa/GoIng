@@ -15,8 +15,11 @@ class Preference < ApplicationRecord
 	    # CLASSMETHOD TODO: Iterar sobre cada o en un rango (quizas las de un mismo dia)
 	    # CLASSMETHOD @preference = Preference.includes(:time_block).order(date: :asc, start: :asc).first
 	    @preference = self
+	    # Ordeno las requests por prioridad
+	    # TODO: Ignoro las requests ya reservadas o en proceso
+	    requests = @preference.requests.order_by(priority: :desc)
 	    # Ordeno las requests agrupadas por curso y por participantes
-	    requests = @preference.requests.group_by(&:course_id).map {|k, v| [k, v.group_by(&:participants) ]}.to_h
+	    requests = requests.group_by(&:course_id).map {|k, v| [k, v.group_by(&:participants) ]}.to_h
 	    # Formo los grupos en 'group_requests'
 	    @groups = requests.map {|k, v| [k, group_requests(v)]}.to_h
 	    # Para cada grupo formado

@@ -9,8 +9,12 @@ class ConfirmedClassesController < ApplicationController
   def answer_no
     # Ayudante ya no está disponible este modulo
     # TODO: Eliminar ConfirmedClass
-    # TODO: Si hay más ayudantes, crear ConfirmedClass y enviar mail a TA
-    # TODO: Si no hay más ayudantes, subir prioridad a request
+    # request = @confirmed_class.request
+    # @confirmed_class.destroy (?)
+    # TODO: Si hay más ayudantes en esta preferencia, crear ConfirmedClass y enviar mail a TA
+    # TODO: Si no hay más ayudantes en esta preferencia, subir prioridad a request
+    # request.priority += 1
+    # request.save
   end
 
   # GET /confirmed_classes

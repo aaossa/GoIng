@@ -5,6 +5,7 @@ class Request < ApplicationRecord
 	has_and_belongs_to_many :preferences, index_errors: true
 
 	validates :participants, presence: true, inclusion: 1..4
+	validates :priority, presence: true, inclusion: 1..3
 	validates :contents, presence: true, length: { minimum: 5 }
 	validates_associated :preferences
 	validate :teaching_assistant_available
