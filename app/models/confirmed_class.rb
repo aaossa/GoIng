@@ -14,7 +14,7 @@ class ConfirmedClass < ApplicationRecord
 	protected
 
 		def send_email_to_teaching_assistant
-			# TODO: Enviar mail a ayudante preguntando yes/no
+			ConfirmedClassMailer.with(teaching_assistant: teaching_assistant).created_class_email.deliver_later
 		end
 
 		def mark_requests_as_active
