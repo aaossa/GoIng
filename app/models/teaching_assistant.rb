@@ -1,4 +1,5 @@
 class TeachingAssistant < ApplicationRecord
+  	has_many :confirmed_classes
   	has_and_belongs_to_many :courses
   	has_and_belongs_to_many :time_blocks
 	has_and_belongs_to_many :unavailable_preferences,

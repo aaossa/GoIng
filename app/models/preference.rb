@@ -20,33 +20,53 @@ class Preference < ApplicationRecord
 	    # CLASSMETHOD @preference = Preference.includes(:time_block).order(date: :asc, start: :asc).first
 	    @preference = self
 	    # Ordeno las requests por prioridad
-	    requests = @preference.requests.order_by(priority: :desc)
+	    requests = @preference.requests.order(priority: :desc)
 	    # Ignoro las requests ya reservadas o en proceso
 	    requests = requests.where(active: false)
 	    # Ordeno las requests agrupadas por curso y por participantes
 	    requests = requests.group_by(&:course_id).map {|k, v| [k, v.group_by(&:participants) ]}.to_h
 	    # Formo los grupos en 'group_requests'
-	    @groups = requests.map {|k, v| [k, group_requests(v)]}.to_h
+	    @groups_per_course = requests.map {|k, v| [k, group_requests(v)]}.to_h
 	    # Para cada grupo formado
-	    @groups.each do |course, groups|
+	    @groups_per_course.each do |course, groups|
 	    	# Obtengo el curso en base al id
 	    	course = Course.find course
-	    	puts "Course: #{course.name}"
 	    	# Obtenemos los ayudantes disponibles de este curso para este módulo
+	    	# Ordenados por clases hechas (menos a mas)
 	    	available_tas = @preference.available_teaching_assistants(course)
-	    	# TODO: Filtrar los que están disponibles esta preferencia (quizás crear una tabla intermedia entre TA y Preferencia)
-	    	# TODO: Ordenar por clases hechas (menos a mas)
 	    	groups.each do |group|
 	    		puts "\tGroup: #{group.map(&:participants)}"
+	    		group.each do |r|
+	    			puts "\t\t>> #{r.course.name}"
+	    		end
+	    		teaching_assistant = available_tas.shift
+	    		if teaching_assistant.nil?
+	    			# Si se acaban los ayudantes, se sube la prioridad a las requests
+	    			# de los grupos y se pasa a la siguiente preferencia
+	    			group.each do |request|
+	    				puts "\t>> Request #{request}"
+	    				puts "\t>> Request priority #{request.priority}"
+	    				if request.priority < 3
+	    					request.increment(:priority)
+	    					request.save
+	    				else
+	    					puts "\t>> ALERTA REQUEST NO ATENDIDA"
+	    				end
+	    				puts "\t>> Request errors #{request.errors.full_messages}"
+	    				# Si una request llega a priority 4 es porque no puedo asignarle
+	    				# a nadie, que hago aqui?
+	    			end
+	    			break
+	    		end
+	    		# Crear clase confirmada
 	    		cc = ConfirmedClass.new
-	    		cc.teaching_assistant = @teaching_assistants.first # IR AVANZANDO EN LA LISTA, SI SE ME ACABAN LOS AYUDANTES DEBO SUBIRLE LA PRIORIDAD A AMBOS GRUPOS Y PASAR A LA SIGUIENTE PREFERENCIA
+	    		cc.teaching_assistant = teaching_assistant
 	    		cc.preference = self
 	    		cc.requests = group
 	    		cc.save
-	    		puts "\t#{cc.errors.full_messages}"
-			    # TODO: Marcar ayudante como ocupado este modulo (independiente de su respuesta)
+			    # Marco ayudante como ocupado este modulo (independiente de su respuesta)
+	    		@preference.unavailable_tas << teaching_assistant unless @preference.unavailable_tas.include?(teaching_assistant)
 	    	end
-	    	puts ""
 	    end
 	end
 
@@ -62,12 +82,18 @@ class Preference < ApplicationRecord
 	protected
 
 		def available_teaching_assistants(course)
-			# TODO: Filtrar los que están disponibles esta preferencia (quizás crear una tabla intermedia entre TA y Preferencia)
-	    	# TODO: Ordenar por clases hechas (menos a mas)
-	    	# @teaching_assistants.includes(:courses).where(courses: {id: request.course_id})
+			# TAs of this course with this time block available
 	    	a = course.teaching_assistants
 	    	b = time_block.teaching_assistants
 	    	c = a & b
+	    	# Remove TAs with this preference not available
+	    	d = self.unavailable_tas
+	    	e = c - d | d - c
+	    	# Sort TAs according to their assigned classes
+	    	f = TeachingAssistant.left_joins(:confirmed_classes).group(:id).order("COUNT(confirmed_classes.id) ASC")
+	    	g = f & a
+	    	# Final list
+	    	h = g & e
 		end
 
 	private

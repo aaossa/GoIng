@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(version: 2019_04_12_165325) do
   create_table "preferences_teaching_assistants", id: false, force: :cascade do |t|
     t.integer "preference_id", null: false
     t.integer "teaching_assistant_id", null: false
+    t.index ["preference_id", "teaching_assistant_id"], name: "prevent_unavailable_duplicates_1", unique: true
+    t.index ["teaching_assistant_id", "preference_id"], name: "prevent_unavailable_duplicates_2", unique: true
   end
 
   create_table "requests", force: :cascade do |t|
