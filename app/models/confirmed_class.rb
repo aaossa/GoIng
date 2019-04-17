@@ -3,28 +3,54 @@ class ConfirmedClass < ApplicationRecord
 	belongs_to :preference
 	has_many :requests
 
-	validate :requests_match_time_block
+	validate :requests_are_not_completed_or_assigned, on: :create
 	validate :requests_match_course
+	validate :requests_match_time_block
 	validate :teaching_assistant_match_time_block
 	validates :preference_id, uniqueness: { scope: :teaching_assistant_id }
 
+    before_validation :mark_requests_as_active, on: :create
+	after_save :mark_requests_as_assigned, if: :will_save_change_to_assigned?
+	after_save :send_email_to_participants, if: :will_save_change_to_assigned?
 	after_create :send_email_to_teaching_assistant
-	after_create :mark_requests_as_active
+
 
 	protected
 
 		def send_email_to_teaching_assistant
-			ConfirmedClassMailer.with(teaching_assistant: teaching_assistant).created_class_email.deliver_later
+			ConfirmedClassMailer.with(confirmed_class: self).created_class_email_to_teaching_assistant.deliver_later
 		end
 
-		def mark_requests_as_active
-			requests.each do |request|
-				request.active = true
-				request.save
-			end
+		def send_email_to_participants
+			return unless self.assigned
+			# participants = ...
+			# paricipants.each do |participant|
+				# ConfirmedClassMailer.with(confirmed_class: self).confirmed_class_email_to_participant.deliver_later
+			# end
 		end
 
 	private
+
+		def mark_requests_as_active
+			requests.each do |r|
+				r.active = true
+				r.save!
+			end
+		end
+
+		def mark_requests_as_assigned
+			return unless self.assigned
+			requests.update_all(assigned: true)
+		end
+
+		def requests_are_not_completed_or_assigned
+			all_active = requests.map(&:active).all?
+			any_assigned = requests.map(&:assigned).any?
+			any_completed = requests.map(&:completed).any?
+			unless all_active && !any_assigned && !any_completed
+				errors.add(:requests, "have not the right status (active, not assigned, not completed)")
+			end
+		end
 
 		def requests_match_time_block
 			requests.each do |request|

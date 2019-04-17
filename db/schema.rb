@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_12_165325) do
+ActiveRecord::Schema.define(version: 2019_04_17_092739) do
 
   create_table "confirmed_classes", force: :cascade do |t|
     t.integer "teaching_assistant_id"
     t.integer "preference_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "assigned", default: false
     t.index ["preference_id"], name: "index_confirmed_classes_on_preference_id"
     t.index ["teaching_assistant_id"], name: "index_confirmed_classes_on_teaching_assistant_id"
   end
@@ -71,6 +72,7 @@ ActiveRecord::Schema.define(version: 2019_04_12_165325) do
     t.integer "confirmed_class_id"
     t.integer "priority", default: 1
     t.boolean "active", default: false
+    t.boolean "assigned", default: false
     t.boolean "completed", default: false
     t.index ["confirmed_class_id"], name: "index_requests_on_confirmed_class_id"
     t.index ["course_id"], name: "index_requests_on_course_id"

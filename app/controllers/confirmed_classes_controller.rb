@@ -1,24 +1,33 @@
 class ConfirmedClassesController < ApplicationController
   before_action :set_confirmed_class, only: [:show, :edit, :update, :destroy]
 
-  def answer_yes
-    # Ayudante ya no está disponible este modulo
-    # TODO: Enviar correo a alumnos
+  def answer_teaching_assistant_yes
+    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
+    # Clase exitosamente asignada -> Se envia correo a alumnos desde modelo
+    @confirmed_class.update(assigned: true)
   end
 
-  def answer_no
-    # Ayudante ya no está disponible este modulo
-    # TODO: Eliminar ConfirmedClass
-    # request = @confirmed_class.request
-    # @confirmed_class.destroy (?)
-    
+  # TODO: Definir algoritmo si el ayudante dice que no
+  def answer_teaching_assistant_no
+    # @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
+    # Eliminar clase
+    # requests = @confirmed_class.requests
+    # @confirmed_class.destroy
     # TODO: Si hay más ayudantes en esta preferencia, crear ConfirmedClass y enviar mail a TA
-    
     # TODO: SI no hay más ayudantes en esta preferencia, marcar como no procesada
     # request.active = false
     # TODO: Si no hay más ayudantes en esta preferencia, subir prioridad a request
     # request.priority += 1
     # request.save
+    # Recorrer las preferencias de una request en orden
+  end
+
+  # TODO: Que pasa si el alumno dice que si
+  def answer_student_yes
+  end
+
+  # TODO: Que pasa si el alumno dice que no
+  def answer_student_no
   end
 
   # GET /confirmed_classes
@@ -35,13 +44,6 @@ class ConfirmedClassesController < ApplicationController
   # GET /confirmed_classes/new
   def new
     @confirmed_class = ConfirmedClass.new
-  end
-
-  def contact_teaching_assistant
-    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
-    @confirmed_class.asked_tas << @confirmed_class.teaching_assistant
-    RequestMailer.with(confirmed_class: @confirmed_class).request_email.deliver_now
-    "Ok"
   end
 
   # GET /confirmed_classes/1/edit

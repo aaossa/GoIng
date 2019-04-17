@@ -1,10 +1,6 @@
+<%# encoding: utf-8 -%>
 Created class email
-Welcome to example.com, <%= @user.google_name %>
 ===============================================
 
-You have successfully signed up to example.com,
-your username is: <%= @user.google_email %>.
-
-To login to the site, just follow this link: <%= @url %>.
-
-Thanks for joining and have a great day!
+* <%= link_to "Sí", confirmed_class_teaching_assistant_yes_url(@confirmed_class) %>
+* <%= link_to "No", confirmed_class_teaching_assistant_no_url(@confirmed_class) %>

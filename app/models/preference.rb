@@ -22,7 +22,8 @@ class Preference < ApplicationRecord
 	    # Ordeno las requests por prioridad
 	    requests = @preference.requests.order(priority: :desc)
 	    # Ignoro las requests ya reservadas o en proceso
-	    requests = requests.where(active: false)
+	    # TO DO: Ignoro las active: true?
+	    requests = requests.where(active: false).where(assigned: false).where(completed: false)
 	    # Ordeno las requests agrupadas por curso y por participantes
 	    requests = requests.group_by(&:course_id).map {|k, v| [k, v.group_by(&:participants) ]}.to_h
 	    # Formo los grupos en 'group_requests'
