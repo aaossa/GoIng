@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_17_092739) do
+ActiveRecord::Schema.define(version: 2019_04_21_183938) do
 
   create_table "confirmed_classes", force: :cascade do |t|
     t.integer "teaching_assistant_id"
@@ -31,6 +31,9 @@ ActiveRecord::Schema.define(version: 2019_04_17_092739) do
   create_table "courses_teaching_assistants", id: false, force: :cascade do |t|
     t.integer "course_id", null: false
     t.integer "teaching_assistant_id", null: false
+    t.index ["course_id", "teaching_assistant_id"], name: "course and TA index"
+    t.index ["course_id"], name: "index_courses_teaching_assistants_on_course_id"
+    t.index ["teaching_assistant_id"], name: "index_courses_teaching_assistants_on_teaching_assistant_id"
   end
 
   create_table "identities", force: :cascade do |t|
@@ -39,6 +42,7 @@ ActiveRecord::Schema.define(version: 2019_04_17_092739) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_identities_on_user_id"
   end
 
   create_table "preferences", force: :cascade do |t|
@@ -53,13 +57,18 @@ ActiveRecord::Schema.define(version: 2019_04_17_092739) do
   create_table "preferences_requests", id: false, force: :cascade do |t|
     t.integer "preference_id", null: false
     t.integer "request_id", null: false
+    t.index ["preference_id", "request_id"], name: "index_preferences_requests_on_preference_id_and_request_id"
+    t.index ["preference_id"], name: "index_preferences_requests_on_preference_id"
+    t.index ["request_id"], name: "index_preferences_requests_on_request_id"
   end
 
   create_table "preferences_teaching_assistants", id: false, force: :cascade do |t|
     t.integer "preference_id", null: false
     t.integer "teaching_assistant_id", null: false
     t.index ["preference_id", "teaching_assistant_id"], name: "prevent_unavailable_duplicates_1", unique: true
+    t.index ["preference_id"], name: "index_preferences_teaching_assistants_on_preference_id"
     t.index ["teaching_assistant_id", "preference_id"], name: "prevent_unavailable_duplicates_2", unique: true
+    t.index ["teaching_assistant_id"], name: "index_preferences_teaching_assistants_on_teaching_assistant_id"
   end
 
   create_table "requests", force: :cascade do |t|
@@ -90,6 +99,9 @@ ActiveRecord::Schema.define(version: 2019_04_17_092739) do
   create_table "teaching_assistants_time_blocks", id: false, force: :cascade do |t|
     t.integer "teaching_assistant_id", null: false
     t.integer "time_block_id", null: false
+    t.index ["teaching_assistant_id", "time_block_id"], name: "TA and block index"
+    t.index ["teaching_assistant_id"], name: "index_teaching_assistants_time_blocks_on_teaching_assistant_id"
+    t.index ["time_block_id"], name: "index_teaching_assistants_time_blocks_on_time_block_id"
   end
 
   create_table "time_blocks", force: :cascade do |t|
