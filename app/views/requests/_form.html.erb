@@ -13,7 +13,12 @@
 
   <div class="field">
     <%= form.label :participants %><br>
-    <%= form.number_field :participants, in: 1..4, value: 1 %>
+    <%= form.fields_for :participants, OpenStruct.new(form.object.participants || {}) do |participant| %>
+      <%= participant.text_field "0", { multiple: true, name: 'request[participants][0]', disabled: true, value: current_user.google_email } %><br>
+      <%= participant.text_field "1", { multiple: true, name: 'request[participants][1]' }  %><br>
+      <%= participant.text_field "2", { multiple: true, name: 'request[participants][2]' }  %><br>
+      <%= participant.text_field "3", { multiple: true, name: 'request[participants][3]' }  %>
+    <% end %>
   </div>
  
   <div class="field">

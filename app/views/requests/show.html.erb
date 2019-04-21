@@ -1,8 +1,12 @@
 <p>
   <strong>Participants:</strong>
-  <%= @request.participants %>
+  <ul>
+    <% @request.participants_mails.each do |participant_email| %>
+      <li><%= participant_email %></li>
+    <% end %>
+  </ul>
 </p>
- 
+
 <p>
   <strong>Contents:</strong>
   <%= @request.contents %>

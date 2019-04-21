@@ -20,8 +20,9 @@ class RequestsController < ApplicationController
 	def create
 		blocks = request_params[:preference_blocks]
 		dates = request_params[:preference_dates]
-		new_params = request_params.except(:preference_blocks, :preference_dates)
+		new_params = request_params.except(:preference_blocks, :preference_dates, :participants)
 		@request = Request.new(new_params)
+		@request.participants = request_params[:participants].to_hash
 		@request.preferences = blocks.zip(dates).map{|b, d|
 			next unless b.to_i > 0
 			Preference.where(
@@ -49,9 +50,12 @@ class RequestsController < ApplicationController
 
 	private
 		def request_params
+			# Force current_user email as participant
+			params[:request][:participants]["0"] = current_user.google_email
 			params.require(:request).permit(
-				:participants, :contents, :user_id, :course_id,
+				:contents, :user_id, :course_id,
 				preference_blocks: [], preference_dates: [],
+				participants: ["0", "1", "2", "3"],
 			)
 		end
 end

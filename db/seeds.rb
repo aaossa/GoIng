@@ -86,8 +86,12 @@ requests = []
 now = now + 1.week
 N_Requests.times do
 	course = Course.all.sample
+	participants = {}
+	rand(0..3).times do |key|
+		participants[key.to_s] = "#{Faker::Internet.user_name}@#{['uc.cl', 'correo.puc.cl', 'puc.cl'].sample}"
+	end
 	new_request = Request.new(
-		participants: rand(1..4),
+		participants: participants,
 		contents: Faker::Lorem.characters(rand(5..10)),
 		user: users.sample,
 		course: course,

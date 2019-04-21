@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 2019_04_17_092739) do
   end
 
   create_table "requests", force: :cascade do |t|
-    t.integer "participants"
+    t.text "participants"
     t.text "contents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
