@@ -25,7 +25,7 @@ class Preference < ApplicationRecord
 	    # TO DO: Ignoro las active: true?
 	    requests = requests.where(active: false).where(assigned: false).where(completed: false)
 	    # Ordeno las requests agrupadas por curso y por participantes
-	    requests = requests.group_by(&:course_id).map {|k, v| [k, v.group_by(&:participants) ]}.to_h
+	    requests = requests.group_by(&:course_id).map {|k, v| [k, v.group_by { |r| r.participants.length } ]}.to_h
 	    # Formo los grupos en 'group_requests'
 	    @groups_per_course = requests.map {|k, v| [k, group_requests(v)]}.to_h
 	    # Para cada grupo formado

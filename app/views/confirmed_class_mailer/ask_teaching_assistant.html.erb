@@ -1,0 +1,28 @@
+<%# encoding: utf-8 -%>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Clase asignada</h1>
+    <ul>
+      <li><b>Fecha:</b> <%= @confirmed_class.preference.date %></li>
+      <li><b>Módulo:</b> <%= @confirmed_class.preference.display_preference %></li>
+      <li><b>Curso:</b> <%= @confirmed_class.course.name %></li>
+      <li><p><b>Contenidos:</b></p>
+        <ul>
+          <% @confirmed_class.requests.each do |r| %>
+            <li><%= r.contents %></li>
+          <% end %>
+        </ul>
+      </li>
+    </ul>
+    <br> 
+    <p>¿Puedes hacer esta clase?</p>
+    <ul>
+      <li><%= link_to "Sí", confirmed_class_teaching_assistant_yes_url(@confirmed_class) %></li>
+      <li><%= link_to "No", confirmed_class_teaching_assistant_no_url(@confirmed_class) %></li>
+    </ul>
+  </body>
+</html> 

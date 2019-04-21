@@ -6,6 +6,11 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+def random_uc_email
+	uc_domain = ['uc.cl', 'correo.puc.cl', 'puc.cl'].sample
+	"#{Faker::Internet.user_name}@#{uc_domain}"
+end
+
 N_TAs = 20
 N_Users = 40
 N_Requests = 50
@@ -27,7 +32,7 @@ teaching_assistants = []
 N_TAs.times do
 	teaching_assistants << TeachingAssistant.new(
 		name: Faker::Name.name,
-		email: Faker::Internet.email,
+		email: random_uc_email,
 		phone_number: Faker::Base.numerify('########'),
 	)
 end
@@ -71,7 +76,7 @@ users = []
 N_Users.times do
 	users << User.new(
 		google_name: Faker::Name.name,
-		google_email: Faker::Internet.email,
+		google_email: random_uc_email,
 		google_image: Faker::LoremPixel.image,
 		google_token: Faker::Quote.singular_siegler,
 	)
@@ -88,7 +93,7 @@ N_Requests.times do
 	course = Course.all.sample
 	participants = {}
 	rand(0..3).times do |key|
-		participants[key.to_s] = "#{Faker::Internet.user_name}@#{['uc.cl', 'correo.puc.cl', 'puc.cl'].sample}"
+		participants[key.to_s] = random_uc_email
 	end
 	new_request = Request.new(
 		participants: participants,

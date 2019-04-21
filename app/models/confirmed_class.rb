@@ -14,19 +14,18 @@ class ConfirmedClass < ApplicationRecord
 	after_save :send_email_to_participants, if: :will_save_change_to_assigned?
 	after_create :send_email_to_teaching_assistant
 
+    def course
+        self.requests.first.course
+    end
 
 	protected
 
 		def send_email_to_teaching_assistant
-			ConfirmedClassMailer.with(confirmed_class: self).created_class_email_to_teaching_assistant.deliver_later
+			ConfirmedClassMailer.ask_teaching_assistant(self).deliver_now
 		end
 
 		def send_email_to_participants
-			return unless self.assigned
-			# participants = ...
-			# paricipants.each do |participant|
-				# ConfirmedClassMailer.with(confirmed_class: self).confirmed_class_email_to_participant.deliver_later
-			# end
+			ConfirmedClassMailer.confirm_class_to_participants(self).deliver_later
 		end
 
 	private
@@ -34,7 +33,7 @@ class ConfirmedClass < ApplicationRecord
 		def mark_requests_as_active
 			requests.each do |r|
 				r.active = true
-				r.save!
+				r.save
 			end
 		end
 
