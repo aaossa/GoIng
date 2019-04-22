@@ -12,9 +12,12 @@ class Preference < ApplicationRecord
 	validates :date, uniqueness: { scope: :time_block_id }
 	validate :date_block_match
 
-    def self.create_classes
-    	Preference.includes(:time_block).order(date: :asc, start: :asc).where("date BETWEEN ? AND ?", Time.current.to_date, Time.current.to_date + 1.week).map(&:create_classes)
-    end
+	scope :active, -> { where("date BETWEEN ? AND ?", Time.current.to_date, Time.current.to_date + 1.week) }
+	scope :recent, -> { includes(:time_block).order(date: :asc, start: :asc) }
+
+	def self.create_classes
+		Preference.active.recent.map(&:create_classes)
+	end
 
 	def create_classes
 		# Filtrar solicitudes procesables
@@ -38,9 +41,9 @@ class Preference < ApplicationRecord
 					preference: self,
 					requests: group,
 				)
-			    # Ayudante se marca como ocupado
-			    next if self.unavailable_tas.include?(teaching_assistant)
-		   		self.unavailable_tas << teaching_assistant 
+				# Ayudante se marca como ocupado
+				next if self.unavailable_tas.include?(teaching_assistant)
+				self.unavailable_tas << teaching_assistant
 			end
 		end
 		# Retorno las clases de esta preferencia

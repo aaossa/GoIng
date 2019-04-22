@@ -7,19 +7,10 @@ class ConfirmedClassesController < ApplicationController
     @confirmed_class.update(assigned: true)
   end
 
-  # TODO: Definir algoritmo si el ayudante dice que no
   def answer_teaching_assistant_no
     @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
-    # Marcar clases como inactivas y eliminar CC
-    @confirmed_class.requests.update_all(active: false)
+    # Clase no pudo asignarse -> Se busca un nuevo ayudante desde modelo
     @confirmed_class.destroy
-    # TODO: Si hay más ayudantes en esta preferencia, crear ConfirmedClass y enviar mail a TA
-    # TODO: SI no hay más ayudantes en esta preferencia, marcar como no procesada
-    # request.active = false
-    # TODO: Si no hay más ayudantes en esta preferencia, subir prioridad a request
-    # request.priority += 1
-    # request.save
-    # Recorrer las preferencias de una request en orden
   end
 
   # TODO: Que pasa si el alumno dice que si

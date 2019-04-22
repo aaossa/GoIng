@@ -13,6 +13,7 @@ class ConfirmedClass < ApplicationRecord
 	after_save :mark_requests_as_assigned, if: :will_save_change_to_assigned?
 	after_save :send_email_to_participants, if: :will_save_change_to_assigned?
 	after_create :send_email_to_teaching_assistant
+	after_destroy :process_requests_again
 
     def course
         self.requests.first.course
@@ -29,6 +30,12 @@ class ConfirmedClass < ApplicationRecord
 		end
 
 	private
+
+		def process_requests_again
+			requests.update_all(active: false)
+			preferences = Preference.active.recent.where(id: requests.map {|r| r.preferences.ids }.flatten.uniq)
+			preferences.map(&:create_classes)
+		end
 
 		def mark_requests_as_active
 			requests.each do |r|
