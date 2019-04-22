@@ -9,10 +9,10 @@ class ConfirmedClassesController < ApplicationController
 
   # TODO: Definir algoritmo si el ayudante dice que no
   def answer_teaching_assistant_no
-    # @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
-    # Eliminar clase
-    # requests = @confirmed_class.requests
-    # @confirmed_class.destroy
+    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
+    # Marcar clases como inactivas y eliminar CC
+    @confirmed_class.requests.update_all(active: false)
+    @confirmed_class.destroy
     # TODO: Si hay más ayudantes en esta preferencia, crear ConfirmedClass y enviar mail a TA
     # TODO: SI no hay más ayudantes en esta preferencia, marcar como no procesada
     # request.active = false
