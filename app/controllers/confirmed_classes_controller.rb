@@ -1,6 +1,26 @@
 class ConfirmedClassesController < ApplicationController
   before_action :set_confirmed_class, only: [:show, :edit, :update, :destroy]
 
+  def answer_teaching_assistant_yes
+    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
+    # Clase exitosamente asignada -> Se envia correo a alumnos desde modelo
+    @confirmed_class.update(assigned: true)
+  end
+
+  def answer_teaching_assistant_no
+    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
+    # Clase no pudo asignarse -> Se busca un nuevo ayudante desde modelo
+    @confirmed_class.destroy
+  end
+
+  # TODO: Que pasa si el alumno dice que si
+  def answer_student_yes
+  end
+
+  # TODO: Que pasa si el alumno dice que no
+  def answer_student_no
+  end
+
   # GET /confirmed_classes
   # GET /confirmed_classes.json
   def index
@@ -15,13 +35,6 @@ class ConfirmedClassesController < ApplicationController
   # GET /confirmed_classes/new
   def new
     @confirmed_class = ConfirmedClass.new
-  end
-
-  def contact_teaching_assistant
-    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
-    @confirmed_class.asked_tas << @confirmed_class.teaching_assistant
-    RequestMailer.with(confirmed_class: @confirmed_class).request_email.deliver_now
-    "Ok"
   end
 
   # GET /confirmed_classes/1/edit

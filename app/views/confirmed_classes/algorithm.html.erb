@@ -1,0 +1,58 @@
+<h1>Algorithm</h1>
+
+<%= form_with(model: confirmed_class, local: true) do |form| %>
+  <% if confirmed_class.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(confirmed_class.errors.count, "error") %> prohibited this confirmed_class from being saved:</h2>
+
+      <ul>
+      <% confirmed_class.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <p>1. Dada una preferencia...</p>
+  <div class="field">
+    <%= form.label :preference %><br>
+    <%= form.collection_select(:preference_id, {}, nil, nil) %>
+  </div>
+
+  <p>2. Recorrer requests en orden de prioridad...</p>
+  <p id="sorted-requests"></p>
+
+  <p>3. Fijo el curso de la request de más prioridad...</p>
+  <div class="field">
+    <%= form.label :course %><br>
+    <%= form.collection_select(:course_id, Course.all, :id, :name, {}, { id: "course", onchange: "updateFromCourseCreate();" }) %>
+  </div>
+
+  <p>3. Recorrer ayudantes en orden de prioridad...</p>
+  <p id="sorted-teachingassitants"></p>
+  <div class="field">
+    <%= form.label :teaching_assistant %><br>
+    <%= form.collection_select(:teaching_assistant_id, {}, nil, nil) %>
+  </div>
+
+  <p>5. Crear asignación y enviar correo...</p>
+  <div class="field">
+    <%= form.label :requests %>
+    <ul id="request-list">
+    <%= form.collection_check_boxes(:request_ids, {}, nil, nil) do |request| %>
+      <li><%= request.label class: "label-checkbox" do %>
+        <%= request.check_box + request.text %>
+      <% end %></li>
+    <% end %>
+    </ul>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+
+
+
+<%= link_to 'Back', confirmed_classes_path %>

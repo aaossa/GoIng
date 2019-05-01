@@ -12,7 +12,13 @@
  
   <% @requests.each do |request| %>
     <tr>
-      <td><%= request.participants %></td>
+      <td>
+        <ol>
+          <% request.participants_mails.each do |participant_email| %>
+            <li><%= participant_email %></li>
+          <% end %>
+        </ol>
+      </td>
       <td><%= request.contents %></td>
       <td><%= request.user.google_email %></td>
       <td><%= request.course.name %></td>

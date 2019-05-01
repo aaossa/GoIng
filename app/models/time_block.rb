@@ -14,6 +14,10 @@ class TimeBlock < ApplicationRecord
         Course.where(id: courses_ids)
     end
 
+    def available_teaching_assistants
+        TeachingAssistant.includes(:time_blocks).where(time_blocks: {id: id})
+    end
+
     def display_day
     	Date::DAYNAMES[self[:day]]
     end

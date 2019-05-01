@@ -6,9 +6,14 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-N_TAs = 10
-N_Users = 5
-N_Requests = 5
+def random_uc_email
+	uc_domain = ['uc.cl', 'correo.puc.cl', 'puc.cl'].sample
+	"#{Faker::Internet.user_name}@#{uc_domain}"
+end
+
+N_TAs = 20
+N_Users = 40
+N_Requests = 50
 
 # Courses
 courses = Course.create([
@@ -27,7 +32,7 @@ teaching_assistants = []
 N_TAs.times do
 	teaching_assistants << TeachingAssistant.new(
 		name: Faker::Name.name,
-		email: Faker::Internet.email,
+		email: random_uc_email,
 		phone_number: Faker::Base.numerify('########'),
 	)
 end
@@ -71,7 +76,7 @@ users = []
 N_Users.times do
 	users << User.new(
 		google_name: Faker::Name.name,
-		google_email: Faker::Internet.email,
+		google_email: random_uc_email,
 		google_image: Faker::LoremPixel.image,
 		google_token: Faker::Quote.singular_siegler,
 	)
@@ -86,18 +91,22 @@ requests = []
 now = now + 1.week
 N_Requests.times do
 	course = Course.all.sample
+	participants = {}
+	rand(0..3).times do |key|
+		participants[key.to_s] = random_uc_email
+	end
 	new_request = Request.new(
-		participants: rand(1..4),
+		participants: participants,
 		contents: Faker::Lorem.characters(rand(5..10)),
 		user: users.sample,
 		course: course,
 	)
 	rand(1..3).times do |index|
 		time_block = course.available_modules.sample
-		new_request.preferences << Preference.new(
+		new_request.preferences << Preference.where(
 			date: now + (time_block.day - 1).days + index.weeks,
 			time_block: time_block,
-		)
+		).first_or_create
 	end
 	requests << new_request
 end
