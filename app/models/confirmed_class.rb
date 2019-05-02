@@ -22,7 +22,7 @@ class ConfirmedClass < ApplicationRecord
 	protected
 
 		def send_email_to_teaching_assistant
-			ConfirmedClassMailer.ask_teaching_assistant(self).deliver_now
+			ConfirmedClassMailer.ask_teaching_assistant(self).deliver_later
 		end
 
 		def send_email_to_participants

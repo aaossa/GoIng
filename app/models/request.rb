@@ -16,6 +16,7 @@ class Request < ApplicationRecord
     before_save(on: :create) do
         self.participants["0"] = user.google_email
     end
+    after_create :send_mail_to_participants
 
     def self.inactive
     	where(active: false).where(assigned: false).where(completed: false)
@@ -39,6 +40,10 @@ class Request < ApplicationRecord
 	end
 
 	protected
+
+	    def send_mail_to_participants
+	    	RequestMailer.confirm_request_creation(self).deliver_later
+	    end
 
 		def self.group_by_participantso(requests)
 			requests = requests.group_by { |r| r.participants.length }
