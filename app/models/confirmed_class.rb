@@ -10,14 +10,18 @@ class ConfirmedClass < ApplicationRecord
 	validates :preference_id, uniqueness: { scope: :teaching_assistant_id }
 
     before_validation :mark_requests_as_active, on: :create
-	after_save :mark_requests_as_assigned, if: :will_save_change_to_assigned?
-	after_save :send_email_to_participants, if: :will_save_change_to_assigned?
+	after_save :mark_requests_as_assigned, if: :saved_change_to_assigned?
+	after_save :send_email_to_participants, if: :saved_change_to_assigned?
 	after_create :send_email_to_teaching_assistant
 	after_destroy :process_requests_again
 
-    def course
-        self.requests.first.course
-    end
+	def course
+		self.requests.first.course
+	end
+
+	def participants_mails
+		self.requests.map(&:participants_mails).flatten(1)
+	end
 
 	protected
 
@@ -26,6 +30,7 @@ class ConfirmedClass < ApplicationRecord
 		end
 
 		def send_email_to_participants
+			return unless self.assigned
 			ConfirmedClassMailer.confirm_class_to_participants(self).deliver_later
 		end
 
@@ -33,6 +38,8 @@ class ConfirmedClass < ApplicationRecord
 
 		def process_requests_again
 			requests.update_all(active: false)
+			# In the future, this should not be done
+			# because they'll be assigned every hour or so
 			preferences = Preference.active.recent.where(id: requests.map {|r| r.preferences.ids }.flatten.uniq)
 			preferences.map(&:create_classes)
 		end

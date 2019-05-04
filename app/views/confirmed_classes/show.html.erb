@@ -6,6 +6,11 @@
 </p>
 
 <p>
+  <strong>Assigned:</strong>
+  <%= @confirmed_class.assigned %>
+</p>
+
+<p>
   <strong>Preference:</strong>
   <%= @confirmed_class.preference.display_preference %>
 </p>
@@ -13,10 +18,10 @@
 <p><strong>Requests:</strong></p>
 <ul>
   <% @confirmed_class.requests.each do |request| %>
-    <li><%= link_to request.contents, request_path(request) %></li>
+    <li><%= link_to request.contents, request_path(request) %> (<%= request.active %>, <%= request.assigned %>, <%= request.completed %>)</li>
   <% end %>
 </ul>
 
-<%= button_to 'Send email to TA', confirmed_class_contact_teaching_assistant_path(@confirmed_class) %> |
+<%# button_to 'Send email to TA', confirmed_class_contact_teaching_assistant_path(@confirmed_class) %> |
 <%= link_to 'Edit', edit_confirmed_class_path(@confirmed_class) %> |
 <%= link_to 'Back', confirmed_classes_path %>

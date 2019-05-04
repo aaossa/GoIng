@@ -5,12 +5,14 @@ class ConfirmedClassesController < ApplicationController
     @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
     # Clase exitosamente asignada -> Se envia correo a alumnos desde modelo
     @confirmed_class.update(assigned: true)
+    redirect_to(@confirmed_class)
   end
 
   def answer_teaching_assistant_no
     @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
     # Clase no pudo asignarse -> Se busca un nuevo ayudante desde modelo
     @confirmed_class.destroy
+    redirect_to(controller: 'welcome', action: 'index')
   end
 
   # TODO: Que pasa si el alumno dice que si

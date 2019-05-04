@@ -4,9 +4,9 @@ class ConfirmedClassMailer < ApplicationMailer
 	def ask_teaching_assistant(confirmed_class)
 		# Email to ask TAs for a CC
 		@confirmed_class = confirmed_class
-		teaching_assistant = @confirmed_class.teaching_assistant
+		@teaching_assistant = @confirmed_class.teaching_assistant
 		m = mail(
-			to: teaching_assistant.email,
+			to: @teaching_assistant.email,
 			subject: "[GoIng] Clase asignada",
 			content_type: "text/html",
 		)
@@ -17,16 +17,13 @@ class ConfirmedClassMailer < ApplicationMailer
 	def confirm_class_to_participants(confirmed_class)
 		# Email to notify students of a CC
 		@confirmed_class = confirmed_class
-		mails = @confirmed_class.requests.map(&:participants_mails).flatten(1)
-		mails.each do |mail|
-			m = mail(
-				to: mail,
-				subject: "[GoIng] Confirma tu clase!",
-				content_type: "text/html",
-			)
-			m.transport_encoding = "base64"
-			m.deliver
-		end
+		m = mail(
+			to: @confirmed_class.participants_mails,
+			subject: "[GoIng] Clase aceptada!",
+			content_type: "text/html",
+		)
+		m.transport_encoding = "base64"
+		m.deliver
 	end
 
 	# def classmates_email_to_participant
