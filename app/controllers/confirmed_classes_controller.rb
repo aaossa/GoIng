@@ -15,12 +15,17 @@ class ConfirmedClassesController < ApplicationController
     redirect_to(controller: 'welcome', action: 'index')
   end
 
-  # TODO: Que pasa si el alumno dice que si
   def answer_student_yes
+    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
+    # Clase confirmada -> Se le avisa a ayudante desde modelo
+    @confirmed_class.update(confirmed: true)
+    redirect_to(@confirmed_class)
   end
 
-  # TODO: Que pasa si el alumno dice que no
   def answer_student_no
+    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
+    # Actualizar contador o usar flash para mostrar el estado actual
+    redirect_to(@confirmed_class)
   end
 
   # GET /confirmed_classes

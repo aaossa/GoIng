@@ -26,16 +26,17 @@ class ConfirmedClassMailer < ApplicationMailer
 		m.deliver
 	end
 
-	# def classmates_email_to_participant
-	# 	# Email to notify a new confirmed participant of a CC
-	# 	@confirmed_class = params[:confirmed_class]
-	# 	m = mail(
-	# 		to: "aaossa@uc.cl", # TODO: Cambiar por estudiantes
-	# 		subject: "[GoIng] Compañeros de clase",
-	# 		content_type: "text/html",
-	# 	)
-	# 	m.transport_encoding = "base64"
-	# 	m.deliver
-	# end
+	def confirm_class_to_teaching_assistant(confirmed_class)
+		# Email to confirm CC to TA
+		@confirmed_class = confirmed_class
+		@teaching_assistant = @confirmed_class.teaching_assistant
+		m = mail(
+			to: @teaching_assistant.email,
+			subject: "[GoIng] Clase confirmada",
+			content_type: "text/html",
+		)
+		m.transport_encoding = "base64"
+		m.deliver
+	end
 
 end
