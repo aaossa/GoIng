@@ -12,7 +12,7 @@ class ConfirmedClass < ApplicationRecord
     before_validation :mark_requests_as_active, on: :create
 	after_save :mark_requests_as_assigned, if: :saved_change_to_assigned?
 	after_save :send_confirmation_to_participants, if: :saved_change_to_assigned?
-	after_save :send_confirmation_to_teaching_assistant, if: :saved_change_to_confirmed?
+	after_save :send_information_to_teaching_assistant_and_participants, if: :saved_change_to_confirmed?
 	after_create :send_question_to_teaching_assistant
 	after_destroy :process_requests_again
 
@@ -35,9 +35,10 @@ class ConfirmedClass < ApplicationRecord
 			ConfirmedClassMailer.confirm_class_to_participants(self).deliver_later
 		end
 
-		def send_confirmation_to_teaching_assistant
+		def send_information_to_teaching_assistant_and_participants
 			return unless self.confirmed
 			ConfirmedClassMailer.confirm_class_to_teaching_assistant(self).deliver_later
+			ConfirmedClassMailer.send_information_to_participants(self).deliver_later
 		end
 
 	private

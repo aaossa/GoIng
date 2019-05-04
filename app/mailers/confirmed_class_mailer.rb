@@ -39,4 +39,17 @@ class ConfirmedClassMailer < ApplicationMailer
 		m.deliver
 	end
 
+	def send_information_to_participants(confirmed_class)
+		# Email to send TA information to participants of a CC
+		@confirmed_class = confirmed_class
+		@teaching_assistant = @confirmed_class.teaching_assistant
+		m = mail(
+			to: @confirmed_class.participants_mails,
+			subject: "[GoIng] Clase confirmada!",
+			content_type: "text/html",
+		)
+		m.transport_encoding = "base64"
+		m.deliver
+	end
+
 end
