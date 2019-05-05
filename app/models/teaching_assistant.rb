@@ -10,6 +10,8 @@ class TeachingAssistant < ApplicationRecord
   	validates :name, presence: true, length: { minimum: 5 }
 	validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP } 
 	validates :phone_number, presence: true, numericality: true, length: { minimum: 8, maximum: 12 }
+	after_create :check_if_teaching_assistant_is_user
+	after_destroy :switch_back_teaching_assistant_to_user
 
 	def self.unassigned_at(course, preference)
 		# TAs of this course with this time block available
@@ -25,4 +27,18 @@ class TeachingAssistant < ApplicationRecord
 	    # Final list
 	    h = g & e
 	end
+
+	protected
+
+		def check_if_teaching_assistant_is_user
+			ta_as_user = User.find_by(google_email: self.email)
+			return if ta_as_user.nil?
+			ta_as_user.update(role: :teaching_assistant)
+		end
+
+		def switch_back_teaching_assistant_to_user
+			ta_as_user = User.find_by(google_email: self.email)
+			return if ta_as_user.nil?
+			ta_as_user.update(role: :student)
+		end
 end
