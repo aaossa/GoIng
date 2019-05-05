@@ -1,4 +1,5 @@
 class ConfirmedClassesController < ApplicationController
+  load_and_authorize_resource
   before_action :set_confirmed_class, only: [:show, :edit, :update, :destroy]
 
   def answer_teaching_assistant_yes
@@ -31,7 +32,6 @@ class ConfirmedClassesController < ApplicationController
   # GET /confirmed_classes
   # GET /confirmed_classes.json
   def index
-    @confirmed_classes = ConfirmedClass.all
   end
 
   # GET /confirmed_classes/1

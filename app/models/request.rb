@@ -39,6 +39,11 @@ class Request < ApplicationRecord
 		"#{course.name}: #{contents} (#{preferences.map(&:display_preference).as_json})"
 	end
 
+	def display_status
+		return "Inactive request" if self.confirmed_class.nil?
+		self.confirmed_class.display_status
+	end
+
 	protected
 
 	    def send_mail_to_participants

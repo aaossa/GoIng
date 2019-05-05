@@ -24,6 +24,16 @@ class ConfirmedClass < ApplicationRecord
 		self.requests.map(&:participants_mails).flatten(1)
 	end
 
+	def display_status
+		if !self.assigned
+			"TA has to confirm"
+		elsif !self.confirmed
+			"TA confirmed, participants have to confirm"
+		else
+			"TA and students confirmed"
+		end
+	end
+
 	protected
 
 		def send_question_to_teaching_assistant

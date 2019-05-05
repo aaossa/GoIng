@@ -1,10 +1,14 @@
 class RequestsController < ApplicationController
+	load_and_authorize_resource
+	skip_load_resource only: :create
+
 	def index
+		# This can be improved or removed
 		course_param = params.fetch(:course, "")
 		@requests = unless course_param.empty?
-			Request.where(course_id: course_param)
+			@requests.where(course_id: course_param)
 	    else
-	    	Request.all
+	    	@requests
 	    end
 	end
 

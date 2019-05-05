@@ -22,15 +22,28 @@
   <%= link_to @request.course.name, course_path(@request.course) %>
 </p>
 
+<% unless current_user.role?(:student) %>
+<p>
+  <strong>Status:</strong>
+  <% if @request.confirmed_class %>
+    <%= link_to @request.display_status, @request.confirmed_class %>
+  <% else %>
+    <%= @request.display_status %>
+  <% end %>
+</p>
+<% end %>
+
 <p><strong>Preferences:</strong></p>
 <ol>
   <% @request.preferences.each do |preference| %>
     <li><%= preference.display_preference %>
+      <% if current_user.role?(:admin) %>
       <ol>
         <% preference.candidates(@request.course).each do |teaching_assistant| %>
           <li><%= link_to teaching_assistant.name, teaching_assistant_path(teaching_assistant) %></li>
         <% end %>
       </ol>
+      <% end %>
     </li>
   <% end %>
 </ol>

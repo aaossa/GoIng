@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-	has_one :identity
+	has_one :identity, dependent: :destroy
 	has_many :requests
 
 	validates_presence_of :google_name

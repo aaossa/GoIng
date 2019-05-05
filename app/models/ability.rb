@@ -4,31 +4,39 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    # Define abilities for the passed in user here. For example:
-    #
-    #   user ||= User.new # guest user (not logged in)
-    #   if user.admin?
-    #     can :manage, :all
-    #   else
-    #     can :read, :all
-    #   end
-    #
-    # The first argument to `can` is the action you are giving the user
-    # permission to do.
-    # If you pass :manage it will apply to every action. Other common actions
-    # here are :read, :create, :update and :destroy.
-    #
-    # The second argument is the resource the user can perform the action on.
-    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-    # class of the resource.
-    #
-    # The third argument is an optional hash of conditions to further filter the
-    # objects.
-    # For example, here the user can only update published articles.
-    #
-    #   can :update, Article, :published => true
-    #
-    # See the wiki for details:
-    # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+    # Root of web app
+    can :index, WelcomeController
+    # Email callbacks/routes
+    can :answer_student_yes, ConfirmedClass
+    can :answer_student_no, ConfirmedClass
+    can :answer_teaching_assistant_yes, ConfirmedClass
+    can :answer_teaching_assistant_no, ConfirmedClass
+    can :show, ConfirmedClass
+    # Available courses (?)
+    can :index, Course
+    # Sessions
+    can [:create, :failure], SessionsController
+    return if user.nil?
+    if user.role?(:admin)
+        # Admin can manage everything
+        can :manage, :all
+    elsif user.role?(:teaching_assistant)
+        # TA can see assigned classes
+        can :index, ConfirmedClass, teaching_assistant: { email: user.google_email }
+        # TA can see each course
+        can [:show], Course
+        # TA can see every TA...
+        can [:index, :show], TeachingAssistant
+        # ... but can only change its own details
+        can [:edit, :update], TeachingAssistant, email: user.google_email
+        # Sessions
+        can [:destroy], SessionsController
+    elsif user.role?(:student)
+        can [:show], Course # Maybe teaching assistants
+        # Students can manage their own requests (except destroy and update)
+        can [:create, :index, :new, :show], Request, user_id: user.id
+        # Sessions
+        can [:destroy], SessionsController
+    end
   end
 end

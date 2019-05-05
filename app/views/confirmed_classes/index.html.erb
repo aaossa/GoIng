@@ -5,8 +5,12 @@
 <table>
   <thead>
     <tr>
+      <% unless current_user.role?(:teaching_assistant) %>
       <th>Teaching assistant</th>
+      <% end %>
+      <th>Course</th>
       <th>Preference</th>
+      <th>Status</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -14,11 +18,21 @@
   <tbody>
     <% @confirmed_classes.each do |confirmed_class| %>
       <tr>
-        <td><%= confirmed_class.teaching_assistant.name %></td>
+        <% unless current_user.role?(:teaching_assistant) %>
+          <% unless confirmed_class.teaching_assistant.nil? %>
+          <td><%= confirmed_class.teaching_assistant.name %></td>
+          <% else %>
+          <td>No asignado / Eliminado</td>
+          <% end %>
+        <% end %>
+        <td><%= confirmed_class.course.name %></td>
         <td><%= confirmed_class.preference.display_preference %></td>
+        <td><%= confirmed_class.display_status %></td>
         <td><%= link_to 'Show', confirmed_class %></td>
+        <% if can? :manage, ConfirmedClass %>
         <td><%= link_to 'Edit', edit_confirmed_class_path(confirmed_class) %></td>
         <td><%= link_to 'Destroy', confirmed_class, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
@@ -26,5 +40,7 @@
 
 <br>
 
+<% if can? :new, ConfirmedClass %>
 <%= link_to 'New Confirmed Class', new_confirmed_class_path %>
+<% end %>
 <%= link_to 'Back', root_path %>

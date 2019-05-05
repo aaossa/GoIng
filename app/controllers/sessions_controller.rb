@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+	authorize_resource class: SessionsController
+
 	def create
 		auth = request.env['omniauth.auth']
 		unless @auth = Identity.find_from_hash(auth)
