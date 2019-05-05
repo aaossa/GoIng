@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_04_115726) do
+ActiveRecord::Schema.define(version: 2019_05_05_061216) do
 
   create_table "confirmed_classes", force: :cascade do |t|
     t.integer "teaching_assistant_id"
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 2019_05_04_115726) do
     t.string "google_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "role", default: "student"
   end
 
 end

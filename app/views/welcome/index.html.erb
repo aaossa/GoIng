@@ -2,28 +2,48 @@
 
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Create request', new_request_path %>
-<%= link_to 'List requests', controller: 'requests' %>
+<% if can? :new, Request %>
+	<%= link_to 'Create request', new_request_path %>
+<% end %>
+<% if can? :index, Request %>
+	<%= link_to 'List requests', controller: 'requests' %>
+<% end %>
 
 <br>
 
-<%= link_to 'Create course', new_course_path %>
-<%= link_to 'List courses', controller: 'courses' %>
+<% if can? :new, Course %>
+	<%= link_to 'Create course', new_course_path %>
+<% end %>
+<% if can? :index, Course %>
+	<%= link_to 'List courses', controller: 'courses' %>
+<% end %>
 
 <br>
 
-<%= link_to 'Create teaching assistant', new_teaching_assistant_path %>
-<%= link_to 'List teaching assistants', controller: 'teaching_assistants' %>
+<% if can? :new, TeachingAssistant %>
+	<%= link_to 'Create teaching assistant', new_teaching_assistant_path %>
+<% end %>
+<% if can? :index, TeachingAssistant %>
+	<%= link_to 'List teaching assistants', controller: 'teaching_assistants' %>
+<% end %>
 
 <br>
 
-<%= link_to 'Create time block', new_time_block_path %>
-<%= link_to 'List time blocks', controller: 'time_blocks' %>
+<% if can? :new, TimeBlock %>
+	<%= link_to 'Create time block', new_time_block_path %>
+<% end %>
+<% if can? :index, TimeBlock %>
+	<%= link_to 'List time blocks', controller: 'time_blocks' %>
+<% end %>
 
 <br>
 
-<%= link_to 'Create confirmed class', new_confirmed_class_path %>
-<%= link_to 'List confirmed classes', controller: 'confirmed_classes' %>
+<% if can? :new, ConfirmedClass %>
+	<%= link_to 'Create confirmed class', new_confirmed_class_path %>
+<% end %>
+<% if can? :index, ConfirmedClass %>
+	<%= link_to 'List confirmed classes', controller: 'confirmed_classes' %>
+<% end %>
 
 <br>
 

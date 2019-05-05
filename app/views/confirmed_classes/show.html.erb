@@ -6,13 +6,8 @@
 </p>
 
 <p>
-  <strong>Assigned:</strong>
-  <%= @confirmed_class.assigned %>
-</p>
-
-<p>
-  <strong>Confirmed:</strong>
-  <%= @confirmed_class.confirmed %>
+  <strong>Status:</strong>
+  <%= @confirmed_class.display_status %>
 </p>
 
 <p>
@@ -23,10 +18,15 @@
 <p><strong>Requests:</strong></p>
 <ul>
   <% @confirmed_class.requests.each do |request| %>
-    <li><%= link_to request.contents, request_path(request) %> (<%= request.active %>, <%= request.assigned %>, <%= request.completed %>)</li>
+    <% if can? :show, Request %>
+    <li><%= link_to request.contents, request_path(request) %></li>
+    <% else %>
+    <li><%= request.contents %></li>
+    <% end %>
   <% end %>
 </ul>
 
-<%# button_to 'Send email to TA', confirmed_class_contact_teaching_assistant_path(@confirmed_class) %> |
-<%= link_to 'Edit', edit_confirmed_class_path(@confirmed_class) %> |
+<% if can? :edit, ConfirmedClass %>
+<%= link_to 'Edit', edit_confirmed_class_path(@confirmed_class) %>
+<% end %>
 <%= link_to 'Back', confirmed_classes_path %>

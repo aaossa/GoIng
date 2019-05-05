@@ -17,4 +17,9 @@ class ApplicationController < ActionController::Base
     @current_user = user
     session[:user_id] = user ? user.id : nil
   end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:warning] = exception.message
+    redirect_to root_path
+  end
 end

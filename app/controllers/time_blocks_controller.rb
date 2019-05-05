@@ -1,4 +1,6 @@
 class TimeBlocksController < ApplicationController
+  load_and_authorize_resource
+
   before_action :set_time_block, only: [:show, :edit, :update, :destroy]
 
   # GET /time_blocks

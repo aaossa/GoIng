@@ -4,10 +4,18 @@
   <tr>
     <th>Participants</th>
     <th>Contents</th>
+    <% unless current_user.role?(:student) %>
     <th>User</th>
+    <% end %>
     <th>Course</th>
     <th>Preferences</th>
+    <% unless current_user.role?(:student) %>
+    <th>Status</th>
+    <% end %>
     <th></th>
+    <% if can? :destroy, Request %>
+    <th></th>
+    <% end %>
   </tr>
  
   <% @requests.each do |request| %>
@@ -20,7 +28,9 @@
         </ol>
       </td>
       <td><%= request.contents %></td>
+      <% unless current_user.role?(:student) %>
       <td><%= request.user.google_email %></td>
+      <% end %>
       <td><%= request.course.name %></td>
       <td>
         <ol>
@@ -29,13 +39,20 @@
           <% end %>
         </ol>
       </td>
+      <% unless current_user.role?(:student) %>
+      <td><%= request.display_status %></td>
+      <% end %>
       <td><%= link_to 'Show', request_path(request) %></td>
+      <% if can? :destroy, Request %>
       <td><%= link_to 'Destroy', request_path(request),
               method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
     </tr>
   <% end %>
 </table>
 
+<% if can? :new, Request %>
 <%= link_to 'New Request', new_request_path %>
+<% end %>
 <%= link_to 'Back', root_path %>
