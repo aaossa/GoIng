@@ -10,7 +10,7 @@ function updateFromCourse() {
 				course: $("#course").find(":selected").val()
 			}
 		}),
-		url: "/time_blocks",
+		url: "/modulos/opciones",
 		success: function(json) {
 			$("#second_preference").append('<option value="">');
 			$("#third_preference").append('<option value="">');
@@ -43,7 +43,7 @@ function updateFromTimeBlock(preference) {
 	$.ajax({
 		type: "GET",
 		dataType: "json",
-		url: "/courses/" + $("#course").find(":selected").val(),
+		url: "/cursos/" + $("#course").find(":selected").val(),
 		success: function(json) {
 			if (preference === 1) {
 				$.each(json["available_dates"], function(key, value) {

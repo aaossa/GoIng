@@ -1,51 +1,71 @@
 <%= form_with(model: teaching_assistant, local: true) do |form| %>
-  <% if teaching_assistant.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(teaching_assistant.errors.count, "error") %> prohibited this teaching_assistant from being saved:</h2>
-
-      <ul>
-      <% teaching_assistant.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+    <!-- Errors explanation -->
+    <% if teaching_assistant.errors.any? %>
+        <%= errors_for(teaching_assistant, "tu petición") %>
+    <% end %>
+    <!-- Name -->
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <%= form.label :name, "Nombre", class: "col-md-2 col-form-label text-center" %>
+        <div class="col-md-6">
+            <%= form.text_field(:name, { class: "form-control", placeholder: "Nombre ayudante" }) %>
+        </div>
+        <div class="col-md-2"></div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :email %>
-    <%= form.text_field :email %>
-  </div>
-
-  <div class="field">
-    <%= form.label :phone_number %>
-    <%= form.telephone_field :phone_number %>
-  </div>
-
-  <div class="field">
-    <%= form.label :courses %>
-    <%= form.collection_check_boxes(:course_ids, Course.all, :id, :name) do |course| %>
-      <%= course.label class: "label-checkbox" do %>
-        <%= course.check_box + course.text %>
-      <% end %>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= form.label :time_blocks %>
-    <%= form.collection_check_boxes(:time_block_ids, TimeBlock.all, :id, :display_block) do |tb| %>
-      <%= tb.label class: "label-checkbox" do %>
-        <%= tb.check_box + tb.text %>
-      <% end %>
-    <% end %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-
+    <!-- Email -->
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <%= form.label :email, "Correo", class: "col-md-2 col-form-label text-center" %>
+        <div class="col-md-6">
+            <%= form.email_field(:email, { class: "form-control", placeholder: "Correo ayudante" }) %>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <!-- Phone number -->
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <%= form.label :phone_number, "Celular", class: "col-md-2 col-form-label text-center" %>
+        <div class="col-md-6">
+            <%= form.telephone_field(:phone_number, { class: "form-control", placeholder: "Celular ayudante" }) %>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <!-- Courses -->
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <%= form.label :courses, "Cursos", class: "col-md-2 col-form-label text-center" %>
+        <div class="col-md-6">
+            <%= form.collection_check_boxes(:course_ids, Course.all, :id, :name, { class: "col-md-6" } ) do |course| %>
+                <div class="form-check">
+                <%= course.label(class: "form-check-label") do %>
+                    <%= course.check_box(class: "form-check-input") + course.text %>
+                <% end %>
+                </div>
+            <% end %>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <!-- Time blocks -->
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <%= form.label :time_blocks, "Módulos", class: "col-md-2 col-form-label text-center" %>
+        <div class="col-md-6">
+            <%= form.collection_check_boxes(:time_block_ids, TimeBlock.all, :id, :display_block, { class: "col-md-6" } ) do |tb| %>
+                <div class="form-check">
+                <%= tb.label(class: "form-check-label") do %>
+                    <%= tb.check_box(class: "form-check-input") + tb.text %>
+                <% end %>
+                </div>
+            <% end %>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <!-- Submit -->
+    <div class="form-actions">
+        <div class="col-auto">
+            <%= button_tag(class: "btn btn-primary btn-lg") do %>
+            <span class="fa fa-glasses"></span> Guardar ayudante
+            <% end %>
+        </div>
+    </div>
 <% end %>

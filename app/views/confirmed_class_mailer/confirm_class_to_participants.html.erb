@@ -1,23 +1,28 @@
 <%# encoding: utf-8 -%>
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
+</head>
+
+<body>
     <h1><b>[GoIng]</b> Clase aceptada</h1>
-
     <p>Hola!</p>
-
-    <p>Te informamos que la clase solicitada de <%= @confirmed_class.course.name %> para el <%= @confirmed_class.preference.display_preference %> ha sido aceptada por un ayudante. Entre ustedes (<%= @confirmed_class.participants_mails.to_sentence(last_word_connector: ' y ') %>) deben buscar un lugar en común, como la biblioteca o una sala de estudio, para juntarse con el ayudante en la fecha acordada.</p>
-
+    <p>Te informamos que la clase solicitada de
+        <%= @confirmed_class.course.name %> para el
+        <%= @confirmed_class.preference.display_preference %> ha sido aceptada por un ayudante. Entre ustedes (
+        <%= @confirmed_class.participants_mails.to_sentence(last_word_connector: ' y ') %>) deben buscar un lugar en común, como la biblioteca o una sala de estudio, para juntarse con el ayudante en la fecha acordada.</p>
     <p>Para poder enviarles el correo del ayudante, deben confirmar que recibieron este correo y que siguen necesitando la clase. Si no recibimos respuesta dentro de las próximas 24 horas, asumiremos que ya no desean tener la clase.</p>
-
     <p>Esperamos su respuesta atentamente, saludos!</p>
-
     <ul>
-      <li><%= link_to "Sí, aun quiero la clase", confirmed_class_student_yes_url(@confirmed_class) %></li>
-      <li><%= link_to "No, ya no quiero la clase", confirmed_class_student_no_url(@confirmed_class) %></li>
+        <li>
+            <%= link_to "Sí, aun quiero la clase", confirmed_class_alumnos_si_url(@confirmed_class) %>
+        </li>
+        <li>
+            <%= link_to "No, ya no quiero la clase", confirmed_class_alumnos_no_url(@confirmed_class) %>
+        </li>
     </ul>
-  </body>
-</html> 
+</body>
+
+</html>

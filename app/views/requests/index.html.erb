@@ -1,58 +1,68 @@
-<h1>Listing requests</h1>
- 
-<table>
-  <tr>
-    <th>Participants</th>
-    <th>Contents</th>
-    <% unless current_user.role?(:student) %>
-    <th>User</th>
-    <% end %>
-    <th>Course</th>
-    <th>Preferences</th>
-    <% unless current_user.role?(:student) %>
-    <th>Status</th>
-    <% end %>
-    <th></th>
-    <% if can? :destroy, Request %>
-    <th></th>
-    <% end %>
-  </tr>
- 
-  <% @requests.each do |request| %>
-    <tr>
-      <td>
-        <ol>
-          <% request.participants_mails.each do |participant_email| %>
-            <li><%= participant_email %></li>
-          <% end %>
-        </ol>
-      </td>
-      <td><%= request.contents %></td>
-      <% unless current_user.role?(:student) %>
-      <td><%= request.user.google_email %></td>
-      <% end %>
-      <td><%= request.course.name %></td>
-      <td>
-        <ol>
-          <% request.preferences.each do |preference| %>
-            <li><%= preference.display_preference %></li>
-          <% end %>
-        </ol>
-      </td>
-      <% unless current_user.role?(:student) %>
-      <td><%= request.display_status %></td>
-      <% end %>
-      <td><%= link_to 'Show', request_path(request) %></td>
-      <% if can? :destroy, Request %>
-      <td><%= link_to 'Destroy', request_path(request),
-              method: :delete,
-              data: { confirm: 'Are you sure?' } %></td>
-      <% end %>
-    </tr>
-  <% end %>
-</table>
+<div class="container text-center">
+    <h1 class="mt-5">Peticiones recibidas</h1>
+    <p class="lead">Estas son las solicitudes de clase que han realizado alumnos en la plataforma</p>
+</div>
 
-<% if can? :new, Request %>
-<%= link_to 'New Request', new_request_path %>
-<% end %>
-<%= link_to 'Back', root_path %>
+<div class="container text-center">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Curso</th>
+                <th>Contenidos</th>
+                <th>Alumnos</th>
+                <% unless current_user.role?(:student) %>
+                <th>Estado</th>
+                <% end %>
+                <th>Fechas</th>
+                <% unless can? :destroy, Request %>
+                <th>Acciones</th>
+                <% else %>
+                <th colspan="2">Acciones</th>
+                <% end %>
+            </tr>
+        </thead>
+        <tbody>
+            <% @requests.each do |request| %>
+            <tr>
+                <th scope="row">
+                    <%= request.course.name %>
+                </th>
+                <td>
+                    <%= request.contents %>
+                </td>
+                <td>
+                    <%= request.participants_mails.length %>
+                </td>
+                <% unless current_user.role?(:student) %>
+                <td>
+                    <%= request.display_status %>
+                </td>
+                <% end %>
+                <td>
+                    <ol>
+                        <% request.preferences.each do |preference| %>
+                        <li>
+                            <%= preference.display_preference %>
+                        </li>
+                        <% end %>
+                    </ol>
+                </td>
+                <td>
+                    <%= link_to('Ver', request_path(request)) %>
+                </td>
+                <% if can? :destroy, Request %>
+                <td>
+                    <%= link_to('Eliminar', request, method: :delete, data: { confirm: '¿Estás segur@?' }) %>
+                </td>
+                <% end %>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <% if can? :new, Request %>
+        <%= link_to('Pedir una clase', new_request_path, { class: "btn btn-primary" }) %>
+    <% end %>
+</div>

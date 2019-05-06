@@ -2,6 +2,7 @@ class ConfirmedClassesController < ApplicationController
   load_and_authorize_resource
   before_action :set_confirmed_class, only: [:show, :edit, :update, :destroy]
 
+  # GET /clases/:id/ayudantes/si
   def answer_teaching_assistant_yes
     @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
     # Clase exitosamente asignada -> Se envia correo a alumnos desde modelo
@@ -9,6 +10,7 @@ class ConfirmedClassesController < ApplicationController
     redirect_to(@confirmed_class)
   end
 
+  # GET /clases/:id/ayudantes/no
   def answer_teaching_assistant_no
     @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
     # Clase no pudo asignarse -> Se busca un nuevo ayudante desde modelo
@@ -16,6 +18,7 @@ class ConfirmedClassesController < ApplicationController
     redirect_to(controller: 'welcome', action: 'index')
   end
 
+  # GET /clases/:id/alumnos/si
   def answer_student_yes
     @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
     # Clase confirmada -> Se le avisa a ayudante desde modelo
@@ -23,33 +26,28 @@ class ConfirmedClassesController < ApplicationController
     redirect_to(@confirmed_class)
   end
 
+  # GET /clases/:id/alumnos/no
   def answer_student_no
     @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
     # Actualizar contador o usar flash para mostrar el estado actual
     redirect_to(@confirmed_class)
   end
 
-  # GET /confirmed_classes
-  # GET /confirmed_classes.json
+  # GET /clases
   def index
   end
 
-  # GET /confirmed_classes/1
-  # GET /confirmed_classes/1.json
+  # GET /clases/:id
   def show
+    @teaching_assistant = @confirmed_class.teaching_assistant
   end
 
-  # GET /confirmed_classes/new
+  # GET /clases/new
   def new
     @confirmed_class = ConfirmedClass.new
   end
 
-  # GET /confirmed_classes/1/edit
-  def edit
-  end
-
-  # POST /confirmed_classes
-  # POST /confirmed_classes.json
+  # POST /clases
   def create
     @confirmed_class = ConfirmedClass.new(confirmed_class_params)
 
@@ -61,30 +59,6 @@ class ConfirmedClassesController < ApplicationController
         format.html { render :new }
         format.json { render json: @confirmed_class.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # PATCH/PUT /confirmed_classes/1
-  # PATCH/PUT /confirmed_classes/1.json
-  def update
-    respond_to do |format|
-      if @confirmed_class.update(confirmed_class_params)
-        format.html { redirect_to @confirmed_class, notice: 'Confirmed class was successfully updated.' }
-        format.json { render :show, status: :ok, location: @confirmed_class }
-      else
-        format.html { render :edit }
-        format.json { render json: @confirmed_class.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /confirmed_classes/1
-  # DELETE /confirmed_classes/1.json
-  def destroy
-    @confirmed_class.destroy
-    respond_to do |format|
-      format.html { redirect_to confirmed_classes_url, notice: 'Confirmed class was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

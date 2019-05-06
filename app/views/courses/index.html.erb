@@ -1,35 +1,42 @@
-<p id="notice"><%= notice %></p>
+<div class="container text-center">
+    <h1 class="mt-5">Cursos disponibles</h1>
+    <p class="lead">Estos son los cursos en los que te podemos entregar ayuda, si pides una clase particular, a través de nuestros voluntarios y voluntarias</p>
+</div>
 
-<h1>Courses</h1>
+<div class="container text-center">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Curso</th>
+                <% if !current_user.nil? && current_user.role?(:admin) %>
+                    <th colspan="2">Acciones</th>
+                <% end %>
+            </tr>
+        </thead>
+        <tbody>
+            <% @courses.each do |course| %>
+            <tr>
+                <% if can? :show, Course %>
+                    <th scope="row"><%= link_to course.name, course %></th>
+                <% else %>
+                    <th scope="row"><%= course.name %></th>
+                <% end %>
+                <% if !current_user.nil? && current_user.role?(:admin) %>
+                    <td>
+                        <%= link_to('Editar', edit_course_path(course)) %>
+                    </td>
+                    <td>
+                        <%= link_to('Eliminar', course, method: :delete, data: { confirm: '¿Estás segur@?' }) %>
+                    </td>
+                <% end %>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @courses.each do |course| %>
-      <tr>
-        <% if can? :show, Course %>
-          <td><%= link_to course.name, course %></td>
-        <% else %>
-          <td><%= course.name %></td>
-        <% end %>
-        <% if !current_user.nil? && current_user.role?(:admin) %>
-          <td><%= link_to 'Edit', edit_course_path(course) %></td>
-          <td><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
-      </tr>
+<div class="container">
+    <% if can? :new, Course %>
+        <%= link_to('Agregar curso', new_course_path, { class: "btn btn-primary" }) %>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<% if can? :new, Course %>
-<%= link_to 'New Course', new_course_path %>
-<% end %>
-<%= link_to 'Back', root_path %>
+</div>

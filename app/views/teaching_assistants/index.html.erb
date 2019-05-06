@@ -1,41 +1,54 @@
-<p id="notice"><%= notice %></p>
+<div class="container text-center">
+    <h1 class="mt-5">Ayudantes</h1>
+    <p class="lead">Este es el equipo con el que contamos para este semestre</p>
+</div>
 
-<h1>Teaching Assistants</h1>
+<div class="container text-center">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th>Correo</th>
+                <% if current_user.role?(:admin) %>
+                <th>Celular</th>
+                <th colspan="3">Acciones</th>
+                <% end %>
+            </tr>
+        </thead>
+        <tbody>
+            <% @teaching_assistants.each do |teaching_assistant| %>
+            <tr>
+                <% if can? :show, TeachingAssistant %>
+                <th scope="row">
+                    <%= link_to(teaching_assistant.name, teaching_assistant) %>
+                </th>
+                <% else %>
+                <th scope="row">
+                    <%= teaching_assistant.name %>
+                </th>
+                <% end %>
+                <td>
+                    <%= teaching_assistant.email %>
+                </td>
+                <% if current_user.role?(:admin) %>
+                <td>
+                    <%= number_to_phone(teaching_assistant.phone_number, delimiter: " ") %>
+                </td>
+                <td>
+                    <%= link_to('Editar', edit_teaching_assistant_path(teaching_assistant)) %>
+                </td>
+                <td>
+                    <%= link_to('Eliminar', teaching_assistant, method: :delete, data: { confirm: '¿Estás segur@?' }) %>
+                </td>
+                <% end %>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Email</th>
-      <% if current_user.role?(:admin) %>
-      <th>Phone number</th>
-      <th colspan="3"></th>
-      <% end %>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @teaching_assistants.each do |teaching_assistant| %>
-      <tr>
-        <% if can? :show, TeachingAssistant %>
-        <td><%= link_to teaching_assistant.name, teaching_assistant %></td>
-        <% else %>
-        <td><%= teaching_assistant.name %></td>
-        <% end %>
-        <td><%= teaching_assistant.email %></td>
-        <% if current_user.role?(:admin) %>
-        <td><%= number_to_phone(teaching_assistant.phone_number, delimiter: " ") %></td>
-        <td><%= link_to 'Edit', edit_teaching_assistant_path(teaching_assistant) %></td>
-        <td><%= link_to 'Destroy', teaching_assistant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
-      </tr>
+<div class="container">
+    <% if can? :new, Request %>
+        <%= link_to('Agregar ayudante', new_teaching_assistant_path, { class: "btn btn-primary" }) %>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<% if can? :new, TeachingAssistant %>
-<%= link_to 'New Teaching Assistant', new_teaching_assistant_path %>
-<% end %>
-<%= link_to 'Back', root_path %>
+</div>

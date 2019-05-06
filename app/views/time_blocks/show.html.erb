@@ -1,25 +1,35 @@
-<p id="notice"><%= notice %></p>
+<div class="container text-center">
+    <h1 class="mt-5"><%= @time_block.display_block %></h1>
+    <p class="lead">El mejor momento posible para hacer una clase de GoIng</p>
+</div>
 
-<p><strong>Day:</strong> <%= @time_block.display_day %></p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p><strong>Ayudantes</strong> que pueden hacer una clase en este módulo</p>
+            <ul>
+                <% @time_block.teaching_assistants.each do |teaching_assistant| %>
+                <li>
+                    <%= link_to(teaching_assistant.name, teaching_assistant) %>
+                </li>
+                <% end %>
+            </ul>
+        </div>
+        <div class="col">
+            <p>Los <strong>cursos</strong> que están disponibles este módulo<p>
+            <ul>
+                <% @time_block.available_courses.each do |course| %>
+                <li>
+                    <%= link_to course.name, course_path(course) %>
+                </li>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+</div>
 
-<p><strong>Start:</strong> <%= @time_block.display_start %></p>
-
-<p><strong>Finish:</strong> <%= @time_block.display_finish %></p>
-
-<p><strong>Teaching assistants:</strong></p>
-<ul>  
-  <% @time_block.teaching_assistants.each do |teaching_assistant| %>
-    <li><%= link_to teaching_assistant.name, teaching_assistant_path(teaching_assistant) %></li>
-  <% end %>
-</ul>
-
-<p><strong>Available courses:</strong></p>
-<ul>  
-  <% @time_block.available_courses.each do |course| %>
-    <li><%= link_to course.name, course_path(course) %></li>
-  <% end %>
-</ul>
-
-
-<%= link_to 'Edit', edit_time_block_path(@time_block) %> |
-<%= link_to 'Back', time_blocks_path %>
+<div class="container">
+    <% if can? :edit, @time_block %>
+    <%= link_to('Editar módulo', edit_time_block_path(@time_block), { class: "btn btn-primary" }) %>
+    <% end %>
+</div>

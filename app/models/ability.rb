@@ -29,12 +29,18 @@ class Ability
         can [:index, :show], TeachingAssistant
         # ... but can only change its own details
         can [:edit, :update], TeachingAssistant, email: user.google_email
+        # TAs can manage their own requests (except destroy and update)
+        can [:create, :index, :new, :show], Request, user_id: user.id
+        # Available time blocks in form
+        can :options, TimeBlock
         # Sessions
         can [:destroy], SessionsController
     elsif user.role?(:student)
         can [:show], Course # Maybe teaching assistants
         # Students can manage their own requests (except destroy and update)
         can [:create, :index, :new, :show], Request, user_id: user.id
+        # Available time blocks in form
+        can :options, TimeBlock
         # Sessions
         can [:destroy], SessionsController
     end

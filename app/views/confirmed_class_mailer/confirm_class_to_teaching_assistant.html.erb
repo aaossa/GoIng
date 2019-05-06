@@ -1,17 +1,18 @@
 <%# encoding: utf-8 -%>
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
+</head>
+
+<body>
     <h1><b>[GoIng]</b> Clase confirmada</h1>
-
-    <p>Hola <%= @teaching_assistant.name %>!</p>
-
-    <p>Los alumnos han confirmado sus asistencias. Sus email de contacto son <%= @confirmed_class.participants_mails.to_sentence(last_word_connector: ' y ') %>, y ellos tienen la responsabilidad de comunicarse contigo. Si no toman la iniciativa no es tu responsabilidad comunicarte con ellos a menos que desees hacerlo.</p>
-
+    <p>Hola
+        <%= @teaching_assistant.name %>!</p>
+    <p>Los alumnos han confirmado sus asistencias. Sus email de contacto son
+        <%= @confirmed_class.participants_mails.to_sentence(last_word_connector: ' y ') %>, y ellos tienen la responsabilidad de comunicarse contigo. Si no toman la iniciativa no es tu responsabilidad comunicarte con ellos a menos que desees hacerlo.</p>
     <p>Esperamos que todo salga bien, si tienes cualquier problema no dudes en avisar. Saludos!</p>
+</body>
 
-  </body>
-</html> 
+</html>

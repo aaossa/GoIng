@@ -3,9 +3,7 @@ class TimeBlocksController < ApplicationController
 
   before_action :set_time_block, only: [:show, :edit, :update, :destroy]
 
-  # GET /time_blocks
-  # GET /time_blocks.json
-  def index
+  def options
     course_param = params.fetch(:time_block, {}).fetch(:course, "")
     unless course_param.empty?
       course = Course.find(course_param)
@@ -13,6 +11,11 @@ class TimeBlocksController < ApplicationController
     else
       @time_blocks = TimeBlock.all
     end
+  end
+
+  # GET /time_blocks
+  # GET /time_blocks.json
+  def index
   end
 
   # GET /time_blocks/1

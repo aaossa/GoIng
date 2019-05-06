@@ -5,7 +5,7 @@ function updateFromCourseCreate() {
 	$.ajax({
 		type: "GET",
 		dataType: "json",
-		url: "/courses/" + $("#course").find(":selected").val() + "/teaching_assistants",
+		url: "/cursos/" + $("#course").find(":selected").val() + "/ayudantes",
 		success: function(json) {
 			$.each(json, function(key, value) {
 				$("#confirmed_class_teaching_assistant_id").append(
@@ -17,7 +17,7 @@ function updateFromCourseCreate() {
 	$.ajax({
 		type: "GET",
 		dataType: "json",
-		url: "/requests",
+		url: "/peticiones",
 		data: $.param({
 			course: $("#course").find(":selected").val(),
 		}),

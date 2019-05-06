@@ -40,7 +40,7 @@ class Request < ApplicationRecord
 	end
 
 	def display_status
-		return "Inactive request" if self.confirmed_class.nil?
+		return "Inactiva" if self.confirmed_class.nil?
 		self.confirmed_class.display_status
 	end
 

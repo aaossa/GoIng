@@ -1,0 +1,57 @@
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container">
+            <%= link_to root_path, class: "navbar-brand" do %>
+                <span>Proyecto <b>GoIng</b></span>
+            <% end %>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <%= link_to('Cursos', { controller: 'courses' }, { class: "nav-link" }) %>
+                    </li>
+                    <% if signed_in? %>
+                    <li class="nav-item dropdown">
+                        <%= link_to("#", { class: "nav-link dropdown-toggle", id: "navbardrop", 'data-toggle':"dropdown" }) do %>
+                            Clases
+                        <% end %>
+                        <div class="dropdown-menu">
+                            <% if can? :new, Request %>
+                                <%= link_to('Pedir una clase', new_request_path, { class: "dropdown-item" }) %>
+                            <% end %>
+                            <% if can? :index, Request %>
+                                <%= link_to('Ver peticiones', { controller: 'requests' }, { class: "dropdown-item" }) %>
+                            <% end %>
+                            <% if can? :index, ConfirmedClass %>
+                                <%= link_to('Ver clases', { controller: 'confirmed_classes' }, { class: "dropdown-item" }) %>
+                            <% end %>
+                        </div>
+                    </li>
+                    <% end %>
+                    <% if can? :index, TeachingAssistant %>
+                        <%= link_to('Ayudantes', { controller: 'teaching_assistants' }, { class: "nav-link" }) %>
+                    <% end %>
+                    <% if can? :index, TimeBlock %>
+                        <%= link_to('Módulos', { controller: 'time_blocks' }, { class: "nav-link" }) %>
+                    <% end %>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <% if signed_in? %>
+                            <%= link_to(signout_path, { class: "nav-link", disabled: true}) do %>
+                                Salir (<%= current_user.google_email %>)
+                            <% end %>
+                        <% else %>
+                            <%= link_to("/auth/google", { class: "nav-link" }) do %>
+                                <span class="fa fa-google"></span> Ingresa con Google
+                            <% end %>
+                        <% end %>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -1,52 +1,41 @@
-<p>
-  <strong>Participants:</strong>
-  <ul>
-    <% @request.participants_mails.each do |participant_email| %>
-      <li><%= participant_email %></li>
-    <% end %>
-  </ul>
-</p>
+<div class="container text-center">
+    <h1 class="mt-5">Petición <%= @request.id %></h1>
+    <p class="lead">Un alumno o alumna solicitó esta clase</p>
+</div>
 
-<p>
-  <strong>Contents:</strong>
-  <%= @request.contents %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @request.user.google_email %>
-</p>
-
-<p>
-  <strong>Course:</strong>
-  <%= link_to @request.course.name, course_path(@request.course) %>
-</p>
-
-<% unless current_user.role?(:student) %>
-<p>
-  <strong>Status:</strong>
-  <% if @request.confirmed_class %>
-    <%= link_to @request.display_status, @request.confirmed_class %>
-  <% else %>
-    <%= @request.display_status %>
-  <% end %>
-</p>
-<% end %>
-
-<p><strong>Preferences:</strong></p>
-<ol>
-  <% @request.preferences.each do |preference| %>
-    <li><%= preference.display_preference %>
-      <% if current_user.role?(:admin) %>
-      <ol>
-        <% preference.candidates(@request.course).each do |teaching_assistant| %>
-          <li><%= link_to teaching_assistant.name, teaching_assistant_path(teaching_assistant) %></li>
-        <% end %>
-      </ol>
-      <% end %>
-    </li>
-  <% end %>
-</ol>
-
-
-<%= link_to 'Back', requests_path %>
+<div class="container">
+    <div class="row">
+        <div class="card text-white bg-dark" style="width: 100%;">
+            <div class="card-header">
+                Solicitada por <strong><%= @request.user.google_name %> (<%= mail_to(@request.user.google_email) %>)</strong>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title"><%= link_to(@request.course.name, course_path(@request.course)) %></h5>
+                <p class="card-text"><strong>Contenidos:</strong> <%= @request.contents %></p>
+                <% if @request.confirmed_class %>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    <strong>Estado:</strong> <%= link_to(@request.display_status, @request.confirmed_class, class: "card-link") %>
+                </h6>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Los <strong>alumnos</strong> de esta clase serían</p>
+            <ul>
+                <% @request.participants_mails.each do |participant_email| %>
+                <li><%= mail_to(participant_email) %></li>
+                <% end %>
+            </ul>
+        </div>
+        <div class="col">
+            <p>Las <strong>preferencias</strong> horarias de estos alumnos son</p>
+            <ol>
+                <% @request.preferences.each do |preference| %>
+                <li><%= preference.display_preference %></li>
+                <% end %>
+            </ol>
+        </div>
+    </div>
+</div>

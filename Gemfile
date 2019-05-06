@@ -33,8 +33,8 @@ gem 'jbuilder', '~> 2.5'
 
 # https://medium.com/@biancapower/how-to-add-bootstrap-4-to-a-rails-5-app-650118459a1e
 gem 'bootstrap', '~> 4.3.1'
-# gem 'jquery-rails'
-
+gem 'jquery-rails'
+gem 'font-awesome-rails'
 gem 'cancancan'
 
 # Reduces boot times through caching; required in config/boot.rb
