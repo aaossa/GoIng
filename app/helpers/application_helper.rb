@@ -12,7 +12,7 @@ module ApplicationHelper
                     end)
                     object.errors.full_messages.each do |msg|
                         concat(content_tag(:p, class: 'card-text') do
-                            concat msg
+                            concat msg.humanize
                         end)
                     end
                 end)

@@ -19,7 +19,7 @@ class TimeBlock < ApplicationRecord
     end
 
     def display_day
-    	Date::DAYNAMES[self[:day]]
+        I18n.t('date.day_names')[self[:day]]
     end
 
     def display_start
@@ -36,6 +36,6 @@ class TimeBlock < ApplicationRecord
 
     protected
     	def start_before_finish
-    		errors.add(:finish, I18n.t('errors.start_before_finish')) if start && finish && start >= finish
+    		errors.add(:finish, "antes de inicio") if start && finish && start >= finish
     	end
 end

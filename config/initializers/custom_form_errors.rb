@@ -14,11 +14,15 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
     if e.node_name.eql? 'label'
       html = %(#{e}).html_safe
     elsif form_fields.include? e.node_name
-      e['class'] += ' is-invalid'
+      e['class'] = (e['class'] || '') + ' is-invalid'
       if instance.error_message.kind_of?(Array)
-        html = %(#{e}<div class="invalid-feedback">#{instance.error_message.uniq.join(', ')}</div>).html_safe
+        message = instance.error_message.uniq.join(', ')
+        message[0] = message[0].capitalize
+        html = %(#{e}<div class="invalid-feedback">#{message}</div>).html_safe
       else
-        html = %(#{e}<div class="invalid-feedback">#{instance.error_message}</div>).html_safe
+        message = instance.error_message
+        message[0] = message[0].capitalize
+        html = %(#{e}<div class="invalid-feedback">#{message}</div>).html_safe
       end
     end
   end
