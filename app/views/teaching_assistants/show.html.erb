@@ -1,38 +1,72 @@
-<p id="notice"><%= notice %></p>
+<div class="container text-center">
+    <h1 class="mt-5">
+        <%= @teaching_assistant.name %>
+    </h1>
+    <p class="lead">Parte de nuestro equipo de ayudantes motivados</p>
+</div>
 
-<p><strong>Name:</strong> <%= @teaching_assistant.name %></p>
+<div class="container text-center">
+    <div class="row">
+        <div class="col">
+            <div class="card bg-dark mx-auto" style="width: 18rem;">
+                <% unless @ta_as_user.nil? %>
+                <%= image_tag(@ta_as_user.google_image, class: "img-circle img-fluid img-responsive img-thumbnail card-img-top", alt: "Foto ayudante") %>
+                <% else %>
+                <%= image_tag("logo_ig.jpg", class: "img-circle img-fluid img-responsive img-thumbnail card-img-top", alt: "Foto ayudante") %>
+                <% end %>
+                <div class="card-body">
+                    <p><%= @teaching_assistant.name %></p>
+                    <p class="card-text"><strong>Email:</strong>
+                        <%= mail_to(@teaching_assistant.email) %>
+                    </p>
+                    <% if current_user.role?(:admin) || current_user.google_email == @teaching_assistant.email %>
+                    <p class="card-text"><strong>Phone number:</strong>
+                        <%= number_to_phone(@teaching_assistant.phone_number, delimiter: " ") %>
+                        <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p><strong>Email:</strong> <%= @teaching_assistant.email %></p>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p><strong>Cursos</strong> en los que puede ayudar</p>
+            <ul>
+                <% @teaching_assistant.courses.each do |course| %>
+                <li>
+                    <%= link_to course.name, course_path(course) %>
+                </li>
+                <% end %>
+            </ul>
+        </div>
+        <% if current_user.role?(:admin) || current_user.google_email == @teaching_assistant.email %>
+        <div class="col">
+            <p>Los <strong>módulos</strong> en los que puede ayudar<p>
+            <ul>
+                <% @teaching_assistant.time_blocks.each do |time_block| %>
+                <% if can? :show, TimeBlock %>
+                <li>
+                    <%= link_to time_block.display_block, time_block_path(time_block) %>
+                </li>
+                <% else %>
+                <li>
+                    <%= time_block.display_block %>
+                </li>
+                <% end %>
+                <% end %>
+            </ul>
+        </div>
+        <% end %>
+    </div>
+</div>
 
-<% if current_user.role?(:admin) || current_user.google_email == @teaching_assistant.email %>
-<p><strong>Phone number:</strong><%= number_to_phone(@teaching_assistant.phone_number, delimiter: " ") %></p>
-<% end %>
-
-<p><strong>Courses:</strong></p>
-<ul>
-  <% @teaching_assistant.courses.each do |course| %>
-    <li><%= link_to course.name, course_path(course) %></li>
-  <% end %>
-</ul>
-
-<% if current_user.role?(:admin) || current_user.google_email == @teaching_assistant.email %>
-<p><strong>Time blocks:</strong></p>
-<ul>
-  <% @teaching_assistant.time_blocks.each do |time_block| %>
-    <% if can? :show, TimeBlock %>
-    <li><%= link_to time_block.display_block, time_block_path(time_block) %></li>
-    <% else %>
-    <li><%= time_block.display_block %></li>
+<div class="container">
+    <% if current_user.google_email == @teaching_assistant.email %>
+    <%= link_to('Mis asignaciones', confirmed_classes_path, { class: "btn btn-primary" }) %>
     <% end %>
-  <% end %>
-</ul>
-<% end %>
-
-
-<% if current_user.google_email == @teaching_assistant.email %>
-<%= link_to 'My CCs', confirmed_classes_path %>
-<% end %>
-<% if can? :edit, @teaching_assistant %>
-<%= link_to 'Edit', edit_teaching_assistant_path(@teaching_assistant) %>
-<% end %>
-<%= link_to 'Back', teaching_assistants_path %>
+    <% if can? :edit, @teaching_assistant %>
+    <%= link_to('Editar ayudante', edit_teaching_assistant_path(@teaching_assistant), { class: "btn btn-primary" }) %>
+    <% end %>
+</div>

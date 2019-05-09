@@ -1,32 +1,47 @@
-<p id="notice"><%= notice %></p>
+<div class="container text-center">
+    <h1 class="mt-5">Modulos disponibles</h1>
+    <p class="lead">Las clases se pueden pedir y realizar en los siguientes módulos</p>
+</div>
 
-<h1>Time Blocks</h1>
+<div class="container text-center">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Dia</th>
+                <th>Inicio</th>
+                <th>Término</th>
+                <th colspan="3">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @time_blocks.each do |time_block| %>
+            <tr>
+                <th scope="row">
+                    <%= time_block.display_day %>
+                </th>
+                <td>
+                    <%= time_block.display_start %>
+                </td>
+                <td>
+                    <%= time_block.display_finish %>
+                </td>
+                <td>
+                    <%= link_to('Ver', time_block) %>
+                </td>
+                <td>
+                    <%= link_to('Editar', edit_time_block_path(time_block)) %>
+                </td>
+                <td>
+                    <%= link_to('Eliminar', time_block, method: :delete, data: { confirm: '¿Estás segur@?' }) %>
+                </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Day</th>
-      <th>Start</th>
-      <th>Finish</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @time_blocks.each do |time_block| %>
-      <tr>
-        <td><%= time_block.display_day %></td>
-        <td><%= time_block.display_start %></td>
-        <td><%= time_block.display_finish %></td>
-        <td><%= link_to 'Show', time_block %></td>
-        <td><%= link_to 'Edit', edit_time_block_path(time_block) %></td>
-        <td><%= link_to 'Destroy', time_block, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<div class="container">
+    <% if can? :new, TimeBlock %>
+        <%= link_to('Agregar módulo', new_time_block_path, { class: "btn btn-primary" }) %>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Time Block', new_time_block_path %>
-<%= link_to 'Back', root_path %>
+</div>

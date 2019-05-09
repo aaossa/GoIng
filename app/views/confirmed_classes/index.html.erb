@@ -1,46 +1,79 @@
-<p id="notice"><%= notice %></p>
+<div class="container text-center">
+    <h1 class="mt-5">Clases en proceso</h1>
+    <p class="lead">Estas son las solicitudes que están siendo procesadas por el algoritmo de asignación</p>
+</div>
 
-<h1>Confirmed Classes</h1>
+<div class="container text-center">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Curso</th>
+                <% unless current_user.role?(:teaching_assistant) %>
+                <th>Ayudante</th>
+                <% end %>
+                <th>Fecha</th>
+                <th>Solicitudes</th>
+                <th>Estado</th>
+                <% unless can? :manage, ConfirmedClass %>
+                <th>Acciones</th>
+                <% else%>
+                <th colspan="3">Acciones</th>
+                <% end %>
+            </tr>
+        </thead>
+        <tbody>
+            <% @confirmed_classes.each do |confirmed_class| %>
+            <tr>
+                <th scope="row">
+                    <%= confirmed_class.course.name %>
+                </th>
+                <% if confirmed_class.teaching_assistant.nil? %>
+                <td>
+                    Ayudante eliminado
+                </td>
+                <% elsif !current_user.role?(:teaching_assistant) %>
+                <td>
+                    <%= confirmed_class.teaching_assistant.name %>
+                </td>
+                <% end %>
+                <td>
+                    <%= confirmed_class.preference.display_preference %>
+                </td>
+                <td>
+                    <%= confirmed_class.requests.length %>
+                </td>
+                <td>
+                    <%= confirmed_class.display_status %>
+                </td>
+                <td>
+                    <%= link_to 'Ver', confirmed_class %>
+                </td>
+                <% if can? :manage, ConfirmedClass %>
+                <td>
+                    <%= link_to('Editar', edit_confirmed_class_path(confirmed_class)) %>
+                </td>
+                <td>
+                    <%= link_to('Eliminar', confirmed_class, method: :delete, data: { confirm: '¿Estás segur@?' }) %>
+                </td>
+                <% end %>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <% unless current_user.role?(:teaching_assistant) %>
-      <th>Teaching assistant</th>
-      <% end %>
-      <th>Course</th>
-      <th>Preference</th>
-      <th>Status</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @confirmed_classes.each do |confirmed_class| %>
-      <tr>
-        <% unless current_user.role?(:teaching_assistant) %>
-          <% unless confirmed_class.teaching_assistant.nil? %>
-          <td><%= confirmed_class.teaching_assistant.name %></td>
-          <% else %>
-          <td>No asignado / Eliminado</td>
-          <% end %>
-        <% end %>
-        <td><%= confirmed_class.course.name %></td>
-        <td><%= confirmed_class.preference.display_preference %></td>
-        <td><%= confirmed_class.display_status %></td>
-        <td><%= link_to 'Show', confirmed_class %></td>
-        <% if can? :manage, ConfirmedClass %>
-        <td><%= link_to 'Edit', edit_confirmed_class_path(confirmed_class) %></td>
-        <td><%= link_to 'Destroy', confirmed_class, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
-      </tr>
+<div class="container">
+    <% if can? :new, ConfirmedClass %>
+    <%= link_to('Asignar una clase (en construcción)', new_confirmed_class_path, { class: "btn btn-primary disabled" }) %>
     <% end %>
-  </tbody>
-</table>
+</div>
 
-<br>
-
-<% if can? :new, ConfirmedClass %>
-<%= link_to 'New Confirmed Class', new_confirmed_class_path %>
-<% end %>
-<%= link_to 'Back', root_path %>
+<div class="container">
+    <div class="card text-white bg-info" style="width: 100%;">
+        <div class="card-header">Algoritmo de asignación</div>
+        <div class="card-body">
+            <h5 class="card-title">Sección 1</h5>
+            <p class="card-text">Descripción</p>
+        </div>
+    </div>
+</div>

@@ -1,30 +1,37 @@
 <%# encoding: utf-8 -%>
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
+</head>
+
+<body>
     <h1><b>[GoIng]</b> Clase asignada</h1>
-
-    <p>Hola <%= @teaching_assistant.name %>!</p>
-
-    <p>Te escribimos porque se te ha asignado una clase de <%= @confirmed_class.course.name %> para un grupo de <%= @confirmed_class.participants_mails.length %> personas para el <%= @confirmed_class.preference.display_preference %>. Si puedes tomar la clase, por favor confirmanos para informar a los alumnos que su clase ha sido aceptada!</p>
-
+    <p>Hola
+        <%= @teaching_assistant.name %>!</p>
+    <p>Te escribimos porque se te ha asignado una clase de
+        <%= @confirmed_class.course.name %> para un grupo de
+        <%= @confirmed_class.participants_mails.length %> personas para el
+        <%= @confirmed_class.preference.display_preference %>. Si puedes tomar la clase, por favor confirmanos para informar a los alumnos que su clase ha sido aceptada!</p>
     <p>Necesitamos tu confirmación de que puedes o no tomar la clase, ya que no reasignaremos al alumno a otro ayudante hasta que avises que no puedes tomar la clase (esta es una nueva medida ya que nos ha pasado que los ayudantes no ven los correos pero sí pueden tomar las clases).</p>
-
     <p>Los temas a tratar son:</p>
     <ul>
-      <% @confirmed_class.requests.each do |request| %>
-        <li><%= request.contents %></li>
-      <% end %>
+        <% @confirmed_class.requests.each do |request| %>
+        <li>
+            <%= request.contents %>
+        </li>
+        <% end %>
     </ul>
-
     <p>Esperamos tu respuesta atentamente, saludos!</p>
-
     <ul>
-      <li><%= link_to "Sí, puedo hacer esta clase", confirmed_class_teaching_assistant_yes_url(@confirmed_class) %></li>
-      <li><%= link_to "No, no puedo hacer esta clase", confirmed_class_teaching_assistant_no_url(@confirmed_class) %></li>
+        <li>
+            <%= link_to "Sí, puedo hacer esta clase", confirmed_class_ayudantes_si_url(@confirmed_class) %>
+        </li>
+        <li>
+            <%= link_to "No, no puedo hacer esta clase", confirmed_class_ayudantes_no_url(@confirmed_class) %>
+        </li>
     </ul>
-  </body>
-</html> 
+</body>
+
+</html>

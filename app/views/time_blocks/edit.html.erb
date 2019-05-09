@@ -1,6 +1,12 @@
-<h1>Editing Time Block</h1>
+<div class="container text-center">
+    <h1 class="mt-5">Editar módulo</h1>
+    <p class="lead">Todos los cambios que hagas se verán automáticamente reflejados en toda la plataforma</p>
+</div>
 
-<%= render 'form', time_block: @time_block %>
+<div class="container">
+    <%= render 'form', time_block: @time_block %>
+</div>
 
-<%= link_to 'Show', @time_block %> |
-<%= link_to 'Back', time_blocks_path %>
+<div class="container">
+    <%= link_to('Ver módulo', @time_block, { class: "btn btn-primary" }) %>
+</div>

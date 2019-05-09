@@ -12,6 +12,7 @@ class TeachingAssistantsController < ApplicationController
   # GET /teaching_assistants/1
   # GET /teaching_assistants/1.json
   def show
+    @ta_as_user = User.find_by(google_email: @teaching_assistant.email)
   end
 
   # GET /teaching_assistants/new

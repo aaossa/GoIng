@@ -1,6 +1,12 @@
-<h1>Editing Teaching Assistant</h1>
+<div class="container text-center">
+    <h1 class="mt-5">Editar ayudante</h1>
+    <p class="lead">Todos los cambios que hagas se verán automáticamente reflejados en toda la plataforma</p>
+</div>
 
-<%= render 'form', teaching_assistant: @teaching_assistant %>
+<div class="container">
+    <%= render 'form', teaching_assistant: @teaching_assistant %>
+</div>
 
-<%= link_to 'Show', @teaching_assistant %> |
-<%= link_to 'Back', teaching_assistants_path %>
+<div class="container">
+    <%= link_to('Ver ayudante', @teaching_assistant, { class: "btn btn-primary" }) %>
+</div>

@@ -63,7 +63,7 @@ class Preference < ApplicationRecord
 
 		def date_block_match
 			if time_block.day != date.wday
-				errors.add(:date, "mismatch time block selection")
+				errors.add(:date, "no coincide con módulo")
 		    end
 		end
 

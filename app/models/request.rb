@@ -40,7 +40,7 @@ class Request < ApplicationRecord
 	end
 
 	def display_status
-		return "Inactive request" if self.confirmed_class.nil?
+		return "Inactiva" if self.confirmed_class.nil?
 		self.confirmed_class.display_status
 	end
 
@@ -83,7 +83,7 @@ class Request < ApplicationRecord
 		def participants_hash_is_valid
 			valid_keys = ["0", "1", "2", "3"]
 			unless (participants.keys - valid_keys).empty?
-				errors.add(:participants, "invalid keys")
+				errors.add(:participants, "contiene un índice no válido")
 			end
 		end
 
@@ -93,17 +93,17 @@ class Request < ApplicationRecord
 				next if email.empty?
 				usernames << email.split("@").first
 				next if email.match("^[^@]+@(uc\.cl|correo\.puc\.cl|puc\.cl)$")
-				errors.add(:participants, "invalid email")
+				errors.add(:participants, "contiene un mail no válido")
 			end
 			unless usernames.uniq.length == usernames.length
-				errors.add(:participants, "should not contain duplicates")
+				errors.add(:participants, "no debería contenter duplicados")
 			end
 		end
 
 		def teaching_assistant_available
 			preferences.each do |preference|
 				next if preference.time_block.available_courses.include? course
-				errors.add(:course, "not available this time block")
+				errors.add(:course, "no disponible este módulo")
 			end 
 		end
 end

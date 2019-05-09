@@ -1,6 +1,12 @@
-<h1>Editing Course</h1>
+<div class="container text-center">
+    <h1 class="mt-5">Editar curso</h1>
+    <p class="lead">Todos los cambios que hagas se verán automáticamente reflejados en toda la plataforma</p>
+</div>
 
-<%= render 'form', course: @course %>
+<div class="container">
+    <%= render 'form', course: @course %>
+</div>
 
-<%= link_to 'Show', @course %> |
-<%= link_to 'Back', courses_path %>
+<div class="container">
+    <%= link_to('Ver curso', @course, { class: "btn btn-primary" }) %>
+</div>

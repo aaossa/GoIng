@@ -1,32 +1,64 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Teaching assistant:</strong>
-  <%= link_to @confirmed_class.teaching_assistant.name, teaching_assistant_path(@confirmed_class.teaching_assistant) %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @confirmed_class.display_status %>
-</p>
-
-<p>
-  <strong>Preference:</strong>
-  <%= @confirmed_class.preference.display_preference %>
-</p>
-
-<p><strong>Requests:</strong></p>
-<ul>
-  <% @confirmed_class.requests.each do |request| %>
-    <% if can? :show, Request %>
-    <li><%= link_to request.contents, request_path(request) %></li>
-    <% else %>
-    <li><%= request.contents %></li>
+<div class="container text-center">
+    <h1 class="mt-5">Clase asignada
+        <%= @confirmed_class.id %>
+    </h1>
+    <p>Esta es una de las solicitudes que ya está siendo procesada por el algoritmo de asignación de clases</p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="card text-white bg-dark" style="width: 100%;">
+            <div class="card-header">
+                Asignada a <strong>
+                    <%= link_to @teaching_assistant.name, @teaching_assistant %> (
+                    <%= mail_to(@teaching_assistant.email) %>)</strong>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%= link_to(@confirmed_class.course.name, course_path(@confirmed_class.course)) %>
+                </h5>
+                <p class="card-text"><strong>Fecha:</strong>
+                    <%= @confirmed_class.preference.display_preference %>
+                </p>
+                <h6 class="card-subtitle mb-2 text-muted">
+                    <strong>Estado:</strong>
+                    <%= @confirmed_class.display_status %>
+                </h6>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card-group" style="width: 100%;">
+            <% @confirmed_class.requests.each do |request| %>
+            <div class="card text-white bg-dark">
+                <div class="card-body">
+                    <p class="card-text"><strong>Contenidos:</strong>
+                        <%= request.contents %>
+                    </p>
+                    <% if current_user.role?(:admin) || @confirmed_class.confirmed %>
+                    <p>Los <strong>alumnos</strong> de esta solicitud son</p>
+                    <ul>
+                        <% request.participants_mails.each do |participant_email| %>
+                        <li>
+                            <%= mail_to(participant_email) %>
+                        </li>
+                        <% end %>
+                    </ul>
+                    <% end %>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Solicitada hace
+                        <%= (Time.zone.now.to_i - request.created_at.to_i) / 3600 %> horas</small>
+                    <% if can? :show, Request %>
+                    <small><%= link_to("Ver solicitud", request, { class: "card-link" }) %></small>
+                    <% end %>
+                </div>
+            </div>
+            <% end %>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <% if can? :edit, ConfirmedClass %>
+    <%= link_to('Editar asignación', edit_confirmed_class_path(@confirmed_class), { class: "btn btn-primary" }) %>
     <% end %>
-  <% end %>
-</ul>
-
-<% if can? :edit, ConfirmedClass %>
-<%= link_to 'Edit', edit_confirmed_class_path(@confirmed_class) %>
-<% end %>
-<%= link_to 'Back', confirmed_classes_path %>
+</div>

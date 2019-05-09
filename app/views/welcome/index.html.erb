@@ -1,61 +1,26 @@
-<h1>Go<b>Ing</b></h1>
-
-<p id="notice"><%= notice %></p>
-
-<% if can? :new, Request %>
-	<%= link_to 'Create request', new_request_path %>
-<% end %>
-<% if can? :index, Request %>
-	<%= link_to 'List requests', controller: 'requests' %>
-<% end %>
-
-<br>
-
-<% if can? :new, Course %>
-	<%= link_to 'Create course', new_course_path %>
-<% end %>
-<% if can? :index, Course %>
-	<%= link_to 'List courses', controller: 'courses' %>
-<% end %>
-
-<br>
-
-<% if can? :new, TeachingAssistant %>
-	<%= link_to 'Create teaching assistant', new_teaching_assistant_path %>
-<% end %>
-<% if can? :index, TeachingAssistant %>
-	<%= link_to 'List teaching assistants', controller: 'teaching_assistants' %>
-<% end %>
-
-<br>
-
-<% if can? :new, TimeBlock %>
-	<%= link_to 'Create time block', new_time_block_path %>
-<% end %>
-<% if can? :index, TimeBlock %>
-	<%= link_to 'List time blocks', controller: 'time_blocks' %>
-<% end %>
-
-<br>
-
-<% if can? :new, ConfirmedClass %>
-	<%= link_to 'Create confirmed class', new_confirmed_class_path %>
-<% end %>
-<% if can? :index, ConfirmedClass %>
-	<%= link_to 'List confirmed classes', controller: 'confirmed_classes' %>
-<% end %>
-
-<br>
-
-<% if current_user && current_user.google_email %>
-    <%= link_to "javascript:void(0);", { :class => "btn btn-block btn-social btn-google", :disabled => true} do %>
-    	<span class="fa fa-google"></span><%= current_user.google_email %>
+<div class="container bg-1 text-center rounded-lg">
+    <h1 class="mt-5">Proyecto <b>GoIng</b></h1>
+    <%= image_tag("logo_ig.jpg", class: "img-circle img-fluid img-responsive img-thumbnail", alt: "Logo GoIng") %>
+    
+    <p class="lead">Pide tus clases aqui!</p>
+    
+    <% if signed_in? %>
+        <%= link_to("#", { class: "btn btn-primary btn-lg disabled", disabled: true}) do %>
+            <span class="fa fa-google"></span> <%= current_user.google_email %>
+        <% end %>
+    <% else %>
+        <%= link_to("/auth/google", { class: "btn btn-primary btn-lg" }) do %>
+            <span class="fa fa-google"></span> Ingresa con Google
+        <% end %>
     <% end %>
-    <%= link_to signout_path do %>
-    	<span class="fa fa-google">Logout
-    <% end %>
-<% else %>
-	<%= link_to "/auth/google", { :class=> "btn btn-block btn-social btn-google" } do %>
-    	<span class="fa fa-google"></span>Sign in with Google
-	<% end %>
-<% end %>
+</div>
+
+<div class="container bg-2 text-center rounded-lg">
+    <h3 class="mt-1">¿Cómo funcionan las clases?</h3>
+    <p>Descripción</p>
+</div>
+
+<div class="container bg-2 text-center rounded-lg">
+    <h3 class="mt-1">¿Cómo pido una clase?</h3>
+    <p>Descripción</p>
+</div>

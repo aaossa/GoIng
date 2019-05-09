@@ -1,41 +1,65 @@
 <%= form_with(model: time_block, local: true) do |form| %>
-  <% if time_block.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(time_block.errors.count, "error") %> prohibited this time_block from being saved:</h2>
-
-      <ul>
-      <% time_block.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :day %>
-    <%= form.select :day, (1..5).map {|i| [Date::DAYNAMES[i], i]} %>
-  </div>
-
-  <div class="field">
-    <%= form.label :start %>
-    <%= form.time_select :start %>
-  </div>
-
-  <div class="field">
-    <%= form.label :finish %>
-    <%= form.time_select :finish %>
-  </div>
-
-  <div class="field">
-    <%= form.label :teaching_assistants %>
-    <%= form.collection_check_boxes(:teaching_assistant_ids, TeachingAssistant.all, :id, :name) do |ta| %>
-      <%= ta.label class: "label-checkbox" do %>
-        <%= ta.check_box + ta.text %>
-      <% end %>
+    <!-- Errors explanation -->
+    <% if time_block.errors.any? %>
+        <%= errors_for(time_block, "este módulo") %>
     <% end %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+    <!-- Day -->
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <%= form.label :day, "Dia", class: "col-md-2 col-form-label text-center" %>
+        <div class="col-md-6">
+            <%= form.select(:day, (1..5).map {|i| [I18n.t('date.day_names')[i], i]}, {}, { class: "form-control" }) %>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <!-- Start -->
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <%= form.label :start, "Inicio", class: "col-md-2 col-form-label text-center" %>
+        <div class="col-md-6">
+            <%= form.time_select(:start, {}, { class: "form-control" }) %>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <!-- Finish -->
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <%= form.label :finish, "Final", class: "col-md-2 col-form-label text-center" %>
+        <div class="col-md-6">
+            <%= form.time_select(:finish, {}, { class: "form-control" }) %>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <!-- Teaching assistants -->
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        <%= form.label :teaching_assistants, "Ayudantes", class: "col-md-2 col-form-label text-center" %>
+        <div class="col-md-3">
+            <%= form.collection_check_boxes(:teaching_assistant_ids, TeachingAssistant.first((TeachingAssistant.count/2).ceil), :id, :name, { class: "col-md-6" } ) do |ta| %>
+                <div class="form-check">
+                <%= ta.label(class: "form-check-label") do %>
+                    <%= ta.check_box(class: "form-check-input") + ta.text %>
+                <% end %>
+                </div>
+            <% end %>
+        </div>
+        <div class="col-md-3">
+            <%= form.collection_check_boxes(:teaching_assistant_ids, TeachingAssistant.last((TeachingAssistant.count/2).floor), :id, :name, { class: "col-md-6" } ) do |ta| %>
+                <div class="form-check">
+                <%= ta.label(class: "form-check-label") do %>
+                    <%= ta.check_box(class: "form-check-input") + ta.text %>
+                <% end %>
+                </div>
+            <% end %>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <!-- Submit -->
+    <div class="form-actions">
+        <div class="col-auto">
+            <%= button_tag(class: "btn btn-primary btn-lg") do %>
+                <span class="fa fa-clock"></span> Guardar módulo
+            <% end %>
+        </div>
+    </div>
 <% end %>

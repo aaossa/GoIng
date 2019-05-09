@@ -1,0 +1,63 @@
+es:
+  activerecord:
+    attributes:
+      request:
+        contents: "Contenidos"
+        course: "Curso"
+        participants: "Alumnos"
+        preferences: "Opciones"
+      preference:
+        date: "Fecha"
+      request/preferences:
+        date: "Fecha de preferencia"
+      course:
+        name: "Nombre"
+      teaching_assistant:
+        name: "Nombre"
+        email: "Correo"
+        phone_number: "Celular"
+      time_block:
+        day: "Día"
+        start: "Inicio"
+        finish: "Término"
+    errors:
+      models:
+        request:
+          attributes:
+            contents:
+              blank: "no puede estar vacío"
+              too_short: "es demasiado corto"
+            preferences:
+              invalid: "no válidas"
+        course:
+          attributes:
+            name:
+              blank: "no puede estar vacío"
+              too_short: "es demasiado corto"
+        teaching_assistant:
+          attributes:
+            name:
+              blank: "no puede estar vacío"
+              too_short: "es demasiado corto"
+            email:
+              blank: "no puede estar vacío"
+              invalid: "no es válido"
+            phone_number:
+              blank: "no puede estar vacío"
+              too_short: "es demasiado corto"
+              not_a_number: "no es un número"
+  date:
+    formats:
+      default: "%e/%m/%Y"
+      short: "%e de %b"
+      long: "%e de %B de %Y"
+
+    day_names: [Domingo, Lunes, Martes, Miércoles, Jueves, Viernes, Sábado]
+    abbr_day_names: [Dom, Lun, Mar, Mie, Jue, Vie, Sab]
+
+    month_names: [~, Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre]
+    abbr_month_names: [~, Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic]
+    order:
+      - :day
+      - :month
+      - :year

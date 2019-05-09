@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <title>Going</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag params[:controller], 'data-turbolinks-track': 'reload' %>
-  </head>
+</head>
 
-  <body class="<%= params[:action] %>">
-    <%= yield %>
-  </body>
+<body class="<%= params[:action] %>">
+    <!-- Improve notices -->
+    <p id="notice"><%= notice %></p>
+    <%= render 'layouts/header' %>
+    <main role="main" class="container">
+        <div class="container">
+            <%= yield %>
+        </div>
+    </main>
+    <%= render 'layouts/footer' %>
+</body>
+
 </html>

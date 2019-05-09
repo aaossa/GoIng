@@ -1,32 +1,54 @@
-<p id="notice"><%= notice %></p>
+<div class="container text-center">
+    <h1 class="mt-5">
+        <%= @course.name %>
+    </h1>
+    <p class="lead">Este es uno de los cursos que te ofrecemos</p>
+</div>
 
-<p><strong>Name:</strong> <%= @course.name %></p>
+<div class="container text-center">
+    <div class="row">
+        <% if !current_user.role?(:student) %>
+        <div class="col">
+            <p>Nuestros <strong>ayudantes</strong> que saben de este curso</p>
+            <div class="card bg-dark mx-auto" style="width: 18rem;">
+                <ul class="list-group list-group-flush bg-dark">
+                    <% @course.teaching_assistants.each do |teaching_assistant| %>
+                        <% if can? :show, teaching_assistant %>
+                        <li class="list-group-item bg-dark">
+                            <%= link_to teaching_assistant.name, teaching_assistant_path(teaching_assistant) %>
+                        </li>
+                        <% else %>
+                        <li class="list-group-item bg-dark">
+                            <%= teaching_assistant.name %>
+                        </li>
+                        <% end %>
+                    <% end %>
+                </ul>
+                </ul>
+            </div>
+        </div>
+        <% end %>
+        <div class="col">
+            <p>Los <strong>módulos</strong> en los que pueden hacerte una clase</p>
+            <ul>
+                <% @course.available_modules.each do |time_block| %>
+                    <% if can? :show, TimeBlock %>
+                    <li>
+                        <%= link_to time_block.display_block, time_block_path(time_block) %>
+                    </li>
+                    <% else %>
+                    <li>
+                        <%= time_block.display_block %>
+                    </li>
+                    <% end %>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+</div>
 
-<% if !current_user.role?(:student) %>
-	<p><strong>Teaching assistants:</strong></p>
-	<ul>
-	  <% @course.teaching_assistants.each do |teaching_assistant| %>
-      <% if can? :show, teaching_assistant %>
-	  	<li><%= link_to teaching_assistant.name, teaching_assistant_path(teaching_assistant) %></li>
-      <% else %>
-      <li><%= teaching_assistant.name %></li>
-      <% end %>
-	  <% end %>
-	</ul>
-<% end %>
-
-<p><strong>Available modules:</strong></p>
-<ul>
-  <% @course.available_modules.each do |time_block| %>
-  	<% if can? :show, TimeBlock %>
-    <li><%= link_to time_block.display_block, time_block_path(time_block) %></li>
-    <% else %>
-    <li><%= time_block.display_block %></li>
+<div class="container">
+    <% if can? :edit, Course %>
+        <%= link_to('Editar curso', edit_course_path(@course), { class: "btn btn-primary" }) %>
     <% end %>
-  <% end %>
-</ul>
-
-<% if can? :edit, Course %>
-<%= link_to 'Edit', edit_course_path(@course) %>
-<% end %>
-<%= link_to 'Back', courses_path %>
+</div>

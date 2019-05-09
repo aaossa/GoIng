@@ -26,11 +26,11 @@ class ConfirmedClass < ApplicationRecord
 
 	def display_status
 		if !self.assigned
-			"TA has to confirm"
+			"Ayudante debe confirmar"
 		elsif !self.confirmed
-			"TA confirmed, participants have to confirm"
+			"Ayudante confirmó, alumnos debe(n) confirmar"
 		else
-			"TA and students confirmed"
+			"Ayudante y alumno(s) confirmaron"
 		end
 	end
 
