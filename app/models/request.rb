@@ -8,32 +8,33 @@ class Request < ApplicationRecord
 	validate :participants_emails_are_valid
 	validates :priority, numericality: { greater_than: 0 }
 	validates :contents, presence: true, length: { minimum: 5 }
+	validates :preferences, presence: true
 	validates_associated :preferences
 	validate :teaching_assistant_available
 	accepts_nested_attributes_for :preferences
 
 	serialize :participants, Hash
-    before_save(on: :create) do
-        self.participants["0"] = user.google_email
-    end
-    after_create :send_mail_to_participants
+	before_save(on: :create) do
+		self.participants["0"] = user.google_email
+	end
+	after_create :send_mail_to_participants
 
-    def self.inactive
-    	where(active: false).where(assigned: false).where(completed: false)
-    end
+	def self.inactive
+		where(active: false).where(assigned: false).where(completed: false)
+	end
 
-    def self.group_by_course_and_participants(requests)
-    	result = requests.group_by(&:course_id).map do |course_id, course_requests|
-    		course = Course.find(course_id)
-    		grouped_requests = form_groups(course_requests.group_by { |r| r.participants.length })
-    		[course, grouped_requests]
-    	end
-    	result.to_h
-    end
+	def self.group_by_course_and_participants(requests)
+		result = requests.group_by(&:course_id).map do |course_id, course_requests|
+			course = Course.find(course_id)
+			grouped_requests = form_groups(course_requests.group_by { |r| r.participants.length })
+			[course, grouped_requests]
+		end
+		result.to_h
+	end
 
-    def participants_mails
-    	self.participants.sort.to_h.values.reject { |p| p.empty? }
-    end
+	def participants_mails
+		self.participants.sort.to_h.values.reject { |p| p.empty? }
+	end
 
 	def display_request
 		"#{course.name}: #{contents} (#{preferences.map(&:display_preference).as_json})"
@@ -46,9 +47,9 @@ class Request < ApplicationRecord
 
 	protected
 
-	    def send_mail_to_participants
-	    	RequestMailer.confirm_request_creation(self).deliver_later
-	    end
+		def send_mail_to_participants
+			RequestMailer.confirm_request_creation(self).deliver_later
+		end
 
 		def self.group_by_participantso(requests)
 			requests = requests.group_by { |r| r.participants.length }
@@ -104,6 +105,6 @@ class Request < ApplicationRecord
 			preferences.each do |preference|
 				next if preference.time_block.available_courses.include? course
 				errors.add(:course, "no disponible este módulo")
-			end 
+			end
 		end
 end

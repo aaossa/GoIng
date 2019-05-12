@@ -1,4 +1,4 @@
-<%= form_with(model: request, local: true) do |form| %>
+<%= form_with(model: request, remote: true) do |form| %>
     <!-- Errors explanation -->
     <% if request.errors.any? %>
         <%= errors_for(request, "tu petición") %>
@@ -29,7 +29,7 @@
         <div class="col-md-2"></div>
         <%= form.label :course, "Curso", class: "col-md-2 col-form-label text-center" %>
         <div class="col-md-6">
-            <%= form.collection_select(:course_id, Course.all, :id, :name, {}, { id: "course", onchange: "updateFromCourse();", class: "form-control" }) %>
+            <%= form.collection_select(:course_id, Course.all, :id, :name, {}, { id: "course", onchange: "fillCalendar()", class: "form-control" }) %>
         </div>
         <div class="col-md-2"></div>
     </div>
@@ -42,40 +42,27 @@
         </div>
         <div class="col-md-2"></div>
     </div>
-    <!-- Preferences (1) -->
-    <div class="form-group row">
+    <!-- Preferences -->
+    <div class="form-group row" id="preferences">
         <div class="col-md-2"></div>
-        <%= form.label :first_preference, "Opción 1", class: "col-md-2 col-form-label text-center" %>
-        <div class="col-md-3">
-            <%= form.collection_select(:preference_blocks, {}, nil, nil, {}, { name: 'request[preference_blocks][]', id: "first_preference", onchange: "updateFromTimeBlock(1);", class: "form-control" }) %>
-        </div>
-        <div class="col-md-3">
-            <%= form.collection_select(:preference_dates, [], nil, nil, {}, { name: 'request[preference_dates][]', id: "first_date", include_blank: true, default: nil, class: "form-control" }) %>
+        <%= form.label :preferences, "Preferencias", class: "col-md-2 col-form-label text-center" %>
+        <!-- Preferences (display) -->
+        <div class="col-md-6">
+            <ul>
+                <li></li>
+            </ul>
         </div>
         <div class="col-md-2"></div>
+        <!-- Preferences (hidden) -->
+        <% 3.times do |i| %>
+            <%= form.hidden_field :preferences_time_blocks, multiple: true %>
+            <%= form.hidden_field :preferences_dates, multiple: true %>
+        <% end %>
     </div>
-    <!-- Preferences (2) -->
+    <!-- Preferences (calendar) -->
     <div class="form-group row">
         <div class="col-md-2"></div>
-        <%= form.label :second_preference, "Opción 2", class: "col-md-2 col-form-label text-center" %>
-        <div class="col-md-3">
-            <%= form.collection_select(:preference_blocks, {}, nil, nil, {}, { name: 'request[preference_blocks][]', id: "second_preference", onchange: "updateFromTimeBlock(2);", class: "form-control" }) %>
-        </div>
-        <div class="col-md-3">
-            <%= form.collection_select(:preference_dates, [], nil, nil, {}, { name: 'request[preference_dates][]', id: "second_date", include_blank: true, default: nil, class: "form-control" }) %>
-        </div>
-        <div class="col-md-2"></div>
-    </div>
-    <!-- Preferences (3) -->
-    <div class="form-group row">
-        <div class="col-md-2"></div>
-        <%= form.label :third_preference, "Opción 3", class: "col-md-2 col-form-label text-center" %>
-        <div class="col-md-3">
-            <%= form.collection_select(:preference_blocks, {}, nil, nil, {}, { name: 'request[preference_blocks][]', id: "third_preference", onchange: "updateFromTimeBlock(3);", class: "form-control" }) %>
-        </div>
-        <div class="col-md-3">
-            <%= form.collection_select(:preference_dates, [], nil, nil, {}, { name: 'request[preference_dates][]', id: "third_date", include_blank: true, default: nil, class: "form-control" }) %>
-        </div>
+        <div class="col-md-8" id="event_calendar"></div>
         <div class="col-md-2"></div>
     </div>
     <!-- Submit -->

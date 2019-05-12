@@ -18,3 +18,6 @@
 //= require bootstrap
 //= require_tree ./global
 //= require cable
+//= require moment
+//= require fullcalendar
+//= require fullcalendar/locale-all
