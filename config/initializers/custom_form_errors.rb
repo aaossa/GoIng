@@ -16,7 +16,8 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
     elsif form_fields.include? e.node_name
       e['class'] = (e['class'] || '') + ' is-invalid'
       if instance.error_message.kind_of?(Array)
-        message = instance.error_message.uniq.join(', ')
+        # + is to unfreze (https://stackoverflow.com/a/52929605)
+        message = +instance.error_message.to_sentence
         message[0] = message[0].capitalize
         html = %(#{e}<div class="invalid-feedback">#{message}</div>).html_safe
       else

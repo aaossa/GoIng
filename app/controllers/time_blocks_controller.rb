@@ -4,13 +4,15 @@ class TimeBlocksController < ApplicationController
   before_action :set_time_block, only: [:show, :edit, :update, :destroy]
 
   def options
-    course_param = params.fetch(:time_block, {}).fetch(:course, "")
+    course_param = params.fetch(:course, "")
     unless course_param.empty?
       course = Course.find(course_param)
       @time_blocks = course.available_modules
     else
       @time_blocks = TimeBlock.all
     end
+    on_week, add_week = TimeBlock.split_by_weekday(@time_blocks)
+    @events = TimeBlock.generate_events(on_week, add_week)
   end
 
   # GET /time_blocks

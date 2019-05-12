@@ -1,0 +1,12 @@
+// Save current events
+var events = $("#event_calendar").fullCalendar('clientEvents');
+// Render new form (with errors)
+Rails.$('form')[0].innerHTML = ("<%= j(render partial: 'form', locals: { request: @request }) %>");
+// Recreate calendar
+eventCalendar();
+// Render old events
+$("#event_calendar").fullCalendar("renderEvents", events, true);
+// Refill hidden fields
+updatePreferenceDisplay();
+// Scroll to top
+window.scrollTo({ top: 0, behavior: 'smooth' });
