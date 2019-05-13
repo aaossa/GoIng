@@ -34,6 +34,10 @@ class ConfirmedClass < ApplicationRecord
 		end
 	end
 
+	def to_param
+		"#{id}-#{slug}"
+	end
+
 	protected
 
 		def send_question_to_teaching_assistant
@@ -101,6 +105,7 @@ class ConfirmedClass < ApplicationRecord
 		end
 
 		def teaching_assistant_match_time_block
+			return if teaching_assistant.nil?
 			return if teaching_assistant.time_blocks.any? do |time_block|
 				time_block == preference.time_block
 			end

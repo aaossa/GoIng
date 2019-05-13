@@ -34,7 +34,7 @@
                     <p class="card-text"><strong>Contenidos:</strong>
                         <%= request.contents %>
                     </p>
-                    <% if current_user.role?(:admin) || @confirmed_class.confirmed %>
+                    <% if current_user && (current_user.role?(:admin) || @confirmed_class.confirmed) %>
                     <p>Los <strong>alumnos</strong> de esta solicitud son</p>
                     <ul>
                         <% request.participants_mails.each do |participant_email| %>
@@ -56,9 +56,4 @@
             <% end %>
         </div>
     </div>
-</div>
-<div class="container">
-    <% if can? :edit, ConfirmedClass %>
-    <%= link_to('Editar asignación', edit_confirmed_class_path(@confirmed_class), { class: "btn btn-primary" }) %>
-    <% end %>
 </div>
