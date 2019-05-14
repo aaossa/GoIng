@@ -83,7 +83,7 @@ function fillCalendar() {
         type: "GET",
         dataType: "json",
         data: $.param({
-            course: $("#course").find(":selected").val(),
+            curso: $("#course").find(":selected").val(),
         }),
         url: "/modulos/opciones",
         success: function(events) {

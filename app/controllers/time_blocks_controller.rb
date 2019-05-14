@@ -4,7 +4,7 @@ class TimeBlocksController < ApplicationController
   before_action :set_time_block, only: [:show, :edit, :update, :destroy]
 
   def options
-    course_param = params.fetch(:course, "")
+    course_param = params.fetch(:curso, "")
     unless course_param.empty?
       course = Course.find(course_param)
       @time_blocks = course.available_modules

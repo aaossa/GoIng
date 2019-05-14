@@ -17,11 +17,19 @@ class TimeBlock < ApplicationRecord
         when 1
             [time_blocks, []]
         else
-            cut_here = time_blocks.index{ |tb| tb.day >= today.strftime("%w").to_i }
-            [
-                time_blocks.slice(cut_here..time_blocks.length),
-                time_blocks.slice(0..(cut_here - 1))
-            ]
+            today_as_i = today.strftime("%w").to_i
+            cut_here = time_blocks.index{ |tb| tb.day >= today_as_i }
+            case cut_here
+            when 0
+                [time_blocks, []]
+            when time_blocks.length
+                [[], time_blocks]
+            else
+                [
+                    time_blocks.slice(cut_here..time_blocks.length),
+                    time_blocks.slice(0..(cut_here - 1))
+                ]
+            end
         end
     end
 
