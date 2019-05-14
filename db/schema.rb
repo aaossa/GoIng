@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_05_061216) do
+ActiveRecord::Schema.define(version: 2019_05_14_011553) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
+  enable_extension "plpgsql"
 
   create_table "confirmed_classes", force: :cascade do |t|
     t.integer "teaching_assistant_id"
@@ -19,6 +23,7 @@ ActiveRecord::Schema.define(version: 2019_05_05_061216) do
     t.datetime "updated_at", null: false
     t.boolean "assigned", default: false
     t.boolean "confirmed", default: false
+    t.uuid "slug", default: -> { "gen_random_uuid()" }, null: false
     t.index ["preference_id"], name: "index_confirmed_classes_on_preference_id"
     t.index ["teaching_assistant_id"], name: "index_confirmed_classes_on_teaching_assistant_id"
   end

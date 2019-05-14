@@ -13,7 +13,7 @@ class Preference < ApplicationRecord
 	validate :date_block_match
 
 	scope :active, -> { where("date BETWEEN ? AND ?", Time.current.to_date, Time.current.to_date + 1.week) }
-	scope :recent, -> { includes(:time_block).order(date: :asc, start: :asc) }
+	scope :recent, -> { joins(:time_block).order(day: :asc, start: :asc) }
 
 	def self.create_classes
 		Preference.active.recent.map(&:create_classes)

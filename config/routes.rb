@@ -16,11 +16,14 @@ Rails.application.routes.draw do
   resources :requests, path: 'peticiones'
 
   # Confirmed classes
-  resources :confirmed_classes, path: 'clases' do
-    get 'ayudantes/si', to: 'confirmed_classes#answer_teaching_assistant_yes'
-    get 'ayudantes/no', to: 'confirmed_classes#answer_teaching_assistant_no'
-    get 'alumnos/si', to: 'confirmed_classes#answer_student_yes'
-    get 'alumnos/no', to: 'confirmed_classes#answer_student_no'
+  # match 'clases/:id/:slug', to: 'clases#show', via: [:get]
+  resources :confirmed_classes, path: 'clases', param: :'id_slug', only: [:show, :index, :destroy, :new] do
+    member do
+        get 'ayudantes/si', to: 'confirmed_classes#answer_teaching_assistant_yes'
+        get 'ayudantes/no', to: 'confirmed_classes#answer_teaching_assistant_no'
+        get 'alumnos/si', to: 'confirmed_classes#answer_student_yes'
+        get 'alumnos/no', to: 'confirmed_classes#answer_student_no'
+    end
   end
 
   # Teaching assistants

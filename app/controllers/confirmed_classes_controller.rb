@@ -1,34 +1,37 @@
 class ConfirmedClassesController < ApplicationController
   load_and_authorize_resource
-  before_action :set_confirmed_class, only: [:show, :edit, :update, :destroy]
+  before_action :set_confirmed_class_with_slug, only: [
+    :answer_teaching_assistant_yes,
+    :answer_teaching_assistant_no,
+    :answer_student_yes,
+    :answer_student_no,
+    :show,
+    :destroy,
+  ]
 
-  # GET /clases/:id/ayudantes/si
+  # GET /clases/:id_slug/ayudantes/si
   def answer_teaching_assistant_yes
-    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
     # Clase exitosamente asignada -> Se envia correo a alumnos desde modelo
     @confirmed_class.update(assigned: true)
     redirect_to(@confirmed_class)
   end
 
-  # GET /clases/:id/ayudantes/no
+  # GET /clases/:id_slug/ayudantes/no
   def answer_teaching_assistant_no
-    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
     # Clase no pudo asignarse -> Se busca un nuevo ayudante desde modelo
     @confirmed_class.destroy
     redirect_to(controller: 'welcome', action: 'index')
   end
 
-  # GET /clases/:id/alumnos/si
+  # GET /clases/:id_slug/alumnos/si
   def answer_student_yes
-    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
     # Clase confirmada -> Se le avisa a ayudante desde modelo
     @confirmed_class.update(confirmed: true)
     redirect_to(@confirmed_class)
   end
 
-  # GET /clases/:id/alumnos/no
+  # GET /clases/:id_slug/alumnos/no
   def answer_student_no
-    @confirmed_class = ConfirmedClass.find(params[:confirmed_class_id])
     # Actualizar contador o usar flash para mostrar el estado actual
     redirect_to(@confirmed_class)
   end
@@ -37,7 +40,7 @@ class ConfirmedClassesController < ApplicationController
   def index
   end
 
-  # GET /clases/:id
+  # GET /clases/:id_slug
   def show
     @teaching_assistant = @confirmed_class.teaching_assistant
   end
@@ -47,25 +50,18 @@ class ConfirmedClassesController < ApplicationController
     @confirmed_class = ConfirmedClass.new
   end
 
-  # POST /clases
-  def create
-    @confirmed_class = ConfirmedClass.new(confirmed_class_params)
-
-    respond_to do |format|
-      if @confirmed_class.save
-        format.html { redirect_to @confirmed_class, notice: 'Confirmed class was successfully created.' }
-        format.json { render :show, status: :created, location: @confirmed_class }
-      else
-        format.html { render :new }
-        format.json { render json: @confirmed_class.errors, status: :unprocessable_entity }
-      end
-    end
+  # DELETE /clases/:id_slug
+  def destroy
+    @confirmed_class.destroy
+    redirect_to confirmed_classes_path
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_confirmed_class
-      @confirmed_class = ConfirmedClass.find(params[:id])
+    # # Use callbacks to share common setup or constraints between actions.
+    def set_confirmed_class_with_slug
+      id, slug = Array.new(2).zip(params[:id_slug].split('-', 2)).transpose.last
+      # Use bang version to raise RecordNotFound if needed
+      @confirmed_class = ConfirmedClass.find_by!(id: id, slug: slug)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

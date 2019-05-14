@@ -51,14 +51,15 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
+# Postgresql ftw
+gem 'pg'
+
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
   # Use sqlite3 as the database for Active Record
   # gem 'sqlite3', '~> 1.3.6'
 end
-
-gem 'pg'
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
