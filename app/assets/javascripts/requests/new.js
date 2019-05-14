@@ -87,6 +87,11 @@ function fillCalendar() {
         }),
         url: "/modulos/opciones",
         success: function(events) {
+            events = events.map(function(event) {
+                event.start = moment(event.start, 'YYYY-MM-DD HH:mm:ss Z');
+                event.end = moment(event.end, 'YYYY-MM-DD HH:mm:ss Z');
+                return event;
+            });
             $("#event_calendar").fullCalendar("renderEvents", events, true);
         },
     });
