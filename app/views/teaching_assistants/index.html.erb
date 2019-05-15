@@ -48,7 +48,7 @@
 </div>
 
 <div class="container">
-    <% if can? :new, Request %>
+    <% if can? :new, TeachingAssistant %>
         <%= link_to('Agregar ayudante', new_teaching_assistant_path, { class: "btn btn-primary" }) %>
     <% end %>
 </div>
