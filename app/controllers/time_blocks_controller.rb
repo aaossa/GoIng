@@ -41,9 +41,11 @@ class TimeBlocksController < ApplicationController
 
     respond_to do |format|
       if @time_block.save
+        format.js
         format.html { redirect_to @time_block, notice: 'Time block was successfully created.' }
         format.json { render :show, status: :created, location: @time_block }
       else
+        format.js   { render action: :new }
         format.html { render :new }
         format.json { render json: @time_block.errors, status: :unprocessable_entity }
       end
@@ -55,9 +57,11 @@ class TimeBlocksController < ApplicationController
   def update
     respond_to do |format|
       if @time_block.update(time_block_params)
+        format.js
         format.html { redirect_to @time_block, notice: 'Time block was successfully updated.' }
         format.json { render :show, status: :ok, location: @time_block }
       else
+        format.js   { render action: :edit }
         format.html { render :edit }
         format.json { render json: @time_block.errors, status: :unprocessable_entity }
       end

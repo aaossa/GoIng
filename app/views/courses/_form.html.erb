@@ -1,4 +1,4 @@
-<%= form_with(model: course, local: true) do |form| %>
+<%= form_with(model: course, remote: true) do |form| %>
     <!-- Errors explanation -->
     <% if course.errors.any? %>
         <%= errors_for(course, "este curso") %>
@@ -17,7 +17,7 @@
         <div class="col-md-2"></div>
         <%= form.label :teaching_assistants, "Ayudantes", class: "col-md-2 col-form-label text-center" %>
         <div class="col-md-3">
-            <%= form.collection_check_boxes(:teaching_assistant_ids, TeachingAssistant.first((TeachingAssistant.count/2).ceil), :id, :name, { class: "col-md-6" } ) do |ta| %>
+            <%= form.collection_check_boxes(:teaching_assistant_ids, TeachingAssistant.order_by_name.first((TeachingAssistant.count/2).ceil), :id, :name, { class: "col-md-6" } ) do |ta| %>
                 <div class="form-check">
                 <%= ta.label(class: "form-check-label") do %>
                     <%= ta.check_box(class: "form-check-input") + ta.text %>
@@ -26,7 +26,7 @@
             <% end %>
         </div>
         <div class="col-md-3">
-            <%= form.collection_check_boxes(:teaching_assistant_ids, TeachingAssistant.last((TeachingAssistant.count/2).floor), :id, :name, { class: "col-md-6" } ) do |ta| %>
+            <%= form.collection_check_boxes(:teaching_assistant_ids, TeachingAssistant.order_by_name.last((TeachingAssistant.count/2).floor), :id, :name, { class: "col-md-6" } ) do |ta| %>
                 <div class="form-check">
                 <%= ta.label(class: "form-check-label") do %>
                     <%= ta.check_box(class: "form-check-input") + ta.text %>

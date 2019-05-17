@@ -1,3 +1,19 @@
-// Place all the styles related to the TimeBlocks controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.time-select {
+	display: flex;
+}
+
+.time-select #time_block_start_4i {
+	margin-right: 5px;
+}
+
+.time-select #time_block_start_5i {
+	margin-left: 5px;
+}
+
+.time-select #time_block_finish_4i {
+	margin-right: 5px;
+}
+
+.time-select #time_block_finish_5i {
+	margin-left: 5px;
+}

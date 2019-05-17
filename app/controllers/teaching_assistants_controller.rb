@@ -31,9 +31,11 @@ class TeachingAssistantsController < ApplicationController
 
     respond_to do |format|
       if @teaching_assistant.save
+        format.js
         format.html { redirect_to @teaching_assistant, notice: 'Teaching assistant was successfully created.' }
         format.json { render :show, status: :created, location: @teaching_assistant }
       else
+        format.js   { render action: :new }
         format.html { render :new }
         format.json { render json: @teaching_assistant.errors, status: :unprocessable_entity }
       end
@@ -45,9 +47,11 @@ class TeachingAssistantsController < ApplicationController
   def update
     respond_to do |format|
       if @teaching_assistant.update(teaching_assistant_params)
+        format.js
         format.html { redirect_to @teaching_assistant, notice: 'Teaching assistant was successfully updated.' }
         format.json { render :show, status: :ok, location: @teaching_assistant }
       else
+        format.js   { render action: :edit }
         format.html { render :edit }
         format.json { render json: @teaching_assistant.errors, status: :unprocessable_entity }
       end
