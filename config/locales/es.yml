@@ -47,6 +47,10 @@ es:
               blank: "no puede estar vacío"
               too_short: "es demasiado corto"
               not_a_number: "no es un número"
+        time_block:
+          attributes:
+            start:
+              taken: "topa con otro módulo"
   date:
     formats:
       default: "%e/%m/%Y"
