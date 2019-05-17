@@ -1,0 +1,4 @@
+// Render new form (with errors)
+Rails.$('form')[0].innerHTML = ("<%= j(render partial: 'form', locals: { teaching_assistant: @teaching_assistant }) %>");
+// Scroll to top
+window.scrollTo({ top: 0, behavior: 'smooth' });

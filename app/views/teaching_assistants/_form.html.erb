@@ -1,4 +1,4 @@
-<%= form_with(model: teaching_assistant, local: true) do |form| %>
+<%= form_with(model: teaching_assistant, remote: true) do |form| %>
     <!-- Errors explanation -->
     <% if teaching_assistant.errors.any? %>
         <%= errors_for(teaching_assistant, "tu petición") %>
