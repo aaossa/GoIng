@@ -13,6 +13,10 @@ class TeachingAssistant < ApplicationRecord
 	after_create :check_if_teaching_assistant_is_user
 	after_destroy :switch_back_teaching_assistant_to_user
 
+	def self.order_by_name
+		order(name: :asc)
+	end
+
 	def self.unassigned_at(course, preference)
 		# TAs of this course with this time block available
 	    a = course.teaching_assistants
