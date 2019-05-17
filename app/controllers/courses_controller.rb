@@ -32,9 +32,11 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       if @course.save
+        format.js
         format.html { redirect_to @course, notice: 'Course was successfully created.' }
         format.json { render :show, status: :created, location: @course }
       else
+        format.js   { render action: :new }
         format.html { render :new }
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
@@ -46,9 +48,11 @@ class CoursesController < ApplicationController
   def update
     respond_to do |format|
       if @course.update(course_params)
+        format.js
         format.html { redirect_to @course, notice: 'Course was successfully updated.' }
         format.json { render :show, status: :ok, location: @course }
       else
+        format.js   { render action: :edit }
         format.html { render :edit }
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end

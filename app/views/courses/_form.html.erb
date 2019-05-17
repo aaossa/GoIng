@@ -1,4 +1,4 @@
-<%= form_with(model: course, local: true) do |form| %>
+<%= form_with(model: course, remote: true) do |form| %>
     <!-- Errors explanation -->
     <% if course.errors.any? %>
         <%= errors_for(course, "este curso") %>
