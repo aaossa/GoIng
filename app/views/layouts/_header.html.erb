@@ -10,6 +10,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
+                    <% if Rails.env.development? %>
+                        <span class="navbar-text text-info">
+                            Development (<%= current_user.nil? ? "No role" : current_user.role %>)
+                        </span>
+                    <% end %>
                     <li class="nav-item">
                         <%= link_to('Cursos', { controller: 'courses' }, { class: "nav-link" }) %>
                     </li>
