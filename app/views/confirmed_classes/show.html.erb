@@ -48,7 +48,7 @@
                 <div class="card-footer">
                     <small class="text-muted">Solicitada hace
                         <%= (Time.zone.now.to_i - request.created_at.to_i) / 3600 %> horas</small>
-                    <% if can? :show, Request %>
+                    <% if can? :show, request %>
                     <small><%= link_to("Ver solicitud", request, { class: "card-link" }) %></small>
                     <% end %>
                 </div>
