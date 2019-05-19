@@ -7,7 +7,7 @@
     <div class="form-group">
         <%= form.label :participants, "Correos de los alumnos participantes", class: "col-md-6 control-label" %>
         <div class="form-row">
-            <%= form.fields_for :participants, OpenStruct.new(form.object.participants || {}) do |participant| %>
+            <%= form.fields_for :participants, OpenStruct.new(array_to_hash(form.object.participants) || {}) do |participant| %>
             <div class="col-md-3">
                 <%= participant.email_field("0", { class: "form-control", multiple: true, name: 'request[participants][0]', 'aria-describedby': "emailHelp", disabled: true, value: current_user.google_email }) %>
             </div>

@@ -91,10 +91,7 @@ requests = []
 now = now + 1.week
 N_Requests.times do
 	course = Course.all.sample
-	participants = {}
-	rand(0..3).times do |key|
-		participants[key.to_s] = random_uc_email
-	end
+	participants = Array.new(rand(1..4)) { |_| random_uc_email }
 	new_request = Request.new(
 		participants: participants,
 		contents: Faker::Lorem.characters(rand(5..10)),

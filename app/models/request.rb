@@ -4,18 +4,17 @@ class Request < ApplicationRecord
     belongs_to :confirmed_class, optional: true
     has_and_belongs_to_many :preferences, index_errors: true
 
-    validate :participants_hash_is_valid
     validate :participants_emails_are_valid
     validates :priority, numericality: { greater_than: 0 }
     validates :contents, presence: true, length: { minimum: 5 }
+    validates :participants, length: { minimum: 1, maximum: 4 }
     validates :preferences, presence: true
     validates_associated :preferences
     validate :teaching_assistant_available
     accepts_nested_attributes_for :preferences
 
-    serialize :participants, Hash
     before_save(on: :create) do
-        self.participants["0"] = user.google_email
+        self.participants[0] = user.google_email
     end
     after_create :send_mail_to_participants
 
@@ -33,7 +32,7 @@ class Request < ApplicationRecord
     end
 
     def participants_mails
-        self.participants.sort.to_h.values.reject { |p| p.empty? }
+        self.participants.reject { |p| p.empty? }
     end
 
     def display_request
@@ -81,23 +80,18 @@ class Request < ApplicationRecord
 
     private
 
-        def participants_hash_is_valid
-            valid_keys = ["0", "1", "2", "3"]
-            unless (participants.keys - valid_keys).empty?
-                errors.add(:participants, "contiene un índice no válido")
-            end
-        end
-
         def participants_emails_are_valid
             usernames = []
-            participants.each do |position, email|
+            participants.each do |email|
                 next if email.empty?
-                usernames << email.split("@").first
+                username = email.split("@").first
+                usernames << username
                 next if email.match("^[^@]+@(uc\.cl|correo\.puc\.cl|puc\.cl)$")
-                errors.add(:participants, "contiene un mail no válido")
+                errors.add(:participants, "contiene un mail no válido (#{email})")
             end
             unless usernames.uniq.length == usernames.length
-                errors.add(:participants, "no debería contenter duplicados")
+                dupes = usernames.select{ |u| usernames.count(u) > 1 }.map{ |u| "'#{u}'" }.uniq
+                errors.add(:participants, "no debería contenter duplicados (#{dupes.to_sentence})")
             end
         end
 

@@ -27,7 +27,7 @@ class RequestsController < ApplicationController
         preferences_time_blocks = custom_params.fetch(:preferences_time_blocks, [])
         new_params = custom_params.except(:participants, :preferences_dates, :preferences_time_blocks)
         @request = Request.new(new_params)
-        @request.participants = custom_params[:participants].to_hash
+        @request.participants = custom_params[:participants].to_hash.values
         @request.preferences = preferences_dates.zip(preferences_time_blocks).map{|date, tb|
             next unless tb.to_i > 0
             next unless Date.valid_date? *Array.new(3).zip(date.split('/')).transpose.last.reverse.map(&:to_i)
