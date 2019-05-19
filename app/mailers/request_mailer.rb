@@ -5,7 +5,7 @@ class RequestMailer < ApplicationMailer
 		# Email to notify students about request creation
 		@request = request
 		m = mail(
-			to: request.participants.values,
+			to: request.participants,
 			subject: "[GoIng] Clase recibida",
 			content_type: "text/html",
 		)

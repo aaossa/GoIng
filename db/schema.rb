@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_14_011553) do
+ActiveRecord::Schema.define(version: 2019_05_18_224054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "confirmed_classes", force: :cascade do |t|
-    t.integer "teaching_assistant_id"
-    t.integer "preference_id"
+    t.bigint "teaching_assistant_id"
+    t.bigint "preference_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "assigned", default: false
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 2019_05_14_011553) do
   end
 
   create_table "courses_teaching_assistants", id: false, force: :cascade do |t|
-    t.integer "course_id", null: false
-    t.integer "teaching_assistant_id", null: false
+    t.bigint "course_id", null: false
+    t.bigint "teaching_assistant_id", null: false
     t.index ["course_id", "teaching_assistant_id"], name: "course and TA index"
     t.index ["course_id"], name: "index_courses_teaching_assistants_on_course_id"
     t.index ["teaching_assistant_id"], name: "index_courses_teaching_assistants_on_teaching_assistant_id"
@@ -55,22 +55,22 @@ ActiveRecord::Schema.define(version: 2019_05_14_011553) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "time_block_id"
+    t.bigint "time_block_id"
     t.index ["date", "time_block_id"], name: "index_preferences_on_date_and_time_block_id", unique: true
     t.index ["time_block_id"], name: "index_preferences_on_time_block_id"
   end
 
   create_table "preferences_requests", id: false, force: :cascade do |t|
-    t.integer "preference_id", null: false
-    t.integer "request_id", null: false
+    t.bigint "preference_id", null: false
+    t.bigint "request_id", null: false
     t.index ["preference_id", "request_id"], name: "index_preferences_requests_on_preference_id_and_request_id"
     t.index ["preference_id"], name: "index_preferences_requests_on_preference_id"
     t.index ["request_id"], name: "index_preferences_requests_on_request_id"
   end
 
   create_table "preferences_teaching_assistants", id: false, force: :cascade do |t|
-    t.integer "preference_id", null: false
-    t.integer "teaching_assistant_id", null: false
+    t.bigint "preference_id", null: false
+    t.bigint "teaching_assistant_id", null: false
     t.index ["preference_id", "teaching_assistant_id"], name: "prevent_unavailable_duplicates_1", unique: true
     t.index ["preference_id"], name: "index_preferences_teaching_assistants_on_preference_id"
     t.index ["teaching_assistant_id", "preference_id"], name: "prevent_unavailable_duplicates_2", unique: true
@@ -78,19 +78,20 @@ ActiveRecord::Schema.define(version: 2019_05_14_011553) do
   end
 
   create_table "requests", force: :cascade do |t|
-    t.text "participants"
     t.text "contents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.integer "course_id"
-    t.integer "confirmed_class_id"
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.bigint "confirmed_class_id"
     t.integer "priority", default: 1
     t.boolean "active", default: false
     t.boolean "assigned", default: false
     t.boolean "completed", default: false
+    t.string "participants", default: [], array: true
     t.index ["confirmed_class_id"], name: "index_requests_on_confirmed_class_id"
     t.index ["course_id"], name: "index_requests_on_course_id"
+    t.index ["participants"], name: "index_requests_on_participants", using: :gin
     t.index ["user_id"], name: "index_requests_on_user_id"
   end
 
@@ -103,8 +104,8 @@ ActiveRecord::Schema.define(version: 2019_05_14_011553) do
   end
 
   create_table "teaching_assistants_time_blocks", id: false, force: :cascade do |t|
-    t.integer "teaching_assistant_id", null: false
-    t.integer "time_block_id", null: false
+    t.bigint "teaching_assistant_id", null: false
+    t.bigint "time_block_id", null: false
     t.index ["teaching_assistant_id", "time_block_id"], name: "TA and block index"
     t.index ["teaching_assistant_id"], name: "index_teaching_assistants_time_blocks_on_teaching_assistant_id"
     t.index ["time_block_id"], name: "index_teaching_assistants_time_blocks_on_time_block_id"
@@ -128,4 +129,10 @@ ActiveRecord::Schema.define(version: 2019_05_14_011553) do
     t.string "role", default: "student"
   end
 
+  add_foreign_key "confirmed_classes", "preferences"
+  add_foreign_key "confirmed_classes", "teaching_assistants"
+  add_foreign_key "preferences", "time_blocks"
+  add_foreign_key "requests", "confirmed_classes"
+  add_foreign_key "requests", "courses"
+  add_foreign_key "requests", "users"
 end
