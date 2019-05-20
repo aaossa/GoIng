@@ -18,6 +18,10 @@ class Request < ApplicationRecord
     end
     after_create :send_mail_to_participants
 
+    def self.participates(user)
+        where("? = ANY (participants)", user.google_email)
+    end
+
     def self.inactive
         where(active: false).where(assigned: false).where(completed: false)
     end
