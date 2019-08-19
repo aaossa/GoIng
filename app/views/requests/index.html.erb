@@ -1,6 +1,11 @@
 <div class="container text-center">
+    <% if current_user.role? :admin %>
     <h1 class="mt-5">Peticiones recibidas</h1>
-    <p class="lead">Estas son las solicitudes de clase que han realizado alumnos en la plataforma</p>
+    <p class="lead">Estas son las solicitudes de clases que han realizado alumnos en la plataforma</p>
+    <% else %>
+    <h1 class="mt-5">Peticiones enviadas</h1>
+    <p class="lead">Estas son las solicitudes de clases en que participarías</p>
+    <% end %>
 </div>
 
 <div class="container text-center">
