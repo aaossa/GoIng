@@ -1,6 +1,10 @@
 <div class="container text-center">
     <h1 class="mt-5">Petición <%= @request.id %></h1>
+    <% if current_user.role? :admin %>
     <p class="lead">Un alumno o alumna solicitó esta clase</p>
+    <% else %>
+    <p class="lead">Tú eres parte de esta solicitud</p>
+    <% end %>
 </div>
 
 <div class="container">
