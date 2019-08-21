@@ -39,8 +39,10 @@ class Ability
         can [:destroy], SessionsController
     elsif user.role?(:student)
         can [:show], Course # Maybe teaching assistants
+        # Students can create requests
+        can [:new], Request
         # Students can manage request where they participate (except destroy and update)
-        can [:create, :index, :new, :show], Request, Request.participates(user) do |request|
+        can [:create, :index, :show], Request, Request.participates(user) do |request|
             request.participants.include? user.google_email
         end
         # Available time blocks in form
