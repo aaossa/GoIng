@@ -14,6 +14,7 @@ class ConfirmedClass < ApplicationRecord
 	after_save :send_confirmation_to_participants, if: :saved_change_to_assigned?
 	after_save :send_information_to_teaching_assistant_and_participants, if: :saved_change_to_confirmed?
 	after_create :send_question_to_teaching_assistant
+	before_destroy :remove_reference_in_requests
 	after_destroy :process_requests_again
 
 	def course
@@ -56,6 +57,10 @@ class ConfirmedClass < ApplicationRecord
 		end
 
 	private
+
+		def remove_reference_in_requests
+			requests.update_all(confirmed_class_id: nil)
+		end
 
 		def process_requests_again
 			requests.update_all(active: false)
