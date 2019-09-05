@@ -18,6 +18,7 @@ class ConfirmedClass < ApplicationRecord
 	after_destroy :process_requests_again
 
 	def course
+		return if self.requests.empty?
 		self.requests.first.course
 	end
 

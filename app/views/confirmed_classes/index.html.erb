@@ -25,7 +25,11 @@
             <% @confirmed_classes.each do |confirmed_class| %>
             <tr>
                 <th scope="row">
+                    <% if confirmed_class.course.nil? %>
+                    ¯\_(ツ)_/¯
+                    <% else %>
                     <%= confirmed_class.course.name %>
+                    <% end %>
                 </th>
                 <% if confirmed_class.teaching_assistant.nil? %>
                 <td>
