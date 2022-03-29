@@ -9,7 +9,7 @@
             <span class="fa fa-google"></span> <%= current_user.google_email %>
         <% end %>
     <% else %>
-        <%= link_to("/auth/google", { class: "btn btn-primary btn-lg" }) do %>
+        <%= link_to("/auth/google", { class: "btn btn-primary btn-lg", method: :post }) do %>
             <span class="fa fa-google"></span> Ingresa con Google
         <% end %>
     <% end %>
