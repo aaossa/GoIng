@@ -13,7 +13,7 @@ class Request < ApplicationRecord
     validate :teaching_assistant_available
     accepts_nested_attributes_for :preferences
 
-    before_save(on: :create) do
+    before_create do
         self.participants[0] = user.google_email
     end
     after_create :send_mail_to_participants
