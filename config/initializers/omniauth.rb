@@ -7,4 +7,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 		skip_jwt: true,
 		verify_iss: false
 	}
+	OmniAuth.config.allowed_request_methods = [:post, :get]
 end
