@@ -2,16 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_18_224054) do
-
+ActiveRecord::Schema[7.0].define(version: 2019_05_18_224054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -19,8 +18,8 @@ ActiveRecord::Schema.define(version: 2019_05_18_224054) do
   create_table "confirmed_classes", force: :cascade do |t|
     t.bigint "teaching_assistant_id"
     t.bigint "preference_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.boolean "assigned", default: false
     t.boolean "confirmed", default: false
     t.uuid "slug", default: -> { "gen_random_uuid()" }, null: false
@@ -30,8 +29,8 @@ ActiveRecord::Schema.define(version: 2019_05_18_224054) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "courses_teaching_assistants", id: false, force: :cascade do |t|
@@ -46,15 +45,15 @@ ActiveRecord::Schema.define(version: 2019_05_18_224054) do
     t.string "provider"
     t.string "uid"
     t.integer "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["user_id"], name: "index_identities_on_user_id"
   end
 
   create_table "preferences", force: :cascade do |t|
     t.date "date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "time_block_id"
     t.index ["date", "time_block_id"], name: "index_preferences_on_date_and_time_block_id", unique: true
     t.index ["time_block_id"], name: "index_preferences_on_time_block_id"
@@ -79,8 +78,8 @@ ActiveRecord::Schema.define(version: 2019_05_18_224054) do
 
   create_table "requests", force: :cascade do |t|
     t.text "contents"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.bigint "user_id"
     t.bigint "course_id"
     t.bigint "confirmed_class_id"
@@ -99,8 +98,8 @@ ActiveRecord::Schema.define(version: 2019_05_18_224054) do
     t.string "name"
     t.string "email"
     t.string "phone_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "teaching_assistants_time_blocks", id: false, force: :cascade do |t|
@@ -115,8 +114,8 @@ ActiveRecord::Schema.define(version: 2019_05_18_224054) do
     t.integer "day"
     t.time "start"
     t.time "finish"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -124,8 +123,8 @@ ActiveRecord::Schema.define(version: 2019_05_18_224054) do
     t.string "google_email"
     t.string "google_image"
     t.string "google_token"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "role", default: "student"
   end
 
