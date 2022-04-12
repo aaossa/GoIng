@@ -48,7 +48,19 @@ class Request < ApplicationRecord
         self.confirmed_class.display_status
     end
 
+    def self.check_requests
+        Request.inactive.each do |request|
+            if request.created_at > 2.days.ago
+                request.send_mail_inactive
+            end
+        end
+    end
+
     protected
+
+        def send_mail_inactive
+            RequestMailer.remind_inactive(self).deliver_later
+        end
 
         def send_mail_to_participants
             RequestMailer.confirm_request_creation(self).deliver_later
