@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2019_05_18_224054) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_05_213650) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 2019_05_18_224054) do
     t.boolean "assigned", default: false
     t.boolean "completed", default: false
     t.string "participants", default: [], array: true
+    t.string "format"
     t.index ["confirmed_class_id"], name: "index_requests_on_confirmed_class_id"
     t.index ["course_id"], name: "index_requests_on_course_id"
     t.index ["participants"], name: "index_requests_on_participants", using: :gin

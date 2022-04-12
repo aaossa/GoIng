@@ -61,7 +61,7 @@ class RequestsController < ApplicationController
             # Force current_user email as participant
             params[:request][:participants]["0"] = current_user.google_email
             params.require(:request).permit(
-                :contents, :user_id, :course_id,
+                :contents, :user_id, :course_id, :format,
                 preferences_time_blocks: [],
                 preferences_dates: [],
                 participants: ["0", "1", "2", "3"],

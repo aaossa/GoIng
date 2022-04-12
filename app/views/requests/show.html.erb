@@ -16,6 +16,7 @@
             <div class="card-body">
                 <h5 class="card-title"><%= link_to(@request.course.name, course_path(@request.course)) %></h5>
                 <p class="card-text"><strong>Contenidos:</strong> <%= @request.contents %></p>
+                <p class="card-text"><strong>Formato:</strong> <%= @request.format ? (@request.format[0].upcase + @request.format[1..@request.format.length]) : (@request.format) %></p>
                 <% if @request.confirmed_class %>
                 <h6 class="card-subtitle mb-2 text-muted">
                     <strong>Estado:</strong> <%= link_to(@request.display_status, @request.confirmed_class, class: "card-link") %>
